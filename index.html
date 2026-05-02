@@ -22,6 +22,10 @@ const CONFIG = {
     { id: "s4", emoji: "🌃", name: "Stay up 30 min late",        cost: 40 },
     { id: "s5", emoji: "🧁", name: "Bake something together",    cost: 50 },
     { id: "s6", emoji: "🎳", name: "Family bowling trip",        cost: 80 },
+    { id: "s7", emoji: "🛍️", name: "Buy something under $10",    cost: 60 },
+    { id: "s8", emoji: "🕹️", name: "Go to the arcade ($10 limit)", cost: 75 },
+    { id: "s9", emoji: "🎁", name: "Get a surprise present",     cost: 50 },
+    { id: "s10", emoji: "🚿", name: "Skip a shower",             cost: 30 },
   ],
 
   surprises: [
@@ -316,80 +320,102 @@ body{display:flex;flex-direction:column;max-width:430px;margin:0 auto;min-height
 <script>
 // ==================== DRAGON SVG ====================
 function dragonSVG(size){
-  return `<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" class="dragon-svg">
+  return `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" class="dragon-svg">
     <defs>
-      <radialGradient id="dg1" cx="50%" cy="40%" r="55%">
-        <stop offset="0%" stop-color="#a855f7"/>
+      <linearGradient id="bodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#9333ea"/>
         <stop offset="100%" stop-color="#4c1d95"/>
-      </radialGradient>
-      <radialGradient id="dg2" cx="50%" cy="50%" r="50%">
-        <stop offset="0%" stop-color="#c084fc"/>
-        <stop offset="100%" stop-color="#7c3aed"/>
-      </radialGradient>
-      <radialGradient id="dg3" cx="50%" cy="50%" r="50%">
-        <stop offset="0%" stop-color="#f0abfc"/>
-        <stop offset="100%" stop-color="#c026d3"/>
-      </radialGradient>
+      </linearGradient>
+      <linearGradient id="bellyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="#c4b5fd"/>
+        <stop offset="100%" stop-color="#8b5cf6"/>
+      </linearGradient>
+      <linearGradient id="headGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="#a855f7"/>
+        <stop offset="100%" stop-color="#5b21b6"/>
+      </linearGradient>
     </defs>
-    <!-- Left wing -->
-    <path d="M28 55 Q5 25 12 8 Q20 30 35 45 Z" fill="#6d28d9" opacity=".85"/>
-    <path d="M28 55 Q8 30 14 14 Q18 35 33 48 Z" fill="#8b5cf6" opacity=".5"/>
-    <path d="M28 55 Q2 40 8 20 Q16 42 30 52 Z" fill="#4c1d95" opacity=".7"/>
-    <!-- Right wing -->
-    <path d="M92 55 Q115 25 108 8 Q100 30 85 45 Z" fill="#6d28d9" opacity=".85"/>
-    <path d="M92 55 Q112 30 106 14 Q102 35 87 48 Z" fill="#8b5cf6" opacity=".5"/>
-    <path d="M92 55 Q118 40 112 20 Q104 42 90 52 Z" fill="#4c1d95" opacity=".7"/>
-    <!-- Body -->
-    <ellipse cx="60" cy="75" rx="22" ry="28" fill="url(#dg1)"/>
-    <!-- Belly scales -->
-    <ellipse cx="60" cy="78" rx="13" ry="18" fill="#c084fc" opacity=".4"/>
-    <ellipse cx="60" cy="82" rx="9" ry="12" fill="#e9d5ff" opacity=".3"/>
-    <!-- Tail -->
-    <path d="M60 100 Q45 108 40 118 Q52 110 62 105 Q70 112 75 120 Q68 108 60 100Z" fill="url(#dg2)"/>
-    <!-- Neck -->
-    <ellipse cx="60" cy="52" rx="14" ry="16" fill="url(#dg1)"/>
-    <!-- Head -->
-    <ellipse cx="60" cy="36" rx="18" ry="16" fill="url(#dg2)"/>
-    <!-- Horns -->
-    <path d="M50 24 Q46 12 49 8 Q52 18 53 24Z" fill="#4c1d95"/>
-    <path d="M70 24 Q74 12 71 8 Q68 18 67 24Z" fill="#4c1d95"/>
-    <path d="M50 24 Q47 14 50 10 Q52 18 53 24Z" fill="#7c3aed" opacity=".6"/>
-    <path d="M70 24 Q73 14 70 10 Q68 18 67 24Z" fill="#7c3aed" opacity=".6"/>
-    <!-- Spines on back -->
-    <path d="M55 44 Q53 36 55 32 Q57 38 57 44Z" fill="#4c1d95"/>
-    <path d="M60 42 Q58 33 60 28 Q62 35 62 42Z" fill="#4c1d95"/>
-    <path d="M65 44 Q63 36 65 32 Q67 38 67 44Z" fill="#4c1d95"/>
-    <!-- Eyes -->
-    <ellipse cx="52" cy="33" rx="5" ry="5.5" fill="#1a0033"/>
-    <ellipse cx="68" cy="33" rx="5" ry="5.5" fill="#1a0033"/>
-    <ellipse cx="52" cy="33" rx="3.5" ry="4" fill="#f59e0b"/>
-    <ellipse cx="68" cy="33" rx="3.5" ry="4" fill="#f59e0b"/>
-    <ellipse cx="52" cy="33" rx="2" ry="2.5" fill="#0f0020"/>
-    <ellipse cx="68" cy="33" rx="2" ry="2.5" fill="#0f0020"/>
-    <circle cx="53" cy="32" r=".8" fill="white"/>
-    <circle cx="69" cy="32" r=".8" fill="white"/>
-    <!-- Brow ridge (fierce) -->
-    <path d="M47 29 Q52 26 57 29" stroke="#4c1d95" stroke-width="2" fill="none" stroke-linecap="round"/>
-    <path d="M63 29 Q68 26 73 29" stroke="#4c1d95" stroke-width="2" fill="none" stroke-linecap="round"/>
-    <!-- Snout -->
-    <ellipse cx="60" cy="42" rx="8" ry="5" fill="url(#dg3)"/>
-    <!-- Nostrils -->
-    <circle cx="57" cy="41" r="1.2" fill="#4c1d95"/>
-    <circle cx="63" cy="41" r="1.2" fill="#4c1d95"/>
-    <!-- Mouth / fangs -->
-    <path d="M53 45 Q60 50 67 45" stroke="#4c1d95" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-    <path d="M57 46 L55 51 L58 47Z" fill="white"/>
-    <path d="M63 46 L65 51 L62 47Z" fill="white"/>
-    <!-- Wing membrane detail lines -->
-    <path d="M28 55 Q18 35 13 12" stroke="#a78bfa" stroke-width=".8" fill="none" opacity=".5"/>
-    <path d="M28 55 Q10 38 9 22" stroke="#a78bfa" stroke-width=".8" fill="none" opacity=".4"/>
-    <path d="M92 55 Q102 35 107 12" stroke="#a78bfa" stroke-width=".8" fill="none" opacity=".5"/>
-    <path d="M92 55 Q110 38 111 22" stroke="#a78bfa" stroke-width=".8" fill="none" opacity=".4"/>
-    <!-- Shimmer sparkles -->
-    <path d="M38 18 L39.5 22 L43 22 L40.2 24.5 L41.3 28 L38 26 L34.7 28 L35.8 24.5 L33 22 L36.5 22Z" fill="#f0abfc" opacity=".8"/>
-    <path d="M82 15 L83 18 L86 18 L83.7 19.8 L84.5 22.5 L82 21 L79.5 22.5 L80.3 19.8 L78 18 L81 18Z" fill="#e9d5ff" opacity=".7"/>
-    <circle cx="20" cy="45" r="2" fill="#c084fc" opacity=".6"/>
-    <circle cx="100" cy="42" r="1.5" fill="#c084fc" opacity=".6"/>
+    <!-- TAIL -->
+    <path d="M148 108 Q168 115 180 100 Q190 88 186 76 Q182 68 176 72 Q180 82 174 92 Q164 103 150 107Z" fill="#5b21b6"/>
+    <polygon points="178,80 182,70 186,80" fill="#7c3aed"/>
+    <polygon points="170,94 177,82 180,95" fill="#7c3aed"/>
+    <polygon points="158,104 167,93 170,105" fill="#7c3aed"/>
+    <!-- BODY -->
+    <ellipse cx="112" cy="118" rx="42" ry="34" fill="url(#bodyGrad)"/>
+    <!-- BELLY -->
+    <ellipse cx="112" cy="126" rx="25" ry="22" fill="url(#bellyGrad)" opacity="0.55"/>
+    <path d="M94 110 Q112 105 130 110" stroke="#c4b5fd" stroke-width="1" fill="none" opacity="0.5"/>
+    <path d="M91 120 Q112 114 133 120" stroke="#c4b5fd" stroke-width="1" fill="none" opacity="0.5"/>
+    <path d="M92 130 Q112 124 132 130" stroke="#c4b5fd" stroke-width="1" fill="none" opacity="0.5"/>
+    <path d="M96 140 Q112 135 128 140" stroke="#c4b5fd" stroke-width="1" fill="none" opacity="0.4"/>
+    <!-- BACK SPINES -->
+    <polygon points="86,88 90,72 94,88" fill="#4c1d95"/>
+    <polygon points="96,83 101,64 106,83" fill="#4c1d95"/>
+    <polygon points="108,80 113,60 118,80" fill="#4c1d95"/>
+    <polygon points="120,82 125,65 130,82" fill="#4c1d95"/>
+    <polygon points="87,88 90,74 92,88" fill="#7c3aed" opacity="0.5"/>
+    <polygon points="97,83 101,66 104,83" fill="#7c3aed" opacity="0.5"/>
+    <!-- NECK -->
+    <path d="M84,88 Q76,98 75,112 Q76,124 84,128 Q92,132 98,122 Q102,110 100,96 Q96,86 84,88Z" fill="url(#bodyGrad)"/>
+    <path d="M78,100 Q88,96 98,100" stroke="#c4b5fd" stroke-width="0.8" fill="none" opacity="0.4"/>
+    <path d="M76,112 Q87,108 98,112" stroke="#c4b5fd" stroke-width="0.8" fill="none" opacity="0.4"/>
+    <!-- HEAD -->
+    <path d="M44,62 Q46,42 62,34 Q78,26 96,34 Q110,40 114,58 Q118,74 106,88 Q94,100 76,100 Q56,99 48,84 Q40,70 44,62Z" fill="url(#headGrad)"/>
+    <!-- HORNS -->
+    <path d="M60,38 Q54,22 57,10 Q62,22 64,36Z" fill="#3b0764"/>
+    <path d="M60,38 Q55,24 58,13 Q62,24 63,36Z" fill="#6d28d9" opacity="0.5"/>
+    <path d="M88,34 Q88,17 93,7 Q95,20 94,32Z" fill="#3b0764"/>
+    <path d="M88,34 Q89,19 93,9 Q94,21 93,32Z" fill="#6d28d9" opacity="0.5"/>
+    <!-- BROW RIDGES -->
+    <path d="M50,62 Q62,54 72,60" stroke="#3b0764" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    <path d="M86,56 Q97,50 106,58" stroke="#3b0764" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    <!-- EYES -->
+    <ellipse cx="64" cy="66" rx="10" ry="9" fill="#1a0033"/>
+    <ellipse cx="98" cy="62" rx="10" ry="9" fill="#1a0033"/>
+    <ellipse cx="64" cy="66" rx="7" ry="6.5" fill="#f59e0b"/>
+    <ellipse cx="98" cy="62" rx="7" ry="6.5" fill="#f59e0b"/>
+    <ellipse cx="64" cy="66" rx="2.5" ry="6" fill="#0f0020"/>
+    <ellipse cx="98" cy="62" rx="2.5" ry="6" fill="#0f0020"/>
+    <circle cx="61" cy="63" r="2" fill="white" opacity="0.7"/>
+    <circle cx="95" cy="59" r="2" fill="white" opacity="0.7"/>
+    <!-- SNOUT -->
+    <path d="M48,74 Q52,84 60,88 Q76,93 90,88 Q98,84 100,76 Q100,68 92,64 Q80,60 66,62 Q52,64 48,74Z" fill="#7c3aed"/>
+    <path d="M56,78 Q76,73 96,78" stroke="#c4b5fd" stroke-width="0.8" fill="none" opacity="0.4"/>
+    <!-- NOSTRILS with fire glow -->
+    <ellipse cx="60" cy="84" rx="3.5" ry="2.5" fill="#3b0764" transform="rotate(-10 60 84)"/>
+    <ellipse cx="78" cy="85" rx="3.5" ry="2.5" fill="#3b0764"/>
+    <ellipse cx="60" cy="84" rx="2" ry="1.5" fill="#f97316" opacity="0.7"/>
+    <ellipse cx="78" cy="85" rx="2" ry="1.5" fill="#f97316" opacity="0.7"/>
+    <!-- JAW -->
+    <path d="M51,82 Q58,96 76,100 Q90,102 100,90 Q104,82 102,76 Q90,86 74,87 Q60,87 51,82Z" fill="#5b21b6"/>
+    <!-- TEETH -->
+    <polygon points="60,86 57,100 64,86" fill="white"/>
+    <polygon points="72,89 70,103 77,89" fill="white"/>
+    <polygon points="84,87 83,100 89,87" fill="white"/>
+    <polygon points="62,88 59,98 65,88" fill="#e5e7eb"/>
+    <polygon points="78,90 76,100 82,90" fill="#e5e7eb"/>
+    <!-- FORKED TONGUE -->
+    <path d="M68,97 Q74,108 76,118" stroke="#dc2626" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M76,118 Q73,124 70,130" stroke="#dc2626" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M76,118 Q79,124 82,130" stroke="#dc2626" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <!-- FRONT LEFT LEG -->
+    <path d="M90,144 Q82,152 78,168 Q76,178 82,182 Q88,186 92,174 Q94,162 100,150Z" fill="url(#bodyGrad)"/>
+    <path d="M80,179 Q72,188 70,196" stroke="#3b0764" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <path d="M86,182 Q80,191 79,199" stroke="#3b0764" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <path d="M92,180 Q89,189 90,197" stroke="#3b0764" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <!-- FRONT RIGHT LEG -->
+    <path d="M134,140 Q142,148 146,164 Q149,174 143,180 Q137,186 132,174 Q129,162 124,150Z" fill="url(#bodyGrad)"/>
+    <path d="M145,177 Q152,186 154,194" stroke="#3b0764" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <path d="M138,181 Q143,190 144,198" stroke="#3b0764" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <path d="M131,180 Q133,189 132,197" stroke="#3b0764" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <!-- FIRE BREATH -->
+    <path d="M42,80 Q24,84 12,76 Q4,70 4,60 Q4,52 12,48 Q20,56 18,64 Q18,72 28,76 Q36,78 42,80Z" fill="#f97316" opacity="0.9"/>
+    <path d="M28,76 Q14,70 8,58 Q4,50 10,44 Q16,50 14,58 Q14,66 24,72Z" fill="#fbbf24" opacity="0.85"/>
+    <path d="M18,66 Q10,58 8,48 Q6,42 12,38 Q16,44 14,52 Q14,60 20,64Z" fill="#fef08a" opacity="0.8"/>
+    <path d="M12,50 Q6,44 6,36 Q6,30 12,28 Q16,34 14,42 Q13,46 14,50Z" fill="white" opacity="0.7"/>
+    <!-- SPARKLES -->
+    <path d="M148,76 L150,71 L152,76 L157,78 L152,80 L150,85 L148,80 L143,78Z" fill="#e9d5ff" opacity="0.8"/>
+    <path d="M104,75 L106,70 L108,75 L113,77 L108,79 L106,84 L104,79 L99,77Z" fill="#e9d5ff" opacity="0.6"/>
   </svg>`;
 }
 
