@@ -60,13 +60,18 @@ const CONFIG = {
       avatar: "dragon",
       color: "#0d9488",
       chores: [
-        { id: "c1", emoji: "🛏️", name: "Make my bed",                  coins: 5,  days: "daily"    },
-        { id: "c2", emoji: "🦷", name: "Brush teeth (morning & night)", coins: 5,  days: "daily"    },
-        { id: "c3", emoji: "🧺", name: "Put dirty clothes in hamper",   coins: 5,  days: "daily"    },
-        { id: "c4", emoji: "🍽️", name: "Help set the dinner table",     coins: 8,  days: "daily"    },
-        { id: "c5", emoji: "🧹", name: "Tidy up my toys",               coins: 10, days: "daily"    },
-        { id: "c6", emoji: "📚", name: "Read for 15 minutes",           coins: 10, days: "weekdays" },
-        { id: "c7", emoji: "🐾", name: "Feed the pet",                  coins: 8,  days: "daily"    },
+        { id: "c1",  emoji: "🛏️", name: "Make my bed",                            coins: 5,  days: "daily"    },
+        { id: "c2a", emoji: "🦷", name: "Brush teeth — morning",                  coins: 5,  days: "daily"    },
+        { id: "c2b", emoji: "🦷", name: "Brush teeth — night",                    coins: 5,  days: "daily"    },
+        { id: "c3",  emoji: "🧺", name: "Put dirty clothes in hamper",            coins: 5,  days: "daily"    },
+        { id: "c8",  emoji: "👕", name: "Get dressed without being asked",        coins: 8,  days: "daily"    },
+        { id: "c9",  emoji: "🎒", name: "Get backpack ready without being asked", coins: 8,  days: "weekdays" },
+        { id: "c10", emoji: "🍳", name: "Put breakfast dishes in dishwasher",     coins: 5,  days: "daily"    },
+        { id: "c11", emoji: "🍽️", name: "Put dinner dishes in dishwasher",        coins: 5,  days: "daily"    },
+        { id: "c4",  emoji: "🍽️", name: "Help set the dinner table",              coins: 8,  days: "daily"    },
+        { id: "c5",  emoji: "🧹", name: "Tidy up my toys",                        coins: 10, days: "daily"    },
+        { id: "c6",  emoji: "📚", name: "Read for 15 minutes",                    coins: 10, days: "weekdays" },
+        { id: "c7",  emoji: "🐾", name: "Feed the pet",                           coins: 8,  days: "daily"    },
       ],
     },
     {
@@ -75,13 +80,18 @@ const CONFIG = {
       avatar: "🦄",
       color: "#db2777",
       chores: [
-        { id: "h1", emoji: "🛏️", name: "Make my bed",                  coins: 5,  days: "daily"    },
-        { id: "h2", emoji: "🦷", name: "Brush teeth (morning & night)", coins: 5,  days: "daily"    },
-        { id: "h3", emoji: "👗", name: "Put clothes away neatly",       coins: 5,  days: "daily"    },
-        { id: "h4", emoji: "🍽️", name: "Help clear the dinner table",   coins: 8,  days: "daily"    },
-        { id: "h5", emoji: "🧸", name: "Tidy up my room",               coins: 10, days: "daily"    },
-        { id: "h6", emoji: "📚", name: "Read for 15 minutes",           coins: 10, days: "weekdays" },
-        { id: "h7", emoji: "🌿", name: "Water the plants",              coins: 7,  days: "weekends" },
+        { id: "h1",  emoji: "🛏️", name: "Make my bed",                            coins: 5,  days: "daily"    },
+        { id: "h2a", emoji: "🦷", name: "Brush teeth — morning",                  coins: 5,  days: "daily"    },
+        { id: "h2b", emoji: "🦷", name: "Brush teeth — night",                    coins: 5,  days: "daily"    },
+        { id: "h3",  emoji: "👗", name: "Put clothes away neatly",                coins: 5,  days: "daily"    },
+        { id: "h8",  emoji: "👗", name: "Get dressed without being asked",        coins: 8,  days: "daily"    },
+        { id: "h9",  emoji: "🎒", name: "Get backpack ready without being asked", coins: 8,  days: "weekdays" },
+        { id: "h10", emoji: "🍳", name: "Put breakfast dishes in dishwasher",     coins: 5,  days: "daily"    },
+        { id: "h11", emoji: "🍽️", name: "Put dinner dishes in dishwasher",        coins: 5,  days: "daily"    },
+        { id: "h4",  emoji: "🍽️", name: "Help clear the dinner table",            coins: 8,  days: "daily"    },
+        { id: "h5",  emoji: "🧸", name: "Tidy up my room",                        coins: 10, days: "daily"    },
+        { id: "h6",  emoji: "📚", name: "Read for 15 minutes",                    coins: 10, days: "weekdays" },
+        { id: "h7",  emoji: "🌿", name: "Water the plants",                       coins: 7,  days: "weekends" },
       ],
     },
   ],
@@ -130,7 +140,8 @@ body{display:flex;flex-direction:column;max-width:430px;margin:0 auto;min-height
 .header-avatar-wrap{width:64px;height:64px;margin:0 auto 4px;display:flex;align-items:center;justify-content:center}
 .header-emoji{font-size:44px;line-height:1}
 .header-name{font-family:'Fredoka One',cursive;font-size:24px;letter-spacing:.5px}
-.coin-pill{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.22);border:1.5px solid rgba(255,255,255,.35);border-radius:50px;padding:7px 18px;font-size:19px;font-weight:800;margin-top:8px;font-family:'Fredoka One',cursive}
+.coin-breakdown{display:inline-flex;gap:10px;margin-top:10px;background:rgba(255,255,255,.18);border:1.5px solid rgba(255,255,255,.3);border-radius:14px;padding:8px 16px}
+.cb-row{font-family:'Fredoka One',cursive;font-size:14px;color:white;white-space:nowrap}
 
 /* STREAK */
 .streak-row{display:flex;align-items:center;justify-content:center;gap:6px;margin:1rem 1.2rem 0;background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:10px 12px;flex-wrap:wrap}
@@ -291,7 +302,11 @@ body{display:flex;flex-direction:column;max-width:430px;margin:0 auto;min-height
     </div>
     <div class="header-avatar-wrap" id="header-avatar-wrap"></div>
     <div class="header-name" id="header-name"></div>
-    <div class="coin-pill">🪙 <span id="coin-count">0</span> coins</div>
+    <div class="coin-breakdown">
+      <div class="cb-row cb-earned">🟢 <span id="cb-earned">0</span> earned</div>
+      <div class="cb-row cb-deducted">🔴 <span id="cb-deducted">0</span> deducted</div>
+      <div class="cb-row cb-available">💰 <span id="cb-available">0</span> available</div>
+    </div>
   </div>
 
   <div class="streak-row" id="streak-row"></div>
@@ -932,6 +947,7 @@ function approveShop(kidId,pendingId){
   if(s.coins<p.cost){ showToast('Not enough coins!','bad'); return; }
   s.pendingShop.splice(idx,1);
   s.coins=Math.max(0,s.coins-p.cost);
+  s.coinsDeducted=(s.coinsDeducted||0)+p.cost;
   s.history=s.history||[];
   s.history.unshift({date:p.date,label:`🛒 ${p.itemName}`,delta:-p.cost});
   saveKidState(kidId,s);
@@ -1215,6 +1231,7 @@ function applyCustomDeduction(){
   const s=states[parentKidView];
   const kd=kids.find(k=>k.id===parentKidView);
   s.coins=Math.max(0,s.coins-coins);
+  s.coinsDeducted=(s.coinsDeducted||0)+coins;
   s.oopsLog=s.oopsLog||[];
   s.oopsLog.unshift({date:today(),reason:text,coins});
   if(s.oopsLog.length>50) s.oopsLog=s.oopsLog.slice(0,50);
@@ -1233,6 +1250,7 @@ function applyConsequence(conId){
   const s=states[parentKidView];
   const kd=kids.find(k=>k.id===parentKidView);
   s.coins=Math.max(0,s.coins-con.coins);
+  s.coinsDeducted=(s.coinsDeducted||0)+con.coins;
   s.oopsLog=s.oopsLog||[];
   s.oopsLog.unshift({date:today(),reason:con.text,coins:con.coins});
   if(s.oopsLog.length>50) s.oopsLog=s.oopsLog.slice(0,50);
@@ -1267,7 +1285,18 @@ function deleteConsequence(conId){
 }
 
 // ==================== UI HELPERS ====================
-function updateCoinDisplay(){ document.getElementById('coin-count').textContent=state().coins; }
+function updateCoinDisplay(){
+  const s=state();
+  const earned=s.coinsEarned||0;
+  const deducted=s.coinsDeducted||0;
+  const available=Math.max(0,s.coins);
+  const ce=document.getElementById('cb-earned');
+  const cd=document.getElementById('cb-deducted');
+  const ca=document.getElementById('cb-available');
+  if(ce) ce.textContent=earned;
+  if(cd) cd.textContent=deducted;
+  if(ca) ca.textContent=available;
+}
 
 function showToast(msg,type){
   const t=document.getElementById('toast');
