@@ -29,16 +29,28 @@ const CONFIG = {
   ],
 
   surprises: [
-    { text: "Do 10 jumping jacks!",                         coins: 5 },
-    { text: "Draw a picture and show mom or dad!",          coins: 5 },
-    { text: "Do something kind for someone today!",         coins: 8 },
-    { text: "Water a plant!",                               coins: 5 },
-    { text: "Get into bed on time tonight!",                coins: 6 },
-    { text: "Wipe down a counter in the kitchen!",          coins: 6 },
-    { text: "Pick up 10 things off the floor!",             coins: 5 },
-    { text: "Say something nice to everyone in the house!", coins: 8 },
-    { text: "Set out your clothes for tomorrow!",           coins: 6 },
-    { text: "Help carry laundry to the washer!",            coins: 7 },
+    { text: "Do 10 jumping jacks!",                                         coins: 5 },
+    { text: "Draw a picture and show mom or dad!",                          coins: 5 },
+    { text: "Do something kind for someone today!",                         coins: 8 },
+    { text: "Wipe down a counter in the kitchen!",                          coins: 6 },
+    { text: "Pick up 10 things off the floor!",                             coins: 5 },
+    { text: "Say something nice to everyone in the house!",                 coins: 8 },
+    { text: "Set out your clothes for tomorrow!",                           coins: 6 },
+    { text: "Give someone a hug and tell them why you love them!",          coins: 8 },
+    { text: "Make a card or drawing for someone to cheer them up!",         coins: 7 },
+    { text: "Share a toy or game with your sibling without being asked!",   coins: 8 },
+    { text: "Help set up or clean up something without being told!",        coins: 7 },
+    { text: "Tell each person in the house one thing you like about them!", coins: 8 },
+  ],
+
+  consequences: [
+    { id: "q1", text: "Yelling at your sibling",                 coins: 15 },
+    { id: "q2", text: "Arguing with your parents",               coins: 15 },
+    { id: "q3", text: "Talking back to your parents",            coins: 15 },
+    { id: "q4", text: "Telling your parents no",                 coins: 15 },
+    { id: "q5", text: "Not listening to your parents",           coins: 15 },
+    { id: "q6", text: "Not doing something your parents asked",  coins: 15 },
+    { id: "q7", text: "Lying",                                   coins: 15 },
   ],
 
   kids: [
@@ -46,7 +58,7 @@ const CONFIG = {
       id: "cooper",
       name: "Cooper",
       avatar: "dragon",
-      color: "#7c3aed",
+      color: "#0d9488",
       chores: [
         { id: "c1", emoji: "🛏️", name: "Make my bed",                  coins: 5,  days: "daily"    },
         { id: "c2", emoji: "🦷", name: "Brush teeth (morning & night)", coins: 5,  days: "daily"    },
@@ -128,9 +140,9 @@ body{display:flex;flex-direction:column;max-width:430px;margin:0 auto;min-height
 
 /* TABS */
 .tab-bar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:var(--surface);border-top:1.5px solid var(--border);display:flex;z-index:100}
-.tab-btn{flex:1;background:none;border:none;padding:10px 0 8px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;font-family:'Nunito',sans-serif;font-size:11px;font-weight:700;color:var(--text-muted);transition:color .15s}
+.tab-btn{flex:1;background:none;border:none;padding:8px 0 6px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:1px;font-family:'Nunito',sans-serif;font-size:10px;font-weight:700;color:var(--text-muted);transition:color .15s}
 .tab-btn.active{color:var(--accent)}
-.tab-icon{font-size:22px}
+.tab-icon{font-size:20px}
 
 /* SECTIONS */
 .section{display:none;padding:0 1.2rem}
@@ -287,11 +299,13 @@ body{display:flex;flex-direction:column;max-width:430px;margin:0 auto;min-height
   <div id="tab-chores"  class="section active"></div>
   <div id="tab-shop"    class="section"></div>
   <div id="tab-history" class="section"></div>
+  <div id="tab-oops"    class="section"></div>
 
   <nav class="tab-bar">
     <button class="tab-btn active" onclick="switchTab('chores',this)"><span class="tab-icon">📋</span>Chores</button>
     <button class="tab-btn" onclick="switchTab('shop',this)"><span class="tab-icon">🛒</span>Shop</button>
     <button class="tab-btn" onclick="switchTab('history',this)"><span class="tab-icon">📜</span>History</button>
+    <button class="tab-btn" id="oops-tab-btn" onclick="switchTab('oops',this)"><span class="tab-icon">🙊</span>Oops!</button>
   </nav>
 </div>
 
@@ -332,7 +346,7 @@ function dragonSVG(size){
       </linearGradient>
       <linearGradient id="headGrad" x1="0%" y1="0%" x2="0%" y2="100%">
         <stop offset="0%" stop-color="#a855f7"/>
-        <stop offset="100%" stop-color="#5b21b6"/>
+        <stop offset="100%" stop-color="#8b5cf6"/>
       </linearGradient>
     </defs>
     <!-- TAIL -->
@@ -363,9 +377,9 @@ function dragonSVG(size){
     <path d="M44,62 Q46,42 62,34 Q78,26 96,34 Q110,40 114,58 Q118,74 106,88 Q94,100 76,100 Q56,99 48,84 Q40,70 44,62Z" fill="url(#headGrad)"/>
     <!-- HORNS -->
     <path d="M60,38 Q54,22 57,10 Q62,22 64,36Z" fill="#3b0764"/>
-    <path d="M60,38 Q55,24 58,13 Q62,24 63,36Z" fill="#6d28d9" opacity="0.5"/>
+    <path d="M60,38 Q55,24 58,13 Q62,24 63,36Z" fill="#5b21b6" opacity="0.5"/>
     <path d="M88,34 Q88,17 93,7 Q95,20 94,32Z" fill="#3b0764"/>
-    <path d="M88,34 Q89,19 93,9 Q94,21 93,32Z" fill="#6d28d9" opacity="0.5"/>
+    <path d="M88,34 Q89,19 93,9 Q94,21 93,32Z" fill="#5b21b6" opacity="0.5"/>
     <!-- BROW RIDGES -->
     <path d="M50,62 Q62,54 72,60" stroke="#3b0764" stroke-width="3.5" fill="none" stroke-linecap="round"/>
     <path d="M86,56 Q97,50 106,58" stroke="#3b0764" stroke-width="3.5" fill="none" stroke-linecap="round"/>
@@ -461,6 +475,7 @@ let globalCfg = loadGlobal();
 // Effective shop/surprises: from localStorage override or CONFIG defaults
 function getShop(){ return globalCfg.shop || JSON.parse(JSON.stringify(CONFIG.shop)); }
 function getSurprises(){ return globalCfg.surprises || JSON.parse(JSON.stringify(CONFIG.surprises)); }
+function getConsequences(){ return globalCfg.consequences || JSON.parse(JSON.stringify(CONFIG.consequences)); }
 
 // Effective kids array (merge saved chore configs)
 function getKids(){
@@ -828,6 +843,7 @@ function renderParentPortal(){
     {id:'stats',label:'📊 Stats',badge:0},
     {id:'chores',label:'📋 Chores',badge:0},
     {id:'shop',label:'🛒 Shop',badge:0},
+    {id:'consequences',label:'🙊 Oops',badge:0},
   ].map(t=>`<button class="parent-nav-btn ${parentTab===t.id?'active':''}" onclick="switchParentTab('${t.id}')">
     ${t.label}${t.badge?`<div class="parent-nav-badge">${t.badge}</div>`:''}
   </button>`).join('');
@@ -838,6 +854,7 @@ function renderParentPortal(){
   else if(parentTab==='stats') content.innerHTML=renderStatsTab();
   else if(parentTab==='chores') content.innerHTML=renderChoresEditorTab();
   else if(parentTab==='shop') content.innerHTML=renderShopEditorTab();
+  else if(parentTab==='consequences') content.innerHTML=renderConsequencesTab();
 }
 
 function switchParentKid(id){ parentKidView=id; renderParentPortal(); }
@@ -1130,6 +1147,125 @@ function deleteShopItem(itemId){
   renderParentPortal();
 }
 
+// ==================== OOPS TAB ====================
+function renderOops(){
+  const container=document.getElementById('tab-oops');
+  const s=state();
+  const oops=(s.oopsLog||[]);
+  let html=`<div class="sec-label">🙊 Oops!</div>`;
+  if(!oops.length){
+    html+=`<div class="empty-msg" style="padding-top:1.5rem">No oops yet — keep it up! 🌟</div>`;
+  } else {
+    html+=`<div class="history-list">`;
+    for(const item of oops){
+      html+=`<div class="history-item" style="border-left:4px solid var(--red);border-radius:0 var(--radius-sm) var(--radius-sm) 0">
+        <div class="hi-left">${item.reason}<div class="hi-date">${formatDate(item.date)}</div></div>
+        <div class="hi-right hi-neg">-${item.coins} 🪙</div>
+      </div>`;
+    }
+    html+=`</div>`;
+  }
+  container.innerHTML=html;
+}
+
+// ---- CONSEQUENCES EDITOR ----
+function renderConsequencesTab(){
+  const cons=getConsequences();
+  const kd=kids.find(k=>k.id===parentKidView);
+  let html=`
+    <div class="add-form" style="border-color:#fca5a5;background:#fff1f2">
+      <div class="form-label" style="color:#b91c1c">⚡ Custom deduction for ${kd.name}</div>
+      <input id="custom-con-text" placeholder="Reason (e.g. Broke a rule)" style="margin-bottom:8px">
+      <div class="add-form-row">
+        <input id="custom-con-coins" type="number" placeholder="Coins to deduct" min="1" max="999">
+        <button class="btn-sm-danger" onclick="applyCustomDeduction()">Deduct</button>
+      </div>
+    </div>
+    <div class="form-label" style="margin-bottom:8px;margin-top:4px">Preset consequences</div>`;
+  for(const c of cons){
+    html+=`<div class="editor-item">
+      <div style="font-size:20px;margin-right:6px">🙊</div>
+      <div class="editor-item-info">
+        <div class="editor-item-name">${c.text}</div>
+        <div class="editor-item-sub">-${c.coins} coins</div>
+      </div>
+      <div class="editor-actions">
+        <button class="btn-sm-danger" onclick="applyConsequence('${c.id}')">Apply</button>
+        <button class="btn-sm-danger" onclick="deleteConsequence('${c.id}')">✗</button>
+      </div>
+    </div>`;
+  }
+  html+=`
+    <div class="add-form" style="margin-top:14px">
+      <div class="form-label">Add a new preset consequence</div>
+      <input id="new-con-text" placeholder="What happened?" style="margin-bottom:8px">
+      <div class="add-form-row">
+        <input id="new-con-coins" type="number" placeholder="Coins" min="1" max="999">
+        <button class="btn-sm" onclick="addConsequence()">Save preset</button>
+      </div>
+    </div>`;
+  return html;
+}
+
+function applyCustomDeduction(){
+  const text=document.getElementById('custom-con-text').value.trim();
+  const coins=parseInt(document.getElementById('custom-con-coins').value,10);
+  if(!text){ showToast('Enter a reason','bad'); return; }
+  if(!coins||coins<1){ showToast('Enter coin amount','bad'); return; }
+  const s=states[parentKidView];
+  const kd=kids.find(k=>k.id===parentKidView);
+  s.coins=Math.max(0,s.coins-coins);
+  s.oopsLog=s.oopsLog||[];
+  s.oopsLog.unshift({date:today(),reason:text,coins});
+  if(s.oopsLog.length>50) s.oopsLog=s.oopsLog.slice(0,50);
+  s.history=s.history||[];
+  s.history.unshift({date:today(),label:`🙊 ${text}`,delta:-coins});
+  saveKidState(parentKidView,s);
+  if(activeKid&&activeKid.id===parentKidView) renderAll();
+  showToast(`-${coins} coins deducted from ${kd.name}`,'bad');
+  renderParentPortal();
+}
+
+function applyConsequence(conId){
+  const cons=getConsequences();
+  const con=cons.find(c=>c.id===conId);
+  if(!con)return;
+  const s=states[parentKidView];
+  const kd=kids.find(k=>k.id===parentKidView);
+  s.coins=Math.max(0,s.coins-con.coins);
+  s.oopsLog=s.oopsLog||[];
+  s.oopsLog.unshift({date:today(),reason:con.text,coins:con.coins});
+  if(s.oopsLog.length>50) s.oopsLog=s.oopsLog.slice(0,50);
+  s.history=s.history||[];
+  s.history.unshift({date:today(),label:`🙊 ${con.text}`,delta:-con.coins});
+  saveKidState(parentKidView,s);
+  if(activeKid&&activeKid.id===parentKidView) renderAll();
+  showToast(`-${con.coins} coins applied to ${kd.name}`,'bad');
+  renderParentPortal();
+}
+
+function addConsequence(){
+  const text=document.getElementById('new-con-text').value.trim();
+  const coins=parseInt(document.getElementById('new-con-coins').value,10);
+  if(!text){ showToast('Enter a reason','bad'); return; }
+  if(!coins||coins<1){ showToast('Enter coin amount','bad'); return; }
+  const cons=getConsequences();
+  cons.push({id:uid(),text,coins});
+  globalCfg.consequences=cons;
+  saveGlobal(globalCfg);
+  showToast('Consequence added!');
+  renderParentPortal();
+}
+
+function deleteConsequence(conId){
+  if(!confirm('Delete this consequence?'))return;
+  const cons=getConsequences().filter(c=>c.id!==conId);
+  globalCfg.consequences=cons;
+  saveGlobal(globalCfg);
+  showToast('Deleted','bad');
+  renderParentPortal();
+}
+
 // ==================== UI HELPERS ====================
 function updateCoinDisplay(){ document.getElementById('coin-count').textContent=state().coins; }
 
@@ -1158,6 +1294,7 @@ function renderAll(){
   renderChores();
   renderShop();
   renderHistory();
+  renderOops();
   updateBadge();
 }
 
