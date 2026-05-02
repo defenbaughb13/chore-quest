@@ -9,14 +9,14 @@
 <!-- ============================================================
   HOW TO CUSTOMIZE WITHOUT LOSING COIN HISTORY
   ============================================================
-  1. Open this file in any text editor (Notepad, TextEdit, etc.)
-  2. Find the CONFIG block below and edit chores, shop items,
-     or surprise challenges however you like.
-  3. Save the file and reload it in the browser.
-  4. His coin balance, streak, and history are saved in the
-     browser's localStorage — they will NOT be reset by editing
-     the config. Only tapping "Reset Everything" in the app
-     (parent section) will clear that data.
+  1. Open this file in any text editor
+  2. Find the CONFIG block below and edit freely —
+     chores, shop items, surprises, names, PIN, colors
+  3. Save and re-upload to GitHub. Done.
+  4. Each kid's coins, streak, and history are saved separately
+     in the browser's localStorage. Editing CONFIG never
+     touches saved progress. Only "Reset" in the parent panel
+     clears a kid's data.
   ============================================================ -->
 
 <script>
@@ -25,56 +25,69 @@
 // ============================================================
 const CONFIG = {
 
-  // Your son's name (shows in the header)
-  kidName: "Chore Quest",
+  // Parent PIN for the settings panel
+  parentPin: "1234",
 
-  // Chores — add, remove, or change any of these.
-  // emoji: any emoji character
-  // name:  chore label shown on screen
-  // coins: how many coins completing it earns
-  // days:  which days it appears. Options: "daily", "weekdays", "weekends", or
-  //        an array like ["Mon","Wed","Fri"]. Use "daily" to show every day.
-  chores: [
-    { id: "c1", emoji: "🛏️", name: "Make my bed",                    coins: 5,  days: "daily"    },
-    { id: "c2", emoji: "🦷", name: "Brush teeth (morning & night)",   coins: 5,  days: "daily"    },
-    { id: "c3", emoji: "🧺", name: "Put dirty clothes in hamper",     coins: 5,  days: "daily"    },
-    { id: "c4", emoji: "🍽️", name: "Help set the dinner table",       coins: 8,  days: "daily"    },
-    { id: "c5", emoji: "🧹", name: "Tidy up my toys",                 coins: 10, days: "daily"    },
-    { id: "c6", emoji: "📚", name: "Read for 15 minutes",             coins: 10, days: "weekdays" },
-    { id: "c7", emoji: "🐾", name: "Feed the pet",                    coins: 8,  days: "daily"    },
-    { id: "c8", emoji: "🛒", name: "Help put groceries away",         coins: 12, days: "weekends" },
-  ],
-
-  // Surprise bonus challenges — shown one at a time, randomly picked each day.
-  // Add as many as you like!
-  surprises: [
-    { text: "Do 10 jumping jacks!",                        coins: 5  },
-    { text: "Draw a picture and show mom or dad!",         coins: 5  },
-    { text: "Do something kind for someone today!",        coins: 8  },
-    { text: "Water a plant!",                              coins: 5  },
-    { text: "Get into bed on time tonight!",               coins: 6  },
-    { text: "Wipe down a counter in the kitchen!",         coins: 6  },
-    { text: "Pick up 10 things off the floor!",            coins: 5  },
-    { text: "Help carry laundry to the washer!",           coins: 7  },
-    { text: "Say something nice to everyone in the house!",coins: 8  },
-    { text: "Set out your clothes for tomorrow!",          coins: 6  },
-  ],
-
-  // Coin shop rewards.
-  // cost: how many coins to redeem
-  // NOTE: buying an item just shows a "tell a parent!" message.
-  //       Nothing is automatic — you approve it in real life.
+  // Shared shop — same rewards available to both kids
   shop: [
     { id: "s1", emoji: "🎮", name: "15 min extra screen time", cost: 20 },
-    { id: "s2", emoji: "🍦", name: "Choose tonight's dessert", cost: 25 },
-    { id: "s3", emoji: "🎬", name: "Pick movie night",          cost: 35 },
-    { id: "s4", emoji: "🌃", name: "Stay up 30 min late",       cost: 40 },
-    { id: "s5", emoji: "🧁", name: "Bake something together",   cost: 50 },
-    { id: "s6", emoji: "🎳", name: "Family bowling trip",       cost: 80 },
+    { id: "s2", emoji: "🍦", name: "Choose tonight's dessert",  cost: 25 },
+    { id: "s3", emoji: "🎬", name: "Pick movie night",           cost: 35 },
+    { id: "s4", emoji: "🌃", name: "Stay up 30 min late",        cost: 40 },
+    { id: "s5", emoji: "🧁", name: "Bake something together",    cost: 50 },
+    { id: "s6", emoji: "🎳", name: "Family bowling trip",        cost: 80 },
   ],
 
-  // Parent PIN for the settings/reset panel (4-digit string)
-  parentPin: "1234",
+  // Shared surprise challenges
+  surprises: [
+    { text: "Do 10 jumping jacks!",                         coins: 5 },
+    { text: "Draw a picture and show mom or dad!",          coins: 5 },
+    { text: "Do something kind for someone today!",         coins: 8 },
+    { text: "Water a plant!",                               coins: 5 },
+    { text: "Get into bed on time tonight!",                coins: 6 },
+    { text: "Wipe down a counter in the kitchen!",          coins: 6 },
+    { text: "Pick up 10 things off the floor!",             coins: 5 },
+    { text: "Say something nice to everyone in the house!", coins: 8 },
+    { text: "Set out your clothes for tomorrow!",           coins: 6 },
+    { text: "Help carry laundry to the washer!",            coins: 7 },
+  ],
+
+  // Per-kid profiles
+  // color: theme accent — any CSS hex color
+  // avatar: emoji shown on the profile picker
+  // chores: this kid's chore list
+  kids: [
+    {
+      id: "cooper",
+      name: "Cooper",
+      avatar: "🦖",
+      color: "#7c3aed",
+      chores: [
+        { id: "c1", emoji: "🛏️", name: "Make my bed",                  coins: 5,  days: "daily"    },
+        { id: "c2", emoji: "🦷", name: "Brush teeth (morning & night)", coins: 5,  days: "daily"    },
+        { id: "c3", emoji: "🧺", name: "Put dirty clothes in hamper",   coins: 5,  days: "daily"    },
+        { id: "c4", emoji: "🍽️", name: "Help set the dinner table",     coins: 8,  days: "daily"    },
+        { id: "c5", emoji: "🧹", name: "Tidy up my toys",               coins: 10, days: "daily"    },
+        { id: "c6", emoji: "📚", name: "Read for 15 minutes",           coins: 10, days: "weekdays" },
+        { id: "c7", emoji: "🐾", name: "Feed the pet",                  coins: 8,  days: "daily"    },
+      ],
+    },
+    {
+      id: "haley",
+      name: "Haley",
+      avatar: "🦄",
+      color: "#db2777",
+      chores: [
+        { id: "h1", emoji: "🛏️", name: "Make my bed",                  coins: 5,  days: "daily"    },
+        { id: "h2", emoji: "🦷", name: "Brush teeth (morning & night)", coins: 5,  days: "daily"    },
+        { id: "h3", emoji: "👗", name: "Put clothes away neatly",       coins: 5,  days: "daily"    },
+        { id: "h4", emoji: "🍽️", name: "Help clear the dinner table",   coins: 8,  days: "daily"    },
+        { id: "h5", emoji: "🧸", name: "Tidy up my room",               coins: 10, days: "daily"    },
+        { id: "h6", emoji: "📚", name: "Read for 15 minutes",           coins: 10, days: "weekdays" },
+        { id: "h7", emoji: "🌿", name: "Water the plants",              coins: 7,  days: "weekends" },
+      ],
+    },
+  ],
 
 };
 // ============================================================
@@ -86,9 +99,9 @@ const CONFIG = {
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --purple-deep: #6d28d9;
-    --purple-mid:  #8b5cf6;
-    --purple-light:#ede9fe;
+    --accent:      #7c3aed;
+    --accent-mid:  #8b5cf6;
+    --accent-light:#ede9fe;
     --gold:        #f59e0b;
     --gold-light:  #fef3c7;
     --green:       #22c55e;
@@ -118,47 +131,110 @@ const CONFIG = {
     max-width: 430px;
     margin: 0 auto;
     min-height: 100dvh;
-    padding-bottom: 90px;
   }
+
+  /* ---- PROFILE PICKER ---- */
+  #profile-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100dvh;
+    padding: 2rem 1.5rem;
+    gap: 1.5rem;
+  }
+
+  .picker-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 30px;
+    color: var(--text);
+    text-align: center;
+  }
+
+  .picker-sub {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-align: center;
+    margin-top: -1rem;
+  }
+
+  .picker-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+  }
+
+  .picker-card {
+    background: var(--surface);
+    border: 3px solid var(--border);
+    border-radius: 24px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    cursor: pointer;
+    transition: transform 0.12s, border-color 0.15s, box-shadow 0.15s;
+    user-select: none;
+  }
+
+  .picker-card:active { transform: scale(0.97); }
+
+  .picker-avatar {
+    font-size: 52px;
+    width: 72px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  .picker-info { flex: 1; }
+
+  .picker-name {
+    font-family: 'Fredoka One', cursive;
+    font-size: 26px;
+    line-height: 1;
+  }
+
+  .picker-coins {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-muted);
+    margin-top: 3px;
+  }
+
+  .picker-arrow {
+    font-size: 28px;
+    color: var(--text-muted);
+  }
+
+  /* ---- MAIN APP (hidden until profile chosen) ---- */
+  #app { display: none; flex-direction: column; min-height: 100dvh; padding-bottom: 90px; }
+  #app.visible { display: flex; }
 
   /* ---- HEADER ---- */
   .header {
-    background: linear-gradient(140deg, #7c3aed 0%, #a855f7 100%);
     padding: 1.4rem 1.2rem 2rem;
     border-radius: 0 0 28px 28px;
     color: white;
     position: relative;
     text-align: center;
-    box-shadow: 0 4px 24px rgba(124,58,237,0.25);
+    background: linear-gradient(140deg, var(--accent) 0%, var(--accent-mid) 100%);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+    transition: background 0.4s;
   }
 
-  .header-name {
-    font-family: 'Fredoka One', cursive;
-    font-size: 28px;
-    letter-spacing: 0.5px;
-    line-height: 1;
-  }
-
-  .header-sub {
-    font-size: 13px;
-    opacity: 0.82;
-    margin-top: 2px;
-    font-weight: 600;
-  }
-
-  .coin-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: rgba(255,255,255,0.22);
-    border: 1.5px solid rgba(255,255,255,0.35);
-    border-radius: 50px;
-    padding: 8px 20px;
-    font-size: 20px;
-    font-weight: 800;
-    margin-top: 10px;
-    font-family: 'Fredoka One', cursive;
-    letter-spacing: 0.5px;
+  .header-back {
+    position: absolute;
+    top: 14px; left: 14px;
+    background: rgba(255,255,255,0.2);
+    border: none;
+    border-radius: 50%;
+    width: 38px; height: 38px;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    color: white;
   }
 
   .settings-btn {
@@ -174,6 +250,29 @@ const CONFIG = {
     color: white;
   }
 
+  .header-avatar { font-size: 36px; line-height: 1; }
+
+  .header-name {
+    font-family: 'Fredoka One', cursive;
+    font-size: 26px;
+    letter-spacing: 0.5px;
+    margin-top: 2px;
+  }
+
+  .coin-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,255,255,0.22);
+    border: 1.5px solid rgba(255,255,255,0.35);
+    border-radius: 50px;
+    padding: 8px 20px;
+    font-size: 20px;
+    font-weight: 800;
+    margin-top: 10px;
+    font-family: 'Fredoka One', cursive;
+  }
+
   /* ---- STREAK ---- */
   .streak-row {
     display: flex;
@@ -185,23 +284,24 @@ const CONFIG = {
     border: 1.5px solid var(--border);
     border-radius: var(--radius-sm);
     padding: 10px 14px;
+    flex-wrap: wrap;
   }
 
   .streak-dot {
-    width: 32px; height: 32px;
+    width: 30px; height: 30px;
     border-radius: 50%;
     border: 2px solid var(--border);
     background: var(--surface2);
     display: flex; align-items: center; justify-content: center;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 700;
     color: var(--text-muted);
     transition: background 0.3s, border-color 0.3s;
   }
 
   .streak-dot.lit {
-    background: var(--purple-mid);
-    border-color: var(--purple-deep);
+    background: var(--accent);
+    border-color: var(--accent);
     color: white;
   }
 
@@ -243,7 +343,7 @@ const CONFIG = {
     transition: color 0.15s;
   }
 
-  .tab-btn.active { color: var(--purple-deep); }
+  .tab-btn.active { color: var(--accent); }
   .tab-icon { font-size: 22px; }
 
   /* ---- SECTIONS ---- */
@@ -253,7 +353,7 @@ const CONFIG = {
   .sec-label {
     font-family: 'Fredoka One', cursive;
     font-size: 17px;
-    color: var(--purple-deep);
+    color: var(--accent);
     margin: 1.2rem 0 0.6rem;
   }
 
@@ -264,7 +364,7 @@ const CONFIG = {
     background: var(--surface);
     border: 2px solid var(--border);
     border-radius: var(--radius);
-    padding: 13px 13px;
+    padding: 13px;
     display: flex;
     align-items: center;
     gap: 12px;
@@ -282,7 +382,6 @@ const CONFIG = {
   }
 
   .chore-emoji { font-size: 34px; width: 46px; text-align: center; flex-shrink: 0; }
-
   .chore-info { flex: 1; min-width: 0; }
 
   .chore-name {
@@ -299,7 +398,7 @@ const CONFIG = {
 
   .chore-coins {
     font-size: 13px;
-    color: var(--purple-mid);
+    color: var(--accent);
     font-weight: 700;
     margin-top: 2px;
   }
@@ -311,9 +410,8 @@ const CONFIG = {
     background: var(--surface);
     display: flex; align-items: center; justify-content: center;
     font-size: 22px;
-    cursor: pointer;
-    transition: all 0.15s;
     flex-shrink: 0;
+    transition: all 0.15s;
   }
 
   .chore-card.done .chore-check {
@@ -321,15 +419,6 @@ const CONFIG = {
     border-color: var(--green);
   }
 
-  .empty-msg {
-    text-align: center;
-    font-size: 15px;
-    color: var(--text-muted);
-    font-weight: 600;
-    padding: 2rem 0;
-  }
-
-  /* ---- PROGRESS BAR ---- */
   .progress-wrap {
     margin: 0.8rem 0 0;
     background: var(--border);
@@ -340,7 +429,7 @@ const CONFIG = {
 
   .progress-fill {
     height: 100%;
-    background: linear-gradient(90deg, var(--purple-mid), var(--gold));
+    background: linear-gradient(90deg, var(--accent), var(--gold));
     border-radius: 50px;
     transition: width 0.4s ease;
   }
@@ -351,6 +440,14 @@ const CONFIG = {
     color: var(--text-muted);
     margin-top: 4px;
     text-align: right;
+  }
+
+  .empty-msg {
+    text-align: center;
+    font-size: 15px;
+    color: var(--text-muted);
+    font-weight: 600;
+    padding: 2rem 0;
   }
 
   /* ---- SURPRISE ---- */
@@ -394,7 +491,7 @@ const CONFIG = {
     font-family: 'Fredoka One', cursive;
     font-size: 16px;
     cursor: pointer;
-    transition: transform 0.1s, background 0.15s;
+    transition: transform 0.1s;
     display: inline-block;
   }
 
@@ -415,15 +512,13 @@ const CONFIG = {
     padding: 14px 10px;
     text-align: center;
     cursor: pointer;
-    transition: transform 0.1s, border-color 0.15s, background 0.15s;
+    transition: transform 0.1s, border-color 0.15s;
     user-select: none;
   }
 
   .shop-card:active { transform: scale(0.96); }
-
-  .shop-card.affordable { border-color: var(--purple-mid); }
-
-  .shop-card.cant-afford { opacity: 0.55; cursor: default; }
+  .shop-card.affordable { border-color: var(--accent); }
+  .shop-card.cant-afford { opacity: 0.5; cursor: default; }
 
   .shop-emoji { font-size: 32px; margin-bottom: 5px; }
 
@@ -437,7 +532,7 @@ const CONFIG = {
 
   .shop-cost {
     font-size: 14px;
-    color: var(--purple-deep);
+    color: var(--accent);
     font-weight: 800;
   }
 
@@ -457,12 +552,12 @@ const CONFIG = {
     font-size: 13px;
   }
 
-  .history-item .hi-left { font-weight: 700; color: var(--text); }
-  .history-item .hi-right { font-weight: 800; color: var(--purple-mid); }
-  .history-item .hi-date { font-size: 11px; color: var(--text-muted); font-weight: 600; margin-top: 1px; }
-  .history-item .hi-neg { color: var(--red); }
+  .hi-left { font-weight: 700; color: var(--text); }
+  .hi-right { font-weight: 800; color: var(--accent); white-space: nowrap; margin-left: 8px; }
+  .hi-date { font-size: 11px; color: var(--text-muted); font-weight: 600; margin-top: 1px; }
+  .hi-neg { color: var(--red); }
 
-  /* ---- PARENT PANEL ---- */
+  /* ---- PARENT MODAL ---- */
   .modal-overlay {
     display: none;
     position: fixed;
@@ -488,16 +583,12 @@ const CONFIG = {
   .modal-title {
     font-family: 'Fredoka One', cursive;
     font-size: 20px;
-    color: var(--purple-deep);
+    color: var(--accent);
     margin-bottom: 1rem;
     text-align: center;
   }
 
-  .pin-row {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 1rem;
-  }
+  .pin-row { display: flex; gap: 8px; margin-bottom: 1rem; }
 
   .pin-input {
     flex: 1;
@@ -513,10 +604,10 @@ const CONFIG = {
     outline: none;
   }
 
-  .pin-input:focus { border-color: var(--purple-mid); }
+  .pin-input:focus { border-color: var(--accent); }
 
   .btn-purple {
-    background: var(--purple-deep);
+    background: var(--accent);
     color: white;
     border: none;
     border-radius: 50px;
@@ -526,10 +617,7 @@ const CONFIG = {
     cursor: pointer;
     width: 100%;
     margin-top: 8px;
-    transition: background 0.15s;
   }
-
-  .btn-purple:hover { background: var(--purple-mid); }
 
   .btn-danger {
     background: var(--red);
@@ -542,10 +630,7 @@ const CONFIG = {
     cursor: pointer;
     width: 100%;
     margin-top: 10px;
-    transition: opacity 0.15s;
   }
-
-  .btn-danger:hover { opacity: 0.85; }
 
   .btn-close {
     background: var(--surface2);
@@ -575,13 +660,9 @@ const CONFIG = {
     justify-content: space-between;
   }
 
-  .parent-stat span { color: var(--purple-deep); font-size: 16px; }
+  .parent-stat span { color: var(--accent); font-size: 16px; }
 
-  .add-coins-row {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 10px;
-  }
+  .add-coins-row { display: flex; gap: 8px; margin-bottom: 10px; }
 
   .add-coins-row input {
     flex: 1;
@@ -595,10 +676,10 @@ const CONFIG = {
     outline: none;
   }
 
-  .add-coins-row input:focus { border-color: var(--purple-mid); }
+  .add-coins-row input:focus { border-color: var(--accent); }
 
   .btn-sm-purple {
-    background: var(--purple-deep);
+    background: var(--accent);
     color: white;
     border: none;
     border-radius: var(--radius-sm);
@@ -609,7 +690,39 @@ const CONFIG = {
     white-space: nowrap;
   }
 
-  .pin-error { font-size: 13px; color: var(--red); font-weight: 700; text-align: center; margin-top: 6px; }
+  .pin-error {
+    font-size: 13px;
+    color: var(--red);
+    font-weight: 700;
+    text-align: center;
+    margin-top: 6px;
+  }
+
+  .kid-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+
+  .kid-tab {
+    flex: 1;
+    padding: 8px;
+    border-radius: var(--radius-sm);
+    border: 2px solid var(--border);
+    background: var(--surface2);
+    font-family: 'Fredoka One', cursive;
+    font-size: 15px;
+    cursor: pointer;
+    text-align: center;
+    color: var(--text-muted);
+    transition: all 0.15s;
+  }
+
+  .kid-tab.active {
+    border-color: var(--accent);
+    background: var(--accent-light);
+    color: var(--accent);
+  }
 
   /* ---- TOAST ---- */
   .toast {
@@ -630,14 +743,13 @@ const CONFIG = {
 
   .toast.show { transform: translateX(-50%) translateY(0); }
   .toast.bad  { background: var(--red); }
-  .toast.info { background: var(--purple-deep); }
+  .toast.info { background: var(--accent); }
 
   /* ---- CONFETTI ---- */
   .confetti-piece {
     position: fixed;
-    width: 10px; height: 10px;
-    border-radius: 2px;
     top: -10px;
+    border-radius: 2px;
     animation: fall linear forwards;
     pointer-events: none;
     z-index: 9999;
@@ -650,32 +762,41 @@ const CONFIG = {
 </head>
 <body>
 
-<div class="header">
-  <button class="settings-btn" onclick="openParent()" aria-label="Parent settings">⚙️</button>
-  <div class="header-name" id="header-name">⭐ Chore Quest ⭐</div>
-  <div class="header-sub" id="header-sub">Let's earn some coins!</div>
-  <div class="coin-pill">🪙 <span id="coin-count">0</span> coins</div>
+<!-- PROFILE PICKER -->
+<div id="profile-screen">
+  <div class="picker-title">⭐ Chore Quest ⭐</div>
+  <div class="picker-sub">Who's doing chores today?</div>
+  <div class="picker-cards" id="picker-cards"></div>
 </div>
 
-<div class="streak-row" id="streak-row"></div>
+<!-- MAIN APP -->
+<div id="app">
+  <div class="header" id="main-header">
+    <button class="header-back" onclick="goBack()" aria-label="Switch profile">👈</button>
+    <button class="settings-btn" onclick="openParent()" aria-label="Parent settings">⚙️</button>
+    <div class="header-avatar" id="header-avatar"></div>
+    <div class="header-name" id="header-name"></div>
+    <div class="coin-pill">🪙 <span id="coin-count">0</span> coins</div>
+  </div>
 
-<!-- TABS -->
-<div id="tab-chores"   class="section active"></div>
-<div id="tab-shop"     class="section"></div>
-<div id="tab-history"  class="section"></div>
+  <div class="streak-row" id="streak-row"></div>
 
-<!-- TAB BAR -->
-<nav class="tab-bar">
-  <button class="tab-btn active" onclick="switchTab('chores',this)">
-    <span class="tab-icon">📋</span>Chores
-  </button>
-  <button class="tab-btn" onclick="switchTab('shop',this)">
-    <span class="tab-icon">🛒</span>Shop
-  </button>
-  <button class="tab-btn" onclick="switchTab('history',this)">
-    <span class="tab-icon">📜</span>History
-  </button>
-</nav>
+  <div id="tab-chores"  class="section active"></div>
+  <div id="tab-shop"    class="section"></div>
+  <div id="tab-history" class="section"></div>
+
+  <nav class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab('chores',this)">
+      <span class="tab-icon">📋</span>Chores
+    </button>
+    <button class="tab-btn" onclick="switchTab('shop',this)">
+      <span class="tab-icon">🛒</span>Shop
+    </button>
+    <button class="tab-btn" onclick="switchTab('history',this)">
+      <span class="tab-icon">📜</span>History
+    </button>
+  </nav>
+</div>
 
 <!-- PARENT MODAL -->
 <div class="modal-overlay" id="parent-overlay">
@@ -692,19 +813,9 @@ const CONFIG = {
     </div>
 
     <div class="parent-section" id="parent-unlocked">
-      <div class="parent-stat">Total coins earned all-time <span id="ps-earned">0</span></div>
-      <div class="parent-stat">Current coin balance <span id="ps-balance">0</span></div>
-      <div class="parent-stat">Day streak <span id="ps-streak">0</span></div>
-      <div class="parent-stat">Chores done today <span id="ps-today">0</span></div>
-
-      <p style="font-size:13px;font-weight:700;color:var(--text-muted);margin:12px 0 6px;">Add or remove coins manually:</p>
-      <div class="add-coins-row">
-        <input type="number" id="adjust-amount" placeholder="e.g. 10" min="-999" max="999">
-        <button class="btn-sm-purple" onclick="adjustCoins()">Apply</button>
-      </div>
-
-      <button class="btn-danger" onclick="resetAll()">⚠️ Reset Everything</button>
-      <button class="btn-close"  onclick="closeParent()">Close</button>
+      <div class="kid-tabs" id="parent-kid-tabs"></div>
+      <div id="parent-stats-area"></div>
+      <button class="btn-close" onclick="closeParent()">Close</button>
     </div>
   </div>
 </div>
@@ -713,52 +824,58 @@ const CONFIG = {
 
 <script>
 // ===================== STATE =====================
-const STORAGE_KEY = 'chorequest_v1';
+let activeKid = null;
 
-function loadState() {
+function storageKey(kidId) {
+  return `chorequest_${kidId}_v1`;
+}
+
+function loadState(kidId) {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) return JSON.parse(raw);
+    const raw = localStorage.getItem(storageKey(kidId));
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      const done = {};
+      if (parsed.done) {
+        for (const [d, arr] of Object.entries(parsed.done)) {
+          done[d] = new Set(arr);
+        }
+      }
+      return { ...parsed, done };
+    }
   } catch(e) {}
   return {
     coins: 0,
     coinsEarned: 0,
     streak: 0,
     lastActiveDate: null,
-    // done[date] = Set of chore ids done that day
     done: {},
-    // surprise[date] = { used: bool, claimed: bool, idx: number }
     surprise: {},
-    // history = [{date, label, delta}]
     history: []
   };
 }
 
 function saveState() {
-  // Convert sets to arrays for JSON
+  if (!activeKid) return;
+  const s = states[activeKid.id];
   const out = {
-    ...state,
+    ...s,
     done: Object.fromEntries(
-      Object.entries(state.done).map(([d, s]) => [d, [...s]])
+      Object.entries(s.done).map(([d, set]) => [d, [...set]])
     )
   };
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(out));
+  localStorage.setItem(storageKey(activeKid.id), JSON.stringify(out));
 }
 
-function hydrateState(raw) {
-  // Convert done arrays back to Sets
-  const done = {};
-  if (raw.done) {
-    for (const [d, arr] of Object.entries(raw.done)) {
-      done[d] = new Set(arr);
-    }
-  }
-  return { ...raw, done };
+// Pre-load all kids' states
+const states = {};
+for (const kid of CONFIG.kids) {
+  states[kid.id] = loadState(kid.id);
 }
 
-let state = hydrateState(loadState());
+function state() { return states[activeKid.id]; }
 
-// ===================== DATE HELPERS =====================
+// ===================== DATE =====================
 function today() {
   const d = new Date();
   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
@@ -779,33 +896,84 @@ function formatDate(isoStr) {
   return `${m}/${da}/${y}`;
 }
 
+// ===================== PROFILE PICKER =====================
+function renderPicker() {
+  const container = document.getElementById('picker-cards');
+  container.innerHTML = CONFIG.kids.map(kid => {
+    const s = states[kid.id];
+    return `
+      <div class="picker-card" onclick="selectKid('${kid.id}')"
+           style="border-color: ${kid.color}22;">
+        <div class="picker-avatar">${kid.avatar}</div>
+        <div class="picker-info">
+          <div class="picker-name" style="color:${kid.color}">${kid.name}</div>
+          <div class="picker-coins">🪙 ${s.coins} coins · ${s.streak || 0}-day streak</div>
+        </div>
+        <div class="picker-arrow">›</div>
+      </div>`;
+  }).join('');
+}
+
+function selectKid(kidId) {
+  activeKid = CONFIG.kids.find(k => k.id === kidId);
+
+  // Apply kid's theme color
+  document.documentElement.style.setProperty('--accent', activeKid.color);
+  // Derive a lighter mid-tone
+  document.documentElement.style.setProperty('--accent-mid', activeKid.color + 'cc');
+  document.documentElement.style.setProperty('--accent-light', activeKid.color + '18');
+  document.documentElement.style.setProperty('--border', activeKid.color + '44');
+
+  document.getElementById('header-avatar').textContent = activeKid.avatar;
+  document.getElementById('header-name').textContent = activeKid.name + "'s Quest";
+
+  checkStreak();
+
+  document.getElementById('profile-screen').style.display = 'none';
+  document.getElementById('app').classList.add('visible');
+
+  // Reset to chores tab
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-chores').classList.add('active');
+  document.querySelector('.tab-btn').classList.add('active');
+
+  renderAll();
+}
+
+function goBack() {
+  activeKid = null;
+  document.getElementById('app').classList.remove('visible');
+  document.getElementById('profile-screen').style.display = '';
+  renderPicker();
+}
+
 // ===================== STREAK =====================
 function checkStreak() {
+  const s = state();
   const t = today();
-  if (state.lastActiveDate === t) return;
+  if (s.lastActiveDate === t) return;
   const yesterday = (() => {
     const d = new Date(); d.setDate(d.getDate() - 1);
     return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
   })();
-  if (state.lastActiveDate === yesterday) {
-    state.streak = (state.streak || 0) + 1;
-  } else if (state.lastActiveDate !== t) {
-    state.streak = 1;
+  if (s.lastActiveDate === yesterday) {
+    s.streak = (s.streak || 0) + 1;
+  } else if (s.lastActiveDate !== t) {
+    s.streak = 1;
   }
-  state.lastActiveDate = t;
+  s.lastActiveDate = t;
   saveState();
 }
 
 function renderStreak() {
   const row = document.getElementById('streak-row');
-  const s = Math.min(state.streak || 0, 7);
+  const streak = Math.min(state().streak || 0, 7);
   let html = '';
   for (let i = 0; i < 7; i++) {
-    html += `<div class="streak-dot ${i < s ? 'lit' : ''}">
-      ${i < s ? '⭐' : (i+1)}
-    </div>`;
+    html += `<div class="streak-dot ${i < streak ? 'lit' : ''}">${i < streak ? '⭐' : i+1}</div>`;
   }
-  html += `<span class="streak-lbl">${state.streak || 0}-day streak!</span>`;
+  html += `<span class="streak-lbl">${state().streak || 0}-day streak!</span>`;
   row.innerHTML = html;
 }
 
@@ -820,14 +988,14 @@ function choreVisible(chore) {
 }
 
 function todayDone() {
-  return state.done[today()] || new Set();
+  return state().done[today()] || new Set();
 }
 
 function renderChores() {
   const container = document.getElementById('tab-chores');
-  const visible = CONFIG.chores.filter(choreVisible);
+  const visible = activeKid.chores.filter(choreVisible);
   const done = todayDone();
-  const doneCount = [...done].filter(id => CONFIG.chores.find(c => c.id === id)).length;
+  const doneCount = [...done].filter(id => activeKid.chores.find(c => c.id === id)).length;
   const total = visible.length;
   const pct = total ? Math.round((doneCount / total) * 100) : 0;
 
@@ -854,30 +1022,28 @@ function renderChores() {
         </div>`;
     }
   }
-
   html += `</div>`;
 
-  // Surprise section
-  const surpriseData = state.surprise[today()] || {};
-  const idx = surpriseData.idx !== undefined
-    ? surpriseData.idx
-    : Math.floor(Math.random() * CONFIG.surprises.length);
-
-  if (!state.surprise[today()]) {
-    state.surprise[today()] = { idx, used: false, claimed: false };
+  // Surprise
+  const t = today();
+  if (!state().surprise[t]) {
+    state().surprise[t] = {
+      idx: Math.floor(Math.random() * CONFIG.surprises.length),
+      claimed: false
+    };
     saveState();
   }
-
-  const surprise = CONFIG.surprises[idx];
-  const claimed = state.surprise[today()].claimed;
+  const surpriseData = state().surprise[t];
+  const surprise = CONFIG.surprises[surpriseData.idx];
+  const claimed = surpriseData.claimed;
 
   html += `
     <div class="surprise-box">
       <div class="surprise-title">🎲 Bonus Challenge!</div>
-      <div class="surprise-text">${claimed ? "You did it! Come back tomorrow for a new challenge! 🌟" : surprise.text}</div>
+      <div class="surprise-text">${claimed ? "Amazing! Come back tomorrow for a new challenge! 🌟" : surprise.text}</div>
       ${!claimed ? `<div class="surprise-coins">🪙 Worth +${surprise.coins} coins!</div>` : ''}
       <button class="btn-gold" ${claimed ? 'disabled' : ''} onclick="claimSurprise()">
-        ${claimed ? '✅ Claimed!' : '🎉 I did it! Collect coins'}
+        ${claimed ? '✅ Claimed!' : "🎉 I did it! Collect coins"}
       </button>
     </div>`;
 
@@ -886,37 +1052,37 @@ function renderChores() {
 
 function toggleChore(id) {
   const t = today();
-  if (!state.done[t]) state.done[t] = new Set();
-  const chore = CONFIG.chores.find(c => c.id === id);
+  const s = state();
+  if (!s.done[t]) s.done[t] = new Set();
+  const chore = activeKid.chores.find(c => c.id === id);
   if (!chore) return;
 
-  if (state.done[t].has(id)) {
-    state.done[t].delete(id);
-    state.coins = Math.max(0, state.coins - chore.coins);
+  if (s.done[t].has(id)) {
+    s.done[t].delete(id);
+    s.coins = Math.max(0, s.coins - chore.coins);
     addHistory(`Unchecked: ${chore.name}`, -chore.coins);
     showToast('Chore unchecked', 'bad');
   } else {
-    state.done[t].add(id);
-    state.coins += chore.coins;
-    state.coinsEarned = (state.coinsEarned || 0) + chore.coins;
+    s.done[t].add(id);
+    s.coins += chore.coins;
+    s.coinsEarned = (s.coinsEarned || 0) + chore.coins;
     addHistory(`✅ ${chore.name}`, chore.coins);
     showToast(`+${chore.coins} coins! Great job! 🎉`);
     confetti();
   }
-
-  checkStreak();
   saveState();
   renderAll();
 }
 
 function claimSurprise() {
   const t = today();
-  const s = state.surprise[t];
-  if (!s || s.claimed) return;
-  const surprise = CONFIG.surprises[s.idx];
-  state.coins += surprise.coins;
-  state.coinsEarned = (state.coinsEarned || 0) + surprise.coins;
-  s.claimed = true;
+  const s = state();
+  const sd = s.surprise[t];
+  if (!sd || sd.claimed) return;
+  const surprise = CONFIG.surprises[sd.idx];
+  s.coins += surprise.coins;
+  s.coinsEarned = (s.coinsEarned || 0) + surprise.coins;
+  sd.claimed = true;
   addHistory(`🎲 Bonus challenge`, surprise.coins);
   showToast(`Bonus! +${surprise.coins} coins! 🌟`);
   confetti();
@@ -934,7 +1100,7 @@ function renderShop() {
     <div class="shop-grid">`;
 
   for (const item of CONFIG.shop) {
-    const can = state.coins >= item.cost;
+    const can = state().coins >= item.cost;
     html += `
       <div class="shop-card ${can ? 'affordable' : 'cant-afford'}" onclick="buyItem('${item.id}')">
         <div class="shop-emoji">${item.emoji}</div>
@@ -942,7 +1108,6 @@ function renderShop() {
         <div class="shop-cost">🪙 ${item.cost}</div>
       </div>`;
   }
-
   html += `</div>`;
   container.innerHTML = html;
 }
@@ -950,12 +1115,9 @@ function renderShop() {
 function buyItem(id) {
   const item = CONFIG.shop.find(i => i.id === id);
   if (!item) return;
-  if (state.coins < item.cost) {
-    showToast('Not enough coins yet! 😅', 'bad');
-    return;
-  }
+  if (state().coins < item.cost) { showToast('Not enough coins yet! 😅', 'bad'); return; }
   if (!confirm(`Spend ${item.cost} coins on "${item.name}"?\n\nFind a parent to confirm!`)) return;
-  state.coins -= item.cost;
+  state().coins -= item.cost;
   addHistory(`🛒 ${item.name}`, -item.cost);
   showToast(`${item.emoji} Nice! Go find a parent!`, 'info');
   saveState();
@@ -964,16 +1126,16 @@ function buyItem(id) {
 
 // ===================== HISTORY =====================
 function addHistory(label, delta) {
-  state.history = state.history || [];
-  state.history.unshift({ date: today(), label, delta });
-  if (state.history.length > 100) state.history = state.history.slice(0, 100);
+  const s = state();
+  s.history = s.history || [];
+  s.history.unshift({ date: today(), label, delta });
+  if (s.history.length > 100) s.history = s.history.slice(0, 100);
 }
 
 function renderHistory() {
   const container = document.getElementById('tab-history');
-  const h = state.history || [];
+  const h = state().history || [];
   let html = `<div class="sec-label">📜 Coin history</div>`;
-
   if (!h.length) {
     html += `<div class="empty-msg" style="padding-top:2rem;">No history yet — start doing chores! 💪</div>`;
   } else {
@@ -993,7 +1155,6 @@ function renderHistory() {
     }
     html += `</div>`;
   }
-
   container.innerHTML = html;
 }
 
@@ -1006,7 +1167,10 @@ function switchTab(name, btn) {
 }
 
 // ===================== PARENT PANEL =====================
+let parentKidView = null;
+
 function openParent() {
+  parentKidView = activeKid ? activeKid.id : CONFIG.kids[0].id;
   document.getElementById('parent-overlay').classList.add('open');
   document.getElementById('pin-field').value = '';
   document.getElementById('pin-error').textContent = '';
@@ -1024,52 +1188,85 @@ function checkPin() {
   if (val === String(CONFIG.parentPin)) {
     document.getElementById('pin-area').style.display = 'none';
     document.getElementById('parent-unlocked').classList.add('unlocked');
-    document.getElementById('ps-earned').textContent = state.coinsEarned || 0;
-    document.getElementById('ps-balance').textContent = state.coins;
-    document.getElementById('ps-streak').textContent = state.streak || 0;
-    const todayDoneCount = [...todayDone()].filter(id => CONFIG.chores.find(c => c.id === id)).length;
-    document.getElementById('ps-today').textContent = todayDoneCount;
+    renderParentPanel();
   } else {
     document.getElementById('pin-error').textContent = 'Wrong PIN, try again.';
     document.getElementById('pin-field').value = '';
   }
 }
 
+function renderParentPanel() {
+  // Kid tabs
+  const tabsEl = document.getElementById('parent-kid-tabs');
+  tabsEl.innerHTML = CONFIG.kids.map(k =>
+    `<div class="kid-tab ${k.id === parentKidView ? 'active' : ''}"
+          onclick="switchParentKid('${k.id}')">${k.avatar} ${k.name}</div>`
+  ).join('');
+
+  // Stats for selected kid
+  const s = states[parentKidView];
+  const kid = CONFIG.kids.find(k => k.id === parentKidView);
+  const todayDoneCount = [...(s.done[today()] || new Set())]
+    .filter(id => kid.chores.find(c => c.id === id)).length;
+
+  document.getElementById('parent-stats-area').innerHTML = `
+    <div class="parent-stat">Total coins earned <span>${s.coinsEarned || 0}</span></div>
+    <div class="parent-stat">Current balance <span>${s.coins}</span></div>
+    <div class="parent-stat">Day streak <span>${s.streak || 0}</span></div>
+    <div class="parent-stat">Chores done today <span>${todayDoneCount}</span></div>
+
+    <p style="font-size:13px;font-weight:700;color:var(--text-muted);margin:12px 0 6px;">
+      Add or remove coins manually:
+    </p>
+    <div class="add-coins-row">
+      <input type="number" id="adjust-amount" placeholder="e.g. 10 or -5" min="-999" max="999">
+      <button class="btn-sm-purple" onclick="adjustCoins()">Apply</button>
+    </div>
+    <button class="btn-danger" onclick="resetKid()">⚠️ Reset ${kid.name}'s data</button>
+  `;
+}
+
+function switchParentKid(kidId) {
+  parentKidView = kidId;
+  renderParentPanel();
+}
+
 function adjustCoins() {
   const amt = parseInt(document.getElementById('adjust-amount').value, 10);
   if (isNaN(amt)) { showToast('Enter a number first', 'bad'); return; }
-  state.coins = Math.max(0, state.coins + amt);
-  if (amt > 0) state.coinsEarned = (state.coinsEarned || 0) + amt;
-  addHistory(`Parent adjustment`, amt);
-  saveState();
-  renderAll();
-  document.getElementById('ps-balance').textContent = state.coins;
+  const s = states[parentKidView];
+  s.coins = Math.max(0, s.coins + amt);
+  if (amt > 0) s.coinsEarned = (s.coinsEarned || 0) + amt;
+  // Save directly
+  const out = { ...s, done: Object.fromEntries(Object.entries(s.done).map(([d, set]) => [d, [...set]])) };
+  localStorage.setItem(storageKey(parentKidView), JSON.stringify(out));
+  if (activeKid && activeKid.id === parentKidView) renderAll();
+  renderParentPanel();
   document.getElementById('adjust-amount').value = '';
-  showToast(`Coins adjusted by ${amt > 0 ? '+' : ''}${amt}`, 'info');
+  showToast(`Coins adjusted by ${amt >= 0 ? '+' : ''}${amt}`, 'info');
 }
 
-function resetAll() {
-  if (!confirm('This will delete ALL coins, history, and streaks. Are you sure?')) return;
-  localStorage.removeItem(STORAGE_KEY);
-  state = hydrateState(loadState());
-  closeParent();
-  showToast('Everything reset!', 'bad');
-  renderAll();
+function resetKid() {
+  const kid = CONFIG.kids.find(k => k.id === parentKidView);
+  if (!confirm(`Reset ALL of ${kid.name}'s coins, history, and streak? This cannot be undone.`)) return;
+  localStorage.removeItem(storageKey(parentKidView));
+  states[parentKidView] = loadState(parentKidView);
+  if (activeKid && activeKid.id === parentKidView) renderAll();
+  renderParentPanel();
+  showToast(`${kid.name}'s data reset`, 'bad');
 }
 
-// Close overlay on backdrop click
 document.getElementById('parent-overlay').addEventListener('click', function(e) {
   if (e.target === this) closeParent();
 });
 
-// PIN on Enter key
 document.getElementById('pin-field').addEventListener('keydown', function(e) {
   if (e.key === 'Enter') checkPin();
 });
 
-// ===================== UI HELPERS =====================
+// ===================== UI =====================
 function updateCoinDisplay() {
-  document.getElementById('coin-count').textContent = state.coins;
+  document.getElementById('coin-count').textContent = state().coins;
 }
 
 function showToast(msg, type) {
@@ -1081,25 +1278,24 @@ function showToast(msg, type) {
 }
 
 function confetti() {
-  const colors = ['#a855f7','#f59e0b','#22c55e','#ec4899','#3b82f6'];
+  const colors = [activeKid.color, '#f59e0b', '#22c55e', '#ec4899', '#3b82f6'];
   for (let i = 0; i < 22; i++) {
     const el = document.createElement('div');
     el.className = 'confetti-piece';
     el.style.cssText = `
-      left: ${Math.random() * 100}vw;
-      background: ${colors[Math.floor(Math.random() * colors.length)]};
-      width: ${6 + Math.random() * 8}px;
-      height: ${6 + Math.random() * 8}px;
-      border-radius: ${Math.random() > 0.5 ? '50%' : '2px'};
-      animation-duration: ${1.2 + Math.random() * 1.4}s;
-      animation-delay: ${Math.random() * 0.4}s;
+      left:${Math.random()*100}vw;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      width:${6+Math.random()*8}px;
+      height:${6+Math.random()*8}px;
+      border-radius:${Math.random()>.5?'50%':'2px'};
+      animation-duration:${1.2+Math.random()*1.4}s;
+      animation-delay:${Math.random()*.4}s;
     `;
     document.body.appendChild(el);
     setTimeout(() => el.remove(), 2800);
   }
 }
 
-// ===================== INIT =====================
 function renderAll() {
   updateCoinDisplay();
   renderStreak();
@@ -1108,10 +1304,8 @@ function renderAll() {
   renderHistory();
 }
 
-document.getElementById('header-name').textContent = `⭐ ${CONFIG.kidName} ⭐`;
-
-checkStreak();
-renderAll();
+// ===================== INIT =====================
+renderPicker();
 </script>
 </body>
 </html>
