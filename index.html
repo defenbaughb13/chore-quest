@@ -61,8 +61,8 @@ const CONFIG = {
       color: "#0d9488",
       chores: [
         { id: "c1",  emoji: "🛏️", name: "Make my bed",                            coins: 5,  days: "daily"    },
-        { id: "c2a", emoji: "🦷", name: "Brush teeth — morning",                  coins: 5,  days: "daily"    },
-        { id: "c2b", emoji: "🦷", name: "Brush teeth — night",                    coins: 5,  days: "daily"    },
+        { id: "c2a", emoji: "🦷", name: "Brush teeth — morning", required: true,                  coins: 5,  days: "daily"    },
+        { id: "c2b", emoji: "🦷", name: "Brush teeth — night", required: true,                    coins: 5,  days: "daily"    },
         { id: "c3",  emoji: "🧺", name: "Put dirty clothes in hamper",            coins: 5,  days: "daily"    },
         { id: "c8",  emoji: "👕", name: "Get dressed without being asked",        coins: 8,  days: "daily"    },
         { id: "c9",  emoji: "🎒", name: "Get backpack ready without being asked", coins: 8,  days: "weekdays" },
@@ -72,6 +72,7 @@ const CONFIG = {
         { id: "c5",  emoji: "🧹", name: "Tidy up my toys",                        coins: 10, days: "daily"    },
         { id: "c6",  emoji: "📚", name: "Read for 15 minutes",                    coins: 10, days: "weekdays" },
         { id: "c7",  emoji: "🐾", name: "Feed the pet",                           coins: 8,  days: "daily"    },
+        { id: "c12", emoji: "🛁", name: "Hang up wet towel",                       coins: 5,  days: "daily",   required: true },
       ],
     },
     {
@@ -81,8 +82,8 @@ const CONFIG = {
       color: "#db2777",
       chores: [
         { id: "h1",  emoji: "🛏️", name: "Make my bed",                            coins: 5,  days: "daily"    },
-        { id: "h2a", emoji: "🦷", name: "Brush teeth — morning",                  coins: 5,  days: "daily"    },
-        { id: "h2b", emoji: "🦷", name: "Brush teeth — night",                    coins: 5,  days: "daily"    },
+        { id: "h2a", emoji: "🦷", name: "Brush teeth — morning", required: true,                  coins: 5,  days: "daily"    },
+        { id: "h2b", emoji: "🦷", name: "Brush teeth — night", required: true,                    coins: 5,  days: "daily"    },
         { id: "h3",  emoji: "👗", name: "Put clothes away neatly",                coins: 5,  days: "daily"    },
         { id: "h8",  emoji: "👗", name: "Get dressed without being asked",        coins: 8,  days: "daily"    },
         { id: "h9",  emoji: "🎒", name: "Get backpack ready without being asked", coins: 8,  days: "weekdays" },
@@ -92,6 +93,7 @@ const CONFIG = {
         { id: "h5",  emoji: "🧸", name: "Tidy up my room",                        coins: 10, days: "daily"    },
         { id: "h6",  emoji: "📚", name: "Read for 15 minutes",                    coins: 10, days: "weekdays" },
         { id: "h7",  emoji: "🌿", name: "Water the plants",                       coins: 7,  days: "weekends" },
+        { id: "h12", emoji: "🛁", name: "Hang up wet towel",                       coins: 5,  days: "daily",   required: true },
       ],
     },
   ],
@@ -156,7 +158,7 @@ body{display:flex;flex-direction:column;max-width:430px;margin:0 auto;min-height
 .tab-icon{font-size:20px}
 
 /* SECTIONS */
-.section{display:none;padding:0 1.2rem}
+.section{display:none;padding:0 1.2rem 1.5rem}
 .section.active{display:block}
 .sec-label{font-family:'Fredoka One',cursive;font-size:17px;color:var(--accent);margin:1.2rem 0 .6rem}
 
@@ -166,6 +168,7 @@ body{display:flex;flex-direction:column;max-width:430px;margin:0 auto;min-height
 .chore-card:active{transform:scale(.97)}
 .chore-card.done{background:var(--green-light);border-color:#86efac;opacity:.8}
 .chore-card.pending{background:#fff7ed;border-color:#fed7aa;opacity:.9}
+.chore-card.blocked{opacity:.45;cursor:default}
 .chore-emoji{font-size:34px;width:46px;text-align:center;flex-shrink:0}
 .chore-info{flex:1;min-width:0}
 .chore-name{font-size:15px;font-weight:700;color:var(--text);line-height:1.25}
@@ -282,8 +285,31 @@ body{display:flex;flex-direction:column;max-width:430px;margin:0 auto;min-height
 /* DRAGON SVG */
 .dragon-svg{width:100%;height:100%}
 </style>
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyAQzvTk7Fmitm5x_uXAPT60uJfuMPECsMA",
+  authDomain: "chore-quest-eebd8.firebaseapp.com",
+  databaseURL: "https://chore-quest-eebd8-default-rtdb.firebaseio.com",
+  projectId: "chore-quest-eebd8",
+  storageBucket: "chore-quest-eebd8.firebasestorage.app",
+  messagingSenderId: "562725520204",
+  appId: "1:562725520204:web:5b49535744be1e769445e9"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+</script>
 </head>
 <body>
+<!-- Sync indicator -->
+<div id="sync-indicator" style="display:none;position:fixed;top:0;left:0;right:0;background:rgba(0,0,0,0.6);color:white;font-family:'Fredoka One',cursive;font-size:15px;padding:10px;text-align:center;z-index:9999;align-items:center;justify-content:center;gap:8px">
+  <div style="width:18px;height:18px;border:3px solid white;border-top-color:transparent;border-radius:50%;animation:spin 0.8s linear infinite"></div>
+  Loading your data...
+</div>
+<style>@keyframes spin{to{transform:rotate(360deg)}}</style>
+
 
 <!-- PROFILE PICKER -->
 <div id="profile-screen">
@@ -448,41 +474,107 @@ function dragonSVG(size){
   </svg>`;
 }
 
-// ==================== STORAGE ====================
-const GLOBAL_KEY = 'chorequest_global_v1';
-const kidKey = id => `chorequest_${id}_v1`;
+// ==================== FIREBASE SYNC ====================
+const DB_PREFIX = 'chorequest';
 
-function loadGlobal(){
-  try{ return JSON.parse(localStorage.getItem(GLOBAL_KEY)||'null') || { shop: null, surprises: null }; }
-  catch(e){ return { shop: null, surprises: null }; }
-}
-function saveGlobal(g){ localStorage.setItem(GLOBAL_KEY, JSON.stringify(g)); }
+function kidStateRef(kidId){ return db.ref(`${DB_PREFIX}/states/${kidId}`); }
+function globalRef(){ return db.ref(`${DB_PREFIX}/global`); }
 
-function loadKidConfig(kid){
-  try{
-    const raw = localStorage.getItem('chorequest_cfg_'+kid.id);
-    if(raw) return JSON.parse(raw);
-  }catch(e){}
-  return null;
+// Serialize state (convert Sets to arrays)
+function serializeState(s){
+  return {
+    ...s,
+    done: Object.fromEntries(Object.entries(s.done||{}).map(([d,set])=>[d,[...set]]))
+  };
 }
-function saveKidConfig(kidId, cfg){ localStorage.setItem('chorequest_cfg_'+kidId, JSON.stringify(cfg)); }
 
-function loadKidState(kidId){
-  try{
-    const raw = localStorage.getItem(kidKey(kidId));
-    if(raw){
-      const p = JSON.parse(raw);
-      const done = {};
-      if(p.done) for(const [d,a] of Object.entries(p.done)) done[d]=new Set(a);
-      return {...p, done};
-    }
-  }catch(e){}
-  return { coins:0, coinsEarned:0, streak:0, lastActiveDate:null, done:{}, surprise:{}, history:[], pendingChores:[], pendingShop:[] };
+// Deserialize state (convert arrays back to Sets)
+function deserializeState(raw){
+  if(!raw) return { coins:0, coinsEarned:0, coinsDeducted:0, streak:0, lastActiveDate:null, done:{}, surprise:{}, history:[], pendingChores:[], pendingShop:[], oopsLog:[] };
+  const done={};
+  if(raw.done) for(const [d,a] of Object.entries(raw.done)) done[d]=new Set(Array.isArray(a)?a:Object.values(a));
+  return {...raw, done,
+    pendingChores: raw.pendingChores ? (Array.isArray(raw.pendingChores)?raw.pendingChores:Object.values(raw.pendingChores)) : [],
+    pendingShop:   raw.pendingShop   ? (Array.isArray(raw.pendingShop)  ?raw.pendingShop  :Object.values(raw.pendingShop))   : [],
+    oopsLog:       raw.oopsLog       ? (Array.isArray(raw.oopsLog)      ?raw.oopsLog      :Object.values(raw.oopsLog))       : [],
+    history:       raw.history       ? (Array.isArray(raw.history)      ?raw.history      :Object.values(raw.history))       : [],
+  };
 }
+
+// Save kid state to Firebase
 function saveKidState(kidId, s){
-  const out = {...s, done: Object.fromEntries(Object.entries(s.done).map(([d,set])=>[d,[...set]]))};
-  localStorage.setItem(kidKey(kidId), JSON.stringify(out));
+  kidStateRef(kidId).set(serializeState(s)).catch(e=>console.error('Save error',e));
 }
+
+// Save global config to Firebase
+function saveGlobal(g){
+  globalRef().set(g).catch(e=>console.error('Save global error',e));
+}
+
+// Loading indicator
+function showSyncing(show){
+  const el=document.getElementById('sync-indicator');
+  if(el) el.style.display=show?'flex':'none';
+}
+
+// Initial load from Firebase — returns a promise
+function loadAllFromFirebase(){
+  return new Promise((resolve)=>{
+    showSyncing(true);
+    let loaded=0;
+    const total=CONFIG.kids.length+1; // kids + global
+
+    // Load global config
+    globalRef().once('value').then(snap=>{
+      const val=snap.val();
+      if(val){
+        globalCfg.shop=val.shop||null;
+        globalCfg.consequences=val.consequences||null;
+        globalCfg.surprises=val.surprises||null;
+      }
+      loaded++;
+      if(loaded>=total){ showSyncing(false); resolve(); }
+    }).catch(()=>{ loaded++; if(loaded>=total){ showSyncing(false); resolve(); } });
+
+    // Load each kid state
+    for(const kid of CONFIG.kids){
+      kidStateRef(kid.id).once('value').then(snap=>{
+        states[kid.id]=deserializeState(snap.val());
+        loaded++;
+        if(loaded>=total){ showSyncing(false); resolve(); }
+      }).catch(()=>{
+        states[kid.id]=deserializeState(null);
+        loaded++;
+        if(loaded>=total){ showSyncing(false); resolve(); }
+      });
+    }
+  });
+}
+
+// Subscribe to real-time updates for a kid
+function subscribeToKid(kidId){
+  kidStateRef(kidId).on('value', snap=>{
+    const newState=deserializeState(snap.val());
+    // Only update if we're not the ones who just wrote (avoid flicker)
+    states[kidId]=newState;
+    updateBadge();
+    renderPicker();
+    if(activeKid&&activeKid.id===kidId) renderAll();
+  });
+}
+
+// Subscribe to global config changes
+function subscribeToGlobal(){
+  globalRef().on('value', snap=>{
+    const val=snap.val();
+    if(val){
+      globalCfg.shop=val.shop||null;
+      globalCfg.consequences=val.consequences||null;
+      globalCfg.surprises=val.surprises||null;
+    }
+  });
+}
+
 
 // ==================== RUNTIME STATE ====================
 let globalCfg = loadGlobal();
@@ -502,7 +594,8 @@ function getKids(){
 
 const states = {};
 let kids = getKids();
-for(const k of kids) states[k.id] = loadKidState(k.id);
+// Initialize empty states — will be populated from Firebase
+for(const k of kids) states[k.id] = deserializeState(null);
 
 let activeKid = null;
 let parentKidView = null;
@@ -640,20 +733,29 @@ function renderChores(){
   if(!visible.length){
     html+=`<div class="empty-msg">No chores today — enjoy your day! 🎉</div>`;
   } else {
+    const requiredChores=(kd.chores||[]).filter(c=>c.required&&choreVisible(c));
+    const allRequiredDone=requiredChores.every(c=>done.has(c.id)||pendingIds.has(c.id));
     for(const c of visible){
       const isDone=done.has(c.id);
       const isPending=pendingIds.has(c.id);
-      let cls=''; let checkIcon='⭕'; let statusLine='';
+      const isRequired=!!c.required;
+      const blocked=!isDone&&!isPending&&!allRequiredDone&&!isRequired;
+      let cls=''; let checkIcon=''; let statusLine='';
+      let checkStyle='';
       if(isDone){ cls='done'; checkIcon='✅'; }
-      else if(isPending){ cls='pending'; checkIcon='⏳'; statusLine=`<div class="chore-status">⏳ Waiting for parent approval</div>`; }
-      html+=`<div class="chore-card ${cls}" onclick="toggleChore('${c.id}')">
+      else if(isPending){ cls='pending'; checkIcon='⏳'; statusLine=`<div class="chore-status">⏳ Waiting for parent approval</div>`; checkStyle='background:#f97316;border-color:#f97316;'; }
+      else if(isRequired){ checkIcon='⭕'; checkStyle='border-color:#ef4444;color:#ef4444;'; }
+      else if(blocked){ checkIcon='🔒'; checkStyle='border-color:#d1d5db;'; }
+      else{ checkIcon='⭕'; checkStyle='border-color:#f97316;color:#f97316;'; }
+      const nameLabel=isRequired?`${c.name} <span style="font-size:11px;color:#ef4444;font-weight:800">(Required)</span>`:c.name;
+      html+=`<div class="chore-card ${cls}${blocked?' blocked':''}" onclick="toggleChore('${c.id}')">
         <div class="chore-emoji">${c.emoji}</div>
         <div class="chore-info">
-          <div class="chore-name">${c.name}</div>
+          <div class="chore-name">${nameLabel}</div>
           <div class="chore-coins">🪙 +${c.coins} coins</div>
           ${statusLine}
         </div>
-        <div class="chore-check">${checkIcon}</div>
+        <div class="chore-check" style="${checkStyle}">${checkIcon}</div>
       </div>`;
     }
   }
@@ -671,7 +773,7 @@ function renderChores(){
   const surprise=surps[sd.idx]||surps[0];
   const claimed=sd.claimed;
 
-  html+=`<div class="surprise-box">
+  html+=`<div class="surprise-box" style="margin-bottom:1.5rem">
     <div class="surprise-title">🎲 Bonus Challenge!</div>
     <div class="surprise-text">${claimed?'Amazing! Come back tomorrow for a new challenge! 🌟':surprise.text}</div>
     ${!claimed?`<div class="surprise-coins">🪙 Worth +${surprise.coins} coins!</div>`:''}
@@ -716,6 +818,16 @@ function toggleChore(id){
     return;
   }
 
+  // Check required chores
+  const kd2=activeKidFull();
+  const done2=s.done[t]||new Set();
+  const pendIds=new Set((s.pendingChores||[]).map(p=>p.choreId));
+  const reqChores=(kd2.chores||[]).filter(c=>c.required&&choreVisible(c));
+  const allReqDone=reqChores.every(c=>done2.has(c.id)||pendIds.has(c.id));
+  if(!chore.required&&!allReqDone){
+    showToast('Finish required chores first! 🔴','bad');
+    return;
+  }
   // Submit for approval
   s.pendingChores=[...(s.pendingChores||[]),{id:uid(),choreId:id,choreName:chore.name,coins:chore.coins,date:t}];
   showToast('Sent to parent for approval! ⏳','warn');
@@ -985,6 +1097,14 @@ function renderStatsTab(){
       <button class="btn-sm" onclick="adjustCoins()">Apply</button>
     </div>
     <button class="btn-danger" onclick="resetKid()" style="margin-top:8px">⚠️ Reset ${kd.name}'s data</button>
+    <hr style="border:none;border-top:1.5px solid var(--border);margin:16px 0">
+    <p style="font-size:13px;font-weight:700;color:var(--text-muted);margin-bottom:8px">💾 Backup &amp; Restore customizations</p>
+    <p style="font-size:12px;color:var(--text-muted);margin-bottom:10px">Export saves your custom chores, shop items &amp; consequences. Import restores them after an app update.</p>
+    <button class="btn-purple" onclick="exportConfig()" style="margin-top:0">📤 Export my customizations</button>
+    <label class="btn-purple" style="margin-top:8px;display:block;text-align:center;cursor:pointer">
+      📥 Import customizations
+      <input type="file" accept=".json" onchange="importConfig(event)" style="display:none">
+    </label>
   `;
 }
 
@@ -1005,8 +1125,8 @@ function adjustCoins(){
 function resetKid(){
   const kd=kids.find(k=>k.id===parentKidView);
   if(!confirm(`Reset ALL of ${kd.name}'s coins, history, and streak?`))return;
-  localStorage.removeItem(kidKey(parentKidView));
-  states[parentKidView]=loadKidState(parentKidView);
+  states[parentKidView]=deserializeState(null);
+  saveKidState(parentKidView, states[parentKidView]);
   if(activeKid&&activeKid.id===parentKidView) renderAll();
   renderParentPortal();
   showToast(`${kd.name}'s data reset`,'bad');
@@ -1284,6 +1404,54 @@ function deleteConsequence(conId){
   renderParentPortal();
 }
 
+// ==================== EXPORT / IMPORT ====================
+function exportConfig(){
+  const kd=kids.find(k=>k.id===parentKidView);
+  const exportData={
+    version:1,
+    exportDate:today(),
+    kidId:parentKidView,
+    kidName:kd.name,
+    chores: (globalCfg.kidConfigs&&globalCfg.kidConfigs[parentKidView])||{chores:kd.chores},
+    shop: globalCfg.shop||null,
+    consequences: globalCfg.consequences||null,
+    surprises: globalCfg.surprises||null,
+  };
+  const blob=new Blob([JSON.stringify(exportData,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;
+  a.download=`chore-quest-${parentKidView}-backup-${today()}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('Exported! Save that file somewhere safe 💾','info');
+}
+
+function importConfig(event){
+  const file=event.target.files[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=function(e){
+    try{
+      const data=JSON.parse(e.target.result);
+      if(!data.version){ showToast('Invalid backup file','bad'); return; }
+      if(data.chores){ if(!globalCfg.kidConfigs) globalCfg.kidConfigs={}; globalCfg.kidConfigs[data.kidId||parentKidView]=data.chores; }
+      if(data.shop){ globalCfg.shop=data.shop; }
+      if(data.consequences){ globalCfg.consequences=data.consequences; }
+      if(data.surprises){ globalCfg.surprises=data.surprises; }
+      saveGlobal(globalCfg);
+      kids=getKids();
+      if(activeKid) activeKid=kids.find(k=>k.id===activeKid.id)||activeKid;
+      showToast('Customizations restored! ✅');
+      renderParentPortal();
+      if(activeKid) renderAll();
+    }catch(err){
+      showToast('Could not read file','bad');
+    }
+  };
+  reader.readAsText(file);
+}
+
 // ==================== UI HELPERS ====================
 function updateCoinDisplay(){
   const s=state();
@@ -1332,7 +1500,14 @@ document.getElementById('parent-overlay').addEventListener('click',function(e){ 
 document.getElementById('pin-field').addEventListener('keydown',function(e){ if(e.key==='Enter')checkPin(); });
 
 // ==================== INIT ====================
-renderPicker();
+// Load all data from Firebase then subscribe to real-time updates
+loadAllFromFirebase().then(()=>{
+  kids = getKids();
+  renderPicker();
+  // Subscribe to real-time updates for all kids
+  for(const kid of CONFIG.kids) subscribeToKid(kid.id);
+  subscribeToGlobal();
+});
 </script>
 </body>
 </html>
