@@ -7,8 +7,7 @@
 <!-- Firebase -->
 <script src="https://cdn.jsdelivr.net/npm/firebase@9.22.2/firebase-app-compat.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/firebase@9.22.2/firebase-database-compat.min.js"></script>
-
-<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.bunny.net/css2?family=fredoka-one&family=nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 
 <script>
 // ============================================================
@@ -63,11 +62,24 @@ const CONFIG = {
       name: "Cooper",
       avatar: "dragon",
       color: "#5eead4",
+      plan: [
+        { id: "cp1", text: "Wake up and get out of bed", days: "daily" },
+        { id: "cp2", text: "Eat breakfast", days: "daily" },
+        { id: "cp3", text: "Have lunch today 🥪", days: "weekdays" },
+        { id: "cp4", text: "Check backpack and put it on the couch", days: "weekdays" },
+        { id: "cp5", text: "Do I need a jacket today? Ask mom or dad", days: "weekdays" },
+        { id: "cp6", text: "Put on shoes — school leaves at 9am!", days: "weekdays" },
+        { id: "cp7", text: "Get a healthy after school snack (no sugar!)", days: "weekdays" },
+        { id: "cp8", text: "Decide what clothes to wear tomorrow", days: "weekdays" },
+        { id: "cp9", text: "Family dinner", days: "daily" },
+        { id: "cp10", text: "Wind down — no screens", days: "daily" },
+        { id: "cp11", text: "Get ready for bed", days: "daily" },
+      ],
       chores: [
         { id: "c1",  emoji: "🛏️", name: "Make my bed",                            coins: 5,  days: "daily"    },
-        { id: "c2a", emoji: "🦷", name: "Brush teeth — morning", required: true,                  coins: 5,  days: "daily"    },
-        { id: "c2b", emoji: "🦷", name: "Brush teeth — night", required: true,                    coins: 5,  days: "daily"    },
-        { id: "c3",  emoji: "🧺", name: "Put dirty clothes in hamper",            coins: 5,  days: "daily"    },
+        { id: "c2a", emoji: "🦷", name: "Brush teeth — morning",                  coins: 5,  days: "daily",   required: true },
+        { id: "c2b", emoji: "🦷", name: "Brush teeth — night",                    coins: 5,  days: "daily",   required: true },
+        { id: "c3",  emoji: "🧺", name: "Put dirty clothes in hamper",            coins: 5,  days: "daily",   required: true },
         { id: "c8",  emoji: "👕", name: "Get dressed without being asked",        coins: 8,  days: "daily"    },
         { id: "c9",  emoji: "🎒", name: "Get backpack ready without being asked", coins: 8,  days: "weekdays" },
         { id: "c10", emoji: "🍳", name: "Put breakfast dishes in dishwasher",     coins: 5,  days: "daily"    },
@@ -76,14 +88,28 @@ const CONFIG = {
         { id: "c5",  emoji: "🧹", name: "Tidy up my toys",                        coins: 10, days: "daily"    },
         { id: "c6",  emoji: "📚", name: "Read for 15 minutes",                    coins: 10, days: "weekdays" },
         { id: "c7",  emoji: "🐾", name: "Feed the pet",                           coins: 8,  days: "daily"    },
-        { id: "c12", emoji: "🚿", name: "Take a shower & hang up wet towel",        coins: 0,  days: "daily",   bedtimeBonus: 15 },
+        { id: "c12", emoji: "🚿", name: "Take a shower & hang up wet towel",      coins: 0,  days: "daily",   bedtimeBonus: 15 },
       ],
+
     },
     {
       id: "haley",
       name: "Haley",
       avatar: "🦄",
       color: "#f9a8d4",
+      plan: [
+        { id: "hp1", text: "Wake up and get out of bed", days: "daily" },
+        { id: "hp2", text: "Eat breakfast", days: "daily" },
+        { id: "hp3", text: "Have lunch today 🥪", days: "weekdays" },
+        { id: "hp4", text: "Check backpack and put it on the couch", days: "weekdays" },
+        { id: "hp5", text: "Do I need a jacket today? Ask mom or dad", days: "weekdays" },
+        { id: "hp6", text: "Put on shoes — school leaves at 9am!", days: "weekdays" },
+        { id: "hp7", text: "Get a healthy after school snack (no sugar!)", days: "weekdays" },
+        { id: "hp8", text: "Decide what clothes to wear tomorrow", days: "weekdays" },
+        { id: "hp9", text: "Family dinner", days: "daily" },
+        { id: "hp10", text: "Wind down — no screens", days: "daily" },
+        { id: "hp11", text: "Get ready for bed", days: "daily" },
+      ],
       chores: [
         { id: "h1",  emoji: "🛏️", name: "Make my bed",                            coins: 5,  days: "daily"    },
         { id: "h2a", emoji: "🦷", name: "Brush teeth — morning", required: true,                  coins: 5,  days: "daily"    },
@@ -157,9 +183,9 @@ body{display:flex;flex-direction:column;max-width:430px;margin:0 auto;min-height
 
 /* TABS */
 .tab-bar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:var(--surface);border-top:1.5px solid var(--border);display:flex;z-index:100}
-.tab-btn{flex:1;background:none;border:none;padding:8px 0 6px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:1px;font-family:'Nunito',sans-serif;font-size:10px;font-weight:700;color:var(--text-muted);transition:color .15s}
+.tab-btn{flex:1;background:none;border:none;padding:6px 0 5px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:1px;font-family:'Nunito',sans-serif;font-size:9px;font-weight:700;color:var(--text-muted);transition:color .15s}
 .tab-btn.active{color:var(--accent)}
-.tab-icon{font-size:20px}
+.tab-icon{font-size:18px}
 
 /* SECTIONS */
 .section{display:none;padding:0 1.2rem 1.5rem}
@@ -298,7 +324,6 @@ body{display:flex;flex-direction:column;max-width:430px;margin:0 auto;min-height
 </div>
 <style>@keyframes spin{to{transform:rotate(360deg)}}</style>
 
-
 <!-- PROFILE PICKER -->
 <div id="profile-screen">
   <div class="picker-title">⭐ Chore Quest ⭐</div>
@@ -329,12 +354,14 @@ body{display:flex;flex-direction:column;max-width:430px;margin:0 auto;min-height
   <div id="tab-shop"    class="section"></div>
   <div id="tab-history" class="section"></div>
   <div id="tab-oops"    class="section"></div>
+  <div id="tab-plan"    class="section"></div>
 
   <nav class="tab-bar">
     <button class="tab-btn active" onclick="switchTab('chores',this)"><span class="tab-icon">📋</span>Chores</button>
     <button class="tab-btn" onclick="switchTab('shop',this)"><span class="tab-icon">🛒</span>Shop</button>
     <button class="tab-btn" onclick="switchTab('history',this)"><span class="tab-icon">📜</span>History</button>
     <button class="tab-btn" id="oops-tab-btn" onclick="switchTab('oops',this)"><span class="tab-icon">🙊</span>Oops!</button>
+    <button class="tab-btn" onclick="switchTab('plan',this)"><span class="tab-icon">📅</span>Plan</button>
   </nav>
 </div>
 
@@ -468,6 +495,8 @@ function serializeState(s){
     oopsLog: toArray(s.oopsLog),
     baseBedtime: s.baseBedtime||'19:45',
     bedtimeAdjustments: s.bedtimeAdjustments||{},
+    planChecked: s.planChecked||{},
+    planRemoved: s.planRemoved||{},
   };
 }
 
@@ -479,7 +508,7 @@ function toArray(val){
   return [];
 }
 
-const EMPTY_STATE = () => ({ coins:0, coinsEarned:0, coinsDeducted:0, streak:0, lastActiveDate:null, done:{}, surprise:{}, history:[], pendingChores:[], pendingShop:[], oopsLog:[], baseBedtime:'19:45', bedtimeAdjustments:{} });
+const EMPTY_STATE = () => ({ coins:0, coinsEarned:0, coinsDeducted:0, streak:0, lastActiveDate:null, done:{}, surprise:{}, history:[], pendingChores:[], pendingShop:[], oopsLog:[], baseBedtime:'19:45', bedtimeAdjustments:{}, planChecked:{}, planRemoved:{} });
 
 function deserializeState(raw){
   try {
@@ -557,7 +586,7 @@ function loadAllFromFirebase(){
         }
         resolve();
       }
-    }, 6000);
+    }, 3000);
 
     // Load global config using once()
     globalRef().once('value').then(snap=>{
@@ -612,13 +641,18 @@ function subscribeToGlobal(){
         if(val.consequences) globalCfg.consequences=val.consequences;
         if(val.surprises) globalCfg.surprises=val.surprises;
         if(val.kidConfigs) globalCfg.kidConfigs=val.kidConfigs;
+        if(val.kidPlans) globalCfg.kidPlans=val.kidPlans;
         kids=getKids();
-        if(activeKid) activeKid=kids.find(k=>k.id===activeKid.id)||activeKid;
+        if(activeKid){
+          activeKid=kids.find(k=>k.id===activeKid.id)||activeKid;
+          renderPlan();
+          renderChores();
+        }
+        if(!activeKid) renderPicker();
       }
     } catch(e){ console.warn('subscribeToGlobal error:', e); }
   });
 }
-
 
 // ==================== RUNTIME STATE ====================
 let globalCfg = { shop: null, consequences: null, surprises: null, kidConfigs: null };
@@ -643,7 +677,14 @@ function loadKidConfig(kid){
 function getKids(){
   return CONFIG.kids.map(kid => {
     const saved = loadKidConfig(kid);
-    return saved ? {...kid, ...saved} : {...kid};
+    if(!saved) return {...kid};
+    // Always keep chores and plan from CONFIG unless explicitly overridden in saved
+    return {
+      ...kid,
+      ...saved,
+      chores: saved.chores || kid.chores,
+      plan: saved.plan || kid.plan || [],
+    };
   });
 }
 
@@ -676,6 +717,8 @@ function state(){
     if(!s.pendingShop) s.pendingShop=[];
     if(!s.oopsLog) s.oopsLog=[];
     if(!s.history) s.history=[];
+    if(!s.planChecked) s.planChecked={};
+    if(!s.planRemoved) s.planRemoved={};
   } catch(e){ console.warn('state() repair error:', e); }
   return s;
 }
@@ -706,7 +749,6 @@ function updateBadge(){
   const b=document.getElementById('header-badge');
   if(b){ b.style.display=n?'flex':'none'; b.textContent=n; }
 }
-
 
 // ==================== BEDTIME HELPERS ====================
 function getTonightAdjustment(kidId){
@@ -868,6 +910,7 @@ function todayDone(){
 function renderChores(){
   const container=document.getElementById('tab-chores');
   const kd=activeKidFull();
+  if(!kd){ container.innerHTML='<div class="empty-msg">Loading...</div>'; return; }
   const allChores=(kd.chores||[]).filter(choreVisible);
   // Required chores always appear first
   const visible=[...allChores.filter(c=>c.required), ...allChores.filter(c=>!c.required)];
@@ -1131,6 +1174,7 @@ function renderParentPortal(){
     {id:'chores',label:'📋 Chores',badge:0},
     {id:'shop',label:'🛒 Shop',badge:0},
     {id:'consequences',label:'🙊 Oops',badge:0},
+    {id:'plan',label:'📅 Plan',badge:0},
   ].map(t=>`<button class="parent-nav-btn ${parentTab===t.id?'active':''}" onclick="switchParentTab('${t.id}')">
     ${t.label}${t.badge?`<div class="parent-nav-badge">${t.badge}</div>`:''}
   </button>`).join('');
@@ -1142,6 +1186,7 @@ function renderParentPortal(){
   else if(parentTab==='chores') content.innerHTML=renderChoresEditorTab();
   else if(parentTab==='shop') content.innerHTML=renderShopEditorTab();
   else if(parentTab==='consequences') content.innerHTML=renderConsequencesTab();
+  else if(parentTab==='plan') content.innerHTML=renderPlanEditorTab();
 }
 
 function switchParentKid(id){ parentKidView=id; renderParentPortal(); }
@@ -1502,6 +1547,109 @@ function deleteShopItem(itemId){
   renderParentPortal();
 }
 
+
+// ==================== TODAY'S PLAN ====================
+function getPlanItems(){
+  const kd=activeKidFull();
+  // 1. Use saved plan from parent portal if set
+  if(globalCfg.kidPlans&&globalCfg.kidPlans[activeKid.id]&&globalCfg.kidPlans[activeKid.id].length){
+    return globalCfg.kidPlans[activeKid.id];
+  }
+  // 2. Use plan from merged kid config
+  if(kd&&kd.plan&&kd.plan.length) return kd.plan;
+  // 3. Fall back directly to CONFIG (bypasses any merge issues)
+  const configKid=CONFIG.kids.find(k=>k.id===activeKid.id);
+  return (configKid&&configKid.plan)||[];
+}
+
+function planVisible(item){
+  const d=item.days;
+  if(!d||d==='daily') return true;
+  if(d==='weekends') return isWeekend();
+  if(d==='weekdays') return !isWeekend();
+  return true;
+}
+
+function renderPlan(){
+  const container=document.getElementById('tab-plan');
+  if(!container) return;
+  const t=today();
+  const s=state();
+  if(!s){ container.innerHTML='<div class="empty-msg">Loading...</div>'; return; }
+  const checked=new Set(toArray(s.planChecked[t]));
+  const removed=new Set(toArray(s.planRemoved[t]));
+  const items=getPlanItems().filter(i=>planVisible(i)&&!removed.has(i.id));
+  const doneCount=[...checked].filter(id=>getPlanItems().find(i=>i.id===id)).length;
+  const total=items.length;
+  const pct=total?Math.round((doneCount/total)*100):0;
+
+  let html=`<div class="sec-label">📅 Today's Plan</div>
+    <div class="progress-wrap"><div class="progress-fill" style="width:${pct}%"></div></div>
+    <div class="progress-lbl">${doneCount} of ${total} done</div>
+    <div style="font-size:12px;font-weight:600;color:var(--text-muted);margin-top:4px;margin-bottom:8px">
+      ✓ Checks reset each morning &nbsp;·&nbsp; Swipe left on an item to remove it for today
+    </div>
+    <div class="chore-list" style="margin-top:0">`;
+
+  if(!items.length){
+    html+=`<div class="empty-msg">Nothing planned for today! 🎉</div>`;
+  } else {
+    for(const item of items){
+      const isDone=checked.has(item.id);
+      html+=`<div class="chore-card ${isDone?'done':''}" style="position:relative" onclick="togglePlan('${item.id}')">
+        <div class="chore-info" style="padding-right:8px">
+          <div class="chore-name">${item.text}</div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;flex-shrink:0">
+          <button onclick="event.stopPropagation();removePlanItem('${item.id}')"
+            style="background:none;border:none;font-size:18px;cursor:pointer;color:var(--text-muted);padding:4px">✕</button>
+          <div style="width:38px;height:38px;border-radius:50%;border:2.5px solid ${isDone?'#22c55e':'#f97316'};background:${isDone?'#22c55e':'white'};display:flex;align-items:center;justify-content:center;font-size:18px">
+            ${isDone?'✅':''}
+          </div>
+        </div>
+      </div>`;
+    }
+  }
+  html+=`</div>`;
+  container.innerHTML=html;
+}
+
+function togglePlan(id){
+  const t=today();
+  const s=state();
+  if(!s.planChecked) s.planChecked={};
+  if(!s.planChecked[t]) s.planChecked[t]=[];
+  const arr=toArray(s.planChecked[t]);
+  const idx=arr.indexOf(id);
+  if(idx>=0) arr.splice(idx,1);
+  else arr.push(id);
+  s.planChecked[t]=arr;
+  saveKidState(activeKid.id,s);
+  renderPlan();
+}
+
+function removePlanItem(id){
+  const t=today();
+  const s=state();
+  if(!s.planRemoved) s.planRemoved={};
+  if(!s.planRemoved[t]) s.planRemoved[t]=[];
+  const arr=toArray(s.planRemoved[t]);
+  if(!arr.includes(id)) arr.push(id);
+  s.planRemoved[t]=arr;
+  saveKidState(activeKid.id,s);
+  showToast('Removed for today — comes back tomorrow','info');
+  renderPlan();
+}
+
+// Clean old plan data (keep only today)
+function cleanOldPlanData(kidId){
+  const s=states[kidId];
+  if(!s) return;
+  const t=today();
+  if(s.planChecked) s.planChecked={[t]:s.planChecked[t]||[]};
+  if(s.planRemoved) s.planRemoved={[t]:s.planRemoved[t]||[]};
+}
+
 // ==================== OOPS TAB ====================
 function renderOops(){
   const container=document.getElementById('tab-oops');
@@ -1637,6 +1785,93 @@ function deleteConsequence(conId){
   renderParentPortal();
 }
 
+
+// ---- PLAN EDITOR ----
+function getKidPlanItems(kidId){
+  const kd=kids.find(k=>k.id===kidId);
+  return (globalCfg.kidPlans&&globalCfg.kidPlans[kidId]) || (kd&&kd.plan) || [];
+}
+
+function renderPlanEditorTab(){
+  const kd=kids.find(k=>k.id===parentKidView);
+  const items=getKidPlanItems(parentKidView);
+  let html=`<div class="add-form">
+    <div class="form-label">Add a plan item for ${kd.name}</div>
+    <input id="new-plan-text" placeholder="e.g. Read before bed" style="margin-bottom:8px">
+    <div class="add-form-row">
+      <select id="new-plan-days">
+        <option value="daily">Every day</option>
+        <option value="weekdays">Weekdays only</option>
+        <option value="weekends">Weekends only</option>
+      </select>
+      <button class="btn-sm" onclick="addPlanItem()">Add</button>
+    </div>
+  </div>`;
+
+  if(!items.length){
+    html+=`<div class="empty-msg">No plan items yet — add one above!</div>`;
+  } else {
+    for(const item of items){
+      const daysLabel={daily:'Daily',weekdays:'Weekdays',weekends:'Weekends'}[item.days||'daily'];
+      html+=`<div class="editor-item">
+        <div class="editor-item-info">
+          <div class="editor-item-name">${item.text}</div>
+          <div class="editor-item-sub">📅 ${daysLabel}</div>
+        </div>
+        <div class="editor-actions">
+          <button class="btn-sm" onclick="editPlanItem('${item.id}')">Edit</button>
+          <button class="btn-sm-danger" onclick="deletePlanItem('${item.id}')">✗</button>
+        </div>
+      </div>`;
+    }
+  }
+  return html;
+}
+
+function addPlanItem(){
+  const text=document.getElementById('new-plan-text').value.trim();
+  const days=document.getElementById('new-plan-days').value;
+  if(!text){ showToast('Enter a plan item','bad'); return; }
+  if(!globalCfg.kidPlans) globalCfg.kidPlans={};
+  const items=getKidPlanItems(parentKidView);
+  items.push({id:uid(),text,days});
+  globalCfg.kidPlans[parentKidView]=items;
+  saveGlobal(globalCfg);
+  kids=getKids();
+  showToast('Plan item added!');
+  renderPlanEditorTab();
+  document.getElementById('parent-content').innerHTML=renderPlanEditorTab();
+}
+
+function editPlanItem(itemId){
+  const items=getKidPlanItems(parentKidView);
+  const item=items.find(i=>i.id===itemId);
+  if(!item) return;
+  const newText=prompt('Edit plan item:', item.text);
+  if(newText===null) return;
+  const newDays=prompt('Days (daily / weekdays / weekends):', item.days||'daily');
+  if(newDays===null) return;
+  const valid=['daily','weekdays','weekends'];
+  const updated=items.map(i=>i.id===itemId?{...i,text:newText.trim()||i.text,days:valid.includes(newDays.trim())?newDays.trim():i.days}:i);
+  if(!globalCfg.kidPlans) globalCfg.kidPlans={};
+  globalCfg.kidPlans[parentKidView]=updated;
+  saveGlobal(globalCfg);
+  kids=getKids();
+  showToast('Plan item updated!');
+  document.getElementById('parent-content').innerHTML=renderPlanEditorTab();
+}
+
+function deletePlanItem(itemId){
+  if(!confirm('Delete this plan item?')) return;
+  const items=getKidPlanItems(parentKidView).filter(i=>i.id!==itemId);
+  if(!globalCfg.kidPlans) globalCfg.kidPlans={};
+  globalCfg.kidPlans[parentKidView]=items;
+  saveGlobal(globalCfg);
+  kids=getKids();
+  showToast('Plan item deleted','bad');
+  document.getElementById('parent-content').innerHTML=renderPlanEditorTab();
+}
+
 // ==================== EXPORT / IMPORT ====================
 function exportConfig(){
   const kd=kids.find(k=>k.id===parentKidView);
@@ -1751,17 +1986,21 @@ function startApp(){
     };
     if(!firebase.apps.length) firebase.initializeApp(firebaseConfig);
     window.db = firebase.database();
+    // Show picker immediately with empty state so screen isn't blank
+    kids = getKids();
+    renderPicker();
+    // Then load real data from Firebase and refresh
     loadAllFromFirebase().then(()=>{
       kids = getKids();
       for(const kid of CONFIG.kids) cleanOldBedtimeAdjustments(kid.id);
+      for(const kid of CONFIG.kids) cleanOldPlanData(kid.id);
       initialLoadComplete = true;
-      renderPicker();
+      renderPicker(); // refresh with real coin/streak data
       for(const kid of CONFIG.kids) subscribeToKid(kid.id);
       subscribeToGlobal();
     });
   } catch(e) {
     console.error('Firebase init failed:', e);
-    // Fallback — run without Firebase using empty state
     kids = getKids();
     renderPicker();
   }
