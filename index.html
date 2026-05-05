@@ -860,6 +860,9 @@ function selectKid(kidId){
   document.getElementById('tab-chores').classList.add('active');
   document.querySelector('.tab-btn').classList.add('active');
   renderAll();
+  // Re-render after brief delay to catch any globalCfg that loads slightly after
+  setTimeout(()=>{ if(activeKid){ renderChores(); renderPlan(); } }, 300);
+  setTimeout(()=>{ if(activeKid){ renderChores(); renderPlan(); } }, 1200);
 }
 
 function goBack(){
@@ -1995,9 +1998,13 @@ function startApp(){
       for(const kid of CONFIG.kids) cleanOldBedtimeAdjustments(kid.id);
       for(const kid of CONFIG.kids) cleanOldPlanData(kid.id);
       initialLoadComplete = true;
-      renderPicker(); // refresh with real coin/streak data
+      renderPicker();
       for(const kid of CONFIG.kids) subscribeToKid(kid.id);
       subscribeToGlobal();
+      // Force re-render of current kid view after all global config is loaded
+      if(activeKid){
+        setTimeout(()=>{ renderChores(); renderPlan(); }, 200);
+      }
     });
   } catch(e) {
     console.error('Firebase init failed:', e);
