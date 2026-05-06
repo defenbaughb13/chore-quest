@@ -314,6 +314,99 @@ body{display:flex;flex-direction:column;max-width:430px;margin:0 auto;min-height
 
 /* DRAGON SVG */
 .dragon-svg{width:100%;height:100%}
+
+/* ---- SECRET MISSION ---- */
+.secret-btn {
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  width:100%;padding:16px;margin-bottom:12px;
+  background:linear-gradient(135deg,#1e1b4b,#312e81);
+  border:none;border-radius:var(--radius);cursor:pointer;
+  font-family:'Fredoka One',cursive;font-size:18px;color:white;
+  position:relative;overflow:hidden;
+  box-shadow:0 4px 20px rgba(99,102,241,.5);
+  animation:secretPulse 2s ease-in-out infinite;
+  -webkit-tap-highlight-color:transparent;
+}
+.secret-btn:active{transform:scale(.97)}
+@keyframes secretPulse{
+  0%,100%{box-shadow:0 4px 20px rgba(99,102,241,.5)}
+  50%{box-shadow:0 4px 32px rgba(99,102,241,.9),0 0 0 6px rgba(99,102,241,.15)}
+}
+.secret-btn-shine{
+  position:absolute;top:0;left:-100%;width:60%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent);
+  animation:shine 3s ease-in-out infinite;
+}
+@keyframes shine{0%{left:-100%}50%,100%{left:150%}}
+.secret-complete{
+  text-align:center;padding:14px;border-radius:var(--radius);
+  background:#f0fdf4;border:2px solid #86efac;
+  font-family:'Fredoka One',cursive;font-size:16px;color:#166534;
+  margin-bottom:12px;
+}
+.secret-pending{
+  text-align:center;padding:14px;border-radius:var(--radius);
+  background:#fef3c7;border:2px solid #fcd34d;
+  font-family:'Fredoka One',cursive;font-size:15px;color:#92400e;
+  margin-bottom:12px;
+}
+
+/* ---- MISSION OVERLAY ---- */
+.mission-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:500;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:1.5rem;opacity:0;transition:opacity .4s ease;
+  pointer-events:none;
+}
+.mission-overlay.open{opacity:1;pointer-events:all;}
+.mission-scroll{
+  background:linear-gradient(160deg,#1e1b4b,#0f0a2e);
+  border:2px solid #6366f1;border-radius:20px;
+  padding:2rem 1.5rem;width:100%;max-width:380px;
+  transform:scale(.8) translateY(40px);
+  transition:transform .5s cubic-bezier(.34,1.56,.64,1);
+  box-shadow:0 0 60px rgba(99,102,241,.4),inset 0 0 30px rgba(99,102,241,.1);
+  text-align:center;
+}
+.mission-overlay.open .mission-scroll{transform:scale(1) translateY(0);}
+.mission-lock{font-size:48px;margin-bottom:8px;animation:lockPop .6s .3s both cubic-bezier(.34,1.56,.64,1)}
+@keyframes lockPop{from{transform:scale(0) rotate(-20deg)}to{transform:scale(1) rotate(0)}}
+.mission-classified{
+  font-size:11px;letter-spacing:4px;color:#818cf8;font-weight:800;
+  margin-bottom:6px;text-transform:uppercase;
+}
+.mission-title{
+  font-family:'Fredoka One',cursive;font-size:24px;color:white;
+  margin-bottom:16px;line-height:1.2;
+}
+.mission-divider{height:1px;background:linear-gradient(90deg,transparent,#6366f1,transparent);margin:12px 0;}
+.mission-briefing{
+  font-size:14px;color:#c7d2fe;line-height:1.7;font-weight:600;
+  margin-bottom:16px;text-align:left;
+}
+.mission-reward{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(99,102,241,.2);border:1px solid #6366f1;
+  border-radius:50px;padding:6px 16px;
+  font-family:'Fredoka One',cursive;font-size:16px;color:#a5b4fc;
+  margin-bottom:20px;
+}
+.btn-mission-accept{
+  background:linear-gradient(135deg,#6366f1,#4f46e5);
+  color:white;border:none;border-radius:50px;
+  padding:13px 32px;font-family:'Fredoka One',cursive;font-size:17px;
+  cursor:pointer;width:100%;
+  box-shadow:0 4px 20px rgba(99,102,241,.5);
+  transition:transform .1s;
+}
+.btn-mission-accept:active{transform:scale(.97)}
+.btn-mission-close{
+  background:none;border:1px solid rgba(255,255,255,.2);
+  color:rgba(255,255,255,.5);border-radius:50px;
+  padding:9px 24px;font-family:'Fredoka One',cursive;font-size:14px;
+  cursor:pointer;margin-top:10px;width:100%;
+}
+
 </style>
 </head>
 <body>
@@ -322,7 +415,100 @@ body{display:flex;flex-direction:column;max-width:430px;margin:0 auto;min-height
   <div style="width:18px;height:18px;border:3px solid white;border-top-color:transparent;border-radius:50%;animation:spin 0.8s linear infinite"></div>
   Loading your data...
 </div>
-<style>@keyframes spin{to{transform:rotate(360deg)}}</style>
+<style>@keyframes spin{to{transform:rotate(360deg)}}
+/* ---- SECRET MISSION ---- */
+.secret-btn {
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  width:100%;padding:16px;margin-bottom:12px;
+  background:linear-gradient(135deg,#1e1b4b,#312e81);
+  border:none;border-radius:var(--radius);cursor:pointer;
+  font-family:'Fredoka One',cursive;font-size:18px;color:white;
+  position:relative;overflow:hidden;
+  box-shadow:0 4px 20px rgba(99,102,241,.5);
+  animation:secretPulse 2s ease-in-out infinite;
+  -webkit-tap-highlight-color:transparent;
+}
+.secret-btn:active{transform:scale(.97)}
+@keyframes secretPulse{
+  0%,100%{box-shadow:0 4px 20px rgba(99,102,241,.5)}
+  50%{box-shadow:0 4px 32px rgba(99,102,241,.9),0 0 0 6px rgba(99,102,241,.15)}
+}
+.secret-btn-shine{
+  position:absolute;top:0;left:-100%;width:60%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent);
+  animation:shine 3s ease-in-out infinite;
+}
+@keyframes shine{0%{left:-100%}50%,100%{left:150%}}
+.secret-complete{
+  text-align:center;padding:14px;border-radius:var(--radius);
+  background:#f0fdf4;border:2px solid #86efac;
+  font-family:'Fredoka One',cursive;font-size:16px;color:#166534;
+  margin-bottom:12px;
+}
+.secret-pending{
+  text-align:center;padding:14px;border-radius:var(--radius);
+  background:#fef3c7;border:2px solid #fcd34d;
+  font-family:'Fredoka One',cursive;font-size:15px;color:#92400e;
+  margin-bottom:12px;
+}
+
+/* ---- MISSION OVERLAY ---- */
+.mission-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:500;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:1.5rem;opacity:0;transition:opacity .4s ease;
+  pointer-events:none;
+}
+.mission-overlay.open{opacity:1;pointer-events:all;}
+.mission-scroll{
+  background:linear-gradient(160deg,#1e1b4b,#0f0a2e);
+  border:2px solid #6366f1;border-radius:20px;
+  padding:2rem 1.5rem;width:100%;max-width:380px;
+  transform:scale(.8) translateY(40px);
+  transition:transform .5s cubic-bezier(.34,1.56,.64,1);
+  box-shadow:0 0 60px rgba(99,102,241,.4),inset 0 0 30px rgba(99,102,241,.1);
+  text-align:center;
+}
+.mission-overlay.open .mission-scroll{transform:scale(1) translateY(0);}
+.mission-lock{font-size:48px;margin-bottom:8px;animation:lockPop .6s .3s both cubic-bezier(.34,1.56,.64,1)}
+@keyframes lockPop{from{transform:scale(0) rotate(-20deg)}to{transform:scale(1) rotate(0)}}
+.mission-classified{
+  font-size:11px;letter-spacing:4px;color:#818cf8;font-weight:800;
+  margin-bottom:6px;text-transform:uppercase;
+}
+.mission-title{
+  font-family:'Fredoka One',cursive;font-size:24px;color:white;
+  margin-bottom:16px;line-height:1.2;
+}
+.mission-divider{height:1px;background:linear-gradient(90deg,transparent,#6366f1,transparent);margin:12px 0;}
+.mission-briefing{
+  font-size:14px;color:#c7d2fe;line-height:1.7;font-weight:600;
+  margin-bottom:16px;text-align:left;
+}
+.mission-reward{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(99,102,241,.2);border:1px solid #6366f1;
+  border-radius:50px;padding:6px 16px;
+  font-family:'Fredoka One',cursive;font-size:16px;color:#a5b4fc;
+  margin-bottom:20px;
+}
+.btn-mission-accept{
+  background:linear-gradient(135deg,#6366f1,#4f46e5);
+  color:white;border:none;border-radius:50px;
+  padding:13px 32px;font-family:'Fredoka One',cursive;font-size:17px;
+  cursor:pointer;width:100%;
+  box-shadow:0 4px 20px rgba(99,102,241,.5);
+  transition:transform .1s;
+}
+.btn-mission-accept:active{transform:scale(.97)}
+.btn-mission-close{
+  background:none;border:1px solid rgba(255,255,255,.2);
+  color:rgba(255,255,255,.5);border-radius:50px;
+  padding:9px 24px;font-family:'Fredoka One',cursive;font-size:14px;
+  cursor:pointer;margin-top:10px;width:100%;
+}
+
+</style>
 
 <!-- PROFILE PICKER -->
 <div id="profile-screen">
@@ -382,6 +568,23 @@ body{display:flex;flex-direction:column;max-width:430px;margin:0 auto;min-height
       <div id="parent-content"></div>
       <button class="btn-close" onclick="closeParent()">Close</button>
     </div>
+  </div>
+</div>
+
+
+<!-- SECRET MISSION OVERLAY -->
+<div class="mission-overlay" id="mission-overlay">
+  <div class="mission-scroll">
+    <div class="mission-lock">🔐</div>
+    <div class="mission-classified">Epic Quest — Special Assignment</div>
+    <div class="mission-title" id="mission-title-text"></div>
+    <div class="mission-divider"></div>
+    <div class="mission-briefing" id="mission-briefing-text"></div>
+    <div class="mission-reward">🪙 <span id="mission-reward-coins"></span> coins upon completion</div>
+    <button class="btn-mission-accept" id="mission-accept-btn" onclick="acceptMission()">
+      ✅ I accept this quest!
+    </button>
+    <button class="btn-mission-close" onclick="closeMissionOverlay()">Maybe later</button>
   </div>
 </div>
 
@@ -642,6 +845,7 @@ function subscribeToGlobal(){
         if(val.surprises) globalCfg.surprises=val.surprises;
         if(val.kidConfigs) globalCfg.kidConfigs=val.kidConfigs;
         if(val.kidPlans) globalCfg.kidPlans=val.kidPlans;
+        if(val.secretMission) globalCfg.secretMission=val.secretMission;
         kids=getKids();
         if(activeKid){
           activeKid=kids.find(k=>k.id===activeKid.id)||activeKid;
@@ -927,7 +1131,8 @@ function renderChores(){
   const adj=getTonightAdjustment(activeKid.id);
   const btColor=adj>0?'#f0fdf4':adj<0?'#fff1f2':'#f0f9ff';
   const btBorder=adj>0?'#86efac':adj<0?'#fca5a5':'#bae6fd';
-  let html=`<div style="background:${btColor};border:1.5px solid ${btBorder};border-radius:12px;padding:10px 14px;margin-bottom:8px;font-family:'Fredoka One',cursive;font-size:15px;color:#1e1b4b">
+  let html=`${renderSecretMission()}
+  <div style="background:${btColor};border:1.5px solid ${btBorder};border-radius:12px;padding:10px 14px;margin-bottom:8px;font-family:'Fredoka One',cursive;font-size:15px;color:#1e1b4b">
     ${bedtimeDisplay(activeKid.id)} tonight
   </div>
   <div class="sec-label">📋 Today's chores</div>
@@ -1178,6 +1383,7 @@ function renderParentPortal(){
     {id:'shop',label:'🛒 Shop',badge:0},
     {id:'consequences',label:'🙊 Oops',badge:0},
     {id:'plan',label:'📅 Plan',badge:0},
+    {id:'secretmission',label:'⚔️ Quest',badge:0},
   ].map(t=>`<button class="parent-nav-btn ${parentTab===t.id?'active':''}" onclick="switchParentTab('${t.id}')">
     ${t.label}${t.badge?`<div class="parent-nav-badge">${t.badge}</div>`:''}
   </button>`).join('');
@@ -1190,6 +1396,7 @@ function renderParentPortal(){
   else if(parentTab==='shop') content.innerHTML=renderShopEditorTab();
   else if(parentTab==='consequences') content.innerHTML=renderConsequencesTab();
   else if(parentTab==='plan') content.innerHTML=renderPlanEditorTab();
+  else if(parentTab==='secretmission') content.innerHTML=renderSecretMissionTab();
 }
 
 function switchParentKid(id){ parentKidView=id; renderParentPortal(); }
@@ -1875,6 +2082,62 @@ function deletePlanItem(itemId){
   document.getElementById('parent-content').innerHTML=renderPlanEditorTab();
 }
 
+
+// ---- SECRET MISSION PARENT EDITOR ----
+function renderSecretMissionTab(){
+  const m=globalCfg.secretMission||{active:false,title:'',description:'',coins:15};
+  return `
+    <div style="background:linear-gradient(135deg,#1e1b4b,#312e81);border-radius:var(--radius);padding:1.2rem;margin-bottom:14px;color:white;text-align:center">
+      <div style="font-size:32px;margin-bottom:6px">🔐</div>
+      <div style="font-family:'Fredoka One',cursive;font-size:18px;margin-bottom:4px">Epic Quest Control</div>
+      <div style="font-size:12px;color:#a5b4fc">Special one-off quests with a dramatic reveal</div>
+    </div>
+
+    <div style="display:flex;align-items:center;justify-content:space-between;background:var(--surface2);border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:12px">
+      <div>
+        <div style="font-size:14px;font-weight:800;color:var(--text)">Quest Status</div>
+        <div style="font-size:12px;color:${m.active?'#22c55e':'#7c7a9a'};font-weight:700">${m.active?'🟢 ACTIVE — visible to kids':'⚪ Inactive'}</div>
+      </div>
+      <button class="${m.active?'btn-danger':'btn-purple'}" style="margin:0;width:auto;padding:9px 20px"
+        onclick="toggleSecretMission()">
+        ${m.active?'Turn Off':'Activate'}
+      </button>
+    </div>
+
+    <div class="add-form">
+      <div class="form-label">Quest Title</div>
+      <input id="sm-title" placeholder="e.g. Operation: Clean Sweep" value="${m.title||''}" style="margin-bottom:8px">
+      <div class="form-label">Quest Briefing (what they need to do)</div>
+      <textarea id="sm-desc" placeholder="Describe the quest..." rows="4"
+        style="width:100%;font-size:14px;font-family:'Nunito',sans-serif;border:1.5px solid var(--border);border-radius:8px;padding:9px 12px;color:var(--text);background:var(--surface);outline:none;resize:none;margin-bottom:8px">${m.description||''}</textarea>
+      <div class="add-form-row">
+        <input id="sm-coins" type="number" placeholder="Coins" value="${m.coins||15}" min="1" max="999">
+        <button class="btn-sm" onclick="saveSecretMission()">Save Quest</button>
+      </div>
+    </div>`;
+}
+
+function toggleSecretMission(){
+  const m=globalCfg.secretMission||{active:false,title:'',description:'',coins:15};
+  m.active=!m.active;
+  globalCfg.secretMission=m;
+  saveGlobal(globalCfg);
+  showToast(m.active?'⚔️ Epic Quest is now active!':'Quest deactivated','info');
+  renderParentPortal();
+}
+
+function saveSecretMission(){
+  const title=document.getElementById('sm-title').value.trim();
+  const desc=document.getElementById('sm-desc').value.trim();
+  const coins=parseInt(document.getElementById('sm-coins').value,10)||15;
+  if(!title||!desc){ showToast('Enter a title and description','bad'); return; }
+  const m=globalCfg.secretMission||{active:false};
+  globalCfg.secretMission={...m,title,description:desc,coins};
+  saveGlobal(globalCfg);
+  showToast('Quest saved!');
+  renderParentPortal();
+}
+
 // ==================== EXPORT / IMPORT ====================
 function exportConfig(){
   const kd=kids.find(k=>k.id===parentKidView);
@@ -1921,6 +2184,79 @@ function importConfig(event){
     }
   };
   reader.readAsText(file);
+}
+
+
+// ==================== SECRET MISSION ====================
+function getSecretMission(){
+  return globalCfg.secretMission || null;
+}
+
+function secretMissionVisible(){
+  const m=getSecretMission();
+  if(!m||!m.active) return false;
+  return true;
+}
+
+function secretMissionStatus(){
+  // Returns: 'none' | 'pending' | 'approved' | 'available'
+  const m=getSecretMission();
+  if(!m||!m.active) return 'none';
+  const t=today();
+  const s=state();
+  const pending=(s.pendingChores||[]).find(p=>p.choreId==='secret-mission');
+  if(pending) return 'pending';
+  const done=(s.done[t]||new Set());
+  if(done.has('secret-mission')) return 'approved';
+  return 'available';
+}
+
+function renderSecretMission(){
+  const status=secretMissionStatus();
+  if(status==='none') return '';
+  const m=getSecretMission();
+  if(status==='approved'){
+    return `<div class="secret-complete">🏆 Epic Quest Complete! Well done, Agent!</div>`;
+  }
+  if(status==='pending'){
+    return `<div class="secret-pending">⏳ Quest submitted — awaiting parent approval!</div>`;
+  }
+  return `<button class="secret-btn" onclick="openMissionOverlay()">
+    <div class="secret-btn-shine"></div>
+    🔐 EPIC QUEST
+  </button>`;
+}
+
+function openMissionOverlay(){
+  const m=getSecretMission();
+  if(!m) return;
+  document.getElementById('mission-title-text').textContent=m.title||'Epic Quest';
+  document.getElementById('mission-briefing-text').textContent=m.description||'';
+  document.getElementById('mission-reward-coins').textContent=m.coins||15;
+  document.getElementById('mission-overlay').classList.add('open');
+}
+
+function closeMissionOverlay(){
+  document.getElementById('mission-overlay').classList.remove('open');
+}
+
+function acceptMission(){
+  const m=getSecretMission();
+  if(!m) return;
+  const t=today();
+  const s=state();
+  s.pendingChores=[...(s.pendingChores||[]),{
+    id:uid(),choreId:'secret-mission',
+    choreName:'🔐 '+m.title,
+    coins:m.coins||15,
+    bedtimeBonus:0,date:t
+  }];
+  saveKidState(activeKid.id,s);
+  closeMissionOverlay();
+  showToast('Quest accepted! Awaiting parent approval ⚔️','info');
+  confetti();
+  updateBadge();
+  renderChores();
 }
 
 // ==================== UI HELPERS ====================
