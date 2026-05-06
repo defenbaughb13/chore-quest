@@ -369,7 +369,7 @@ body{display:flex;flex-direction:column;max-width:430px;margin:0 auto;min-height
   text-align:center;
 }
 .mission-overlay.open .mission-scroll{transform:scale(1) translateY(0);}
-.mission-lock{font-size:48px;margin-bottom:8px;animation:lockPop .6s .3s both cubic-bezier(.34,1.56,.64,1)}
+.mission-lock{margin-bottom:8px;animation:lockPop .6s .3s both cubic-bezier(.34,1.56,.64,1);display:flex;justify-content:center}
 @keyframes lockPop{from{transform:scale(0) rotate(-20deg)}to{transform:scale(1) rotate(0)}}
 .mission-classified{
   font-size:11px;letter-spacing:4px;color:#818cf8;font-weight:800;
@@ -470,7 +470,7 @@ body{display:flex;flex-direction:column;max-width:430px;margin:0 auto;min-height
   text-align:center;
 }
 .mission-overlay.open .mission-scroll{transform:scale(1) translateY(0);}
-.mission-lock{font-size:48px;margin-bottom:8px;animation:lockPop .6s .3s both cubic-bezier(.34,1.56,.64,1)}
+.mission-lock{margin-bottom:8px;animation:lockPop .6s .3s both cubic-bezier(.34,1.56,.64,1);display:flex;justify-content:center}
 @keyframes lockPop{from{transform:scale(0) rotate(-20deg)}to{transform:scale(1) rotate(0)}}
 .mission-classified{
   font-size:11px;letter-spacing:4px;color:#818cf8;font-weight:800;
@@ -575,7 +575,7 @@ body{display:flex;flex-direction:column;max-width:430px;margin:0 auto;min-height
 <!-- SECRET MISSION OVERLAY -->
 <div class="mission-overlay" id="mission-overlay">
   <div class="mission-scroll">
-    <div class="mission-lock">🔐</div>
+    <div class="mission-lock" id="mission-lock-icon"></div>
     <div class="mission-classified">Epic Quest — Special Assignment</div>
     <div class="mission-title" id="mission-title-text"></div>
     <div class="mission-divider"></div>
@@ -1382,6 +1382,7 @@ function renderParentPortal(){
     {id:'chores',label:'📋 Chores',badge:0},
     {id:'shop',label:'🛒 Shop',badge:0},
     {id:'consequences',label:'🙊 Oops',badge:0},
+    {id:'surprises',label:'🎲 Bonus',badge:0},
     {id:'plan',label:'📅 Plan',badge:0},
     {id:'secretmission',label:'⚔️ Quest',badge:0},
   ].map(t=>`<button class="parent-nav-btn ${parentTab===t.id?'active':''}" onclick="switchParentTab('${t.id}')">
@@ -1396,6 +1397,7 @@ function renderParentPortal(){
   else if(parentTab==='shop') content.innerHTML=renderShopEditorTab();
   else if(parentTab==='consequences') content.innerHTML=renderConsequencesTab();
   else if(parentTab==='plan') content.innerHTML=renderPlanEditorTab();
+  else if(parentTab==='surprises') content.innerHTML=renderSurprisesEditorTab();
   else if(parentTab==='secretmission') content.innerHTML=renderSecretMissionTab();
 }
 
@@ -1996,6 +1998,77 @@ function deleteConsequence(conId){
 }
 
 
+
+// ---- SURPRISES EDITOR ----
+function renderSurprisesEditorTab(){
+  const surprises = getSurprises();
+  let html = `<div class="add-form">
+    <div class="form-label">Add a new bonus challenge</div>
+    <input id="new-surp-text" placeholder="e.g. Do 20 jumping jacks!" style="margin-bottom:8px">
+    <div class="add-form-row">
+      <input id="new-surp-coins" type="number" placeholder="Coins" min="1" max="999">
+      <button class="btn-sm" onclick="addSurpriseItem()">Add</button>
+    </div>
+  </div>`;
+  if(!surprises.length){
+    html += `<div class="empty-msg">No bonus challenges yet!</div>`;
+  } else {
+    for(const s of surprises){
+      const sid = s.id || encodeURIComponent(s.text.slice(0,15));
+      html += `<div class="editor-item">
+        <div class="editor-item-info">
+          <div class="editor-item-name">${s.text}</div>
+          <div class="editor-item-sub">🪙 ${s.coins} coins</div>
+        </div>
+        <div class="editor-actions">
+          <button class="btn-sm" onclick="editSurpriseItem(decodeURIComponent('${encodeURIComponent(sid)}'))">Edit</button>
+          <button class="btn-sm-danger" onclick="deleteSurpriseItem(decodeURIComponent('${encodeURIComponent(sid)}'))">✗</button>
+        </div>
+      </div>`;
+    }
+  }
+  return html;
+}
+
+function addSurpriseItem(){
+  const text = document.getElementById('new-surp-text').value.trim();
+  const coins = parseInt(document.getElementById('new-surp-coins').value, 10);
+  if(!text){ showToast('Enter a challenge description','bad'); return; }
+  if(!coins||coins<1){ showToast('Enter coin amount','bad'); return; }
+  const surprises = getSurprises();
+  surprises.push({ id: uid(), text, coins });
+  globalCfg.surprises = surprises;
+  saveGlobal(globalCfg);
+  showToast('Bonus challenge added!');
+  document.getElementById('parent-content').innerHTML = renderSurprisesEditorTab();
+}
+
+function editSurpriseItem(sid){
+  const surprises = getSurprises();
+  const item = surprises.find(s => (s.id||encodeURIComponent(s.text.slice(0,15))) === sid);
+  if(!item) return;
+  const newText = prompt('Edit challenge:', item.text);
+  if(newText === null) return;
+  const newCoins = prompt('Edit coins:', item.coins);
+  if(newCoins === null) return;
+  const parsed = parseInt(newCoins, 10);
+  if(isNaN(parsed)||parsed<1){ showToast('Invalid amount','bad'); return; }
+  const updated = surprises.map(s => (s.id||encodeURIComponent(s.text.slice(0,15))) === sid ? {...s, text: newText.trim()||s.text, coins: parsed} : s);
+  globalCfg.surprises = updated;
+  saveGlobal(globalCfg);
+  showToast('Challenge updated!');
+  document.getElementById('parent-content').innerHTML = renderSurprisesEditorTab();
+}
+
+function deleteSurpriseItem(sid){
+  if(!confirm('Delete this bonus challenge?')) return;
+  const updated = getSurprises().filter(s => (s.id||encodeURIComponent(s.text.slice(0,15))) !== sid);
+  globalCfg.surprises = updated;
+  saveGlobal(globalCfg);
+  showToast('Challenge deleted','bad');
+  document.getElementById('parent-content').innerHTML = renderSurprisesEditorTab();
+}
+
 // ---- PLAN EDITOR ----
 function getKidPlanItems(kidId){
   const kd=kids.find(k=>k.id===kidId);
@@ -2088,7 +2161,7 @@ function renderSecretMissionTab(){
   const m=globalCfg.secretMission||{active:false,title:'',description:'',coins:15};
   return `
     <div style="background:linear-gradient(135deg,#1e1b4b,#312e81);border-radius:var(--radius);padding:1.2rem;margin-bottom:14px;color:white;text-align:center">
-      <div style="font-size:32px;margin-bottom:6px">🔐</div>
+      <div style="margin-bottom:6px;display:flex;justify-content:center">${chestSVG(56)}</div>
       <div style="font-family:'Fredoka One',cursive;font-size:18px;margin-bottom:4px">Epic Quest Control</div>
       <div style="font-size:12px;color:#a5b4fc">Special one-off quests with a dramatic reveal</div>
     </div>
@@ -2188,6 +2261,51 @@ function importConfig(event){
 
 
 // ==================== SECRET MISSION ====================
+function chestSVG(size){
+  const s = size/200;
+  return `<svg viewBox="0 0 200 180" width="${size}" height="${Math.round(size*0.9)}" xmlns="http://www.w3.org/2000/svg">
+    <rect x="10" y="100" width="180" height="75" rx="6" fill="#92400e" stroke="#78350f" stroke-width="1.5"/>
+    <rect x="18" y="107" width="164" height="62" rx="4" fill="#b45309"/>
+    <line x1="18" y1="122" x2="182" y2="122" stroke="#92400e" stroke-width="1" opacity="0.5"/>
+    <line x1="18" y1="140" x2="182" y2="140" stroke="#92400e" stroke-width="1" opacity="0.5"/>
+    <line x1="18" y1="158" x2="182" y2="158" stroke="#92400e" stroke-width="1" opacity="0.5"/>
+    <rect x="10" y="112" width="180" height="9" rx="2" fill="#d97706" stroke="#b45309" stroke-width="1"/>
+    <rect x="10" y="148" width="180" height="9" rx="2" fill="#d97706" stroke="#b45309" stroke-width="1"/>
+    <rect x="10" y="100" width="16" height="75" rx="3" fill="#d97706" stroke="#b45309" stroke-width="1"/>
+    <rect x="174" y="100" width="16" height="75" rx="3" fill="#d97706" stroke="#b45309" stroke-width="1"/>
+    <rect x="10" y="38" width="180" height="66" rx="6" fill="#92400e" stroke="#78350f" stroke-width="1.5"/>
+    <rect x="18" y="44" width="164" height="54" rx="4" fill="#b45309"/>
+    <ellipse cx="100" cy="44" rx="82" ry="14" fill="#b45309" stroke="#78350f" stroke-width="1.5"/>
+    <ellipse cx="100" cy="44" rx="74" ry="10" fill="#b45309"/>
+    <line x1="18" y1="60" x2="182" y2="60" stroke="#92400e" stroke-width="1" opacity="0.5"/>
+    <line x1="18" y1="76" x2="182" y2="76" stroke="#92400e" stroke-width="1" opacity="0.5"/>
+    <rect x="10" y="88" width="180" height="9" rx="2" fill="#d97706" stroke="#b45309" stroke-width="1"/>
+    <rect x="10" y="98" width="180" height="6" rx="2" fill="#d97706" stroke="#b45309" stroke-width="1"/>
+    <rect x="10" y="38" width="16" height="66" rx="3" fill="#d97706" stroke="#b45309" stroke-width="1"/>
+    <rect x="174" y="38" width="16" height="66" rx="3" fill="#d97706" stroke="#b45309" stroke-width="1"/>
+    <circle cx="50" cy="66" r="7" fill="#dc2626" stroke="#7f1d1d" stroke-width="1.5"/>
+    <circle cx="50" cy="66" r="3.5" fill="#fca5a5" opacity="0.6"/>
+    <polygon points="150,59 154,66 150,73 146,66" fill="#2563eb" stroke="#1e3a8a" stroke-width="1.5"/>
+    <polygon points="150,62 153,66 150,70 147,66" fill="#93c5fd" opacity="0.6"/>
+    <polygon points="100,57 104,64 100,71 96,64" fill="#16a34a" stroke="#14532d" stroke-width="1.5"/>
+    <polygon points="100,60 103,64 100,68 97,64" fill="#86efac" opacity="0.6"/>
+    <rect x="83" y="108" width="34" height="26" rx="4" fill="#d97706" stroke="#92400e" stroke-width="1.5"/>
+    <rect x="88" y="113" width="24" height="16" rx="3" fill="#fbbf24"/>
+    <path d="M89 109 Q89 97 100 97 Q111 97 111 109" fill="none" stroke="#92400e" stroke-width="4" stroke-linecap="round"/>
+    <path d="M89 109 Q89 99 100 99 Q110 99 111 109" fill="none" stroke="#d97706" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="100" cy="119" r="4" fill="#92400e"/>
+    <rect x="97.5" y="120" width="5" height="6" rx="1.5" fill="#92400e"/>
+    <ellipse cx="34" cy="177" rx="12" ry="5" fill="#fbbf24" stroke="#d97706" stroke-width="1"/>
+    <ellipse cx="166" cy="174" rx="12" ry="5" fill="#fbbf24" stroke="#d97706" stroke-width="1"/>
+    <ellipse cx="52" cy="175" rx="10" ry="5" fill="#f59e0b" stroke="#d97706" stroke-width="1"/>
+    <ellipse cx="150" cy="176" rx="10" ry="5" fill="#f59e0b" stroke="#d97706" stroke-width="1"/>
+    <path d="M18 52 L20 47 L22 52 L27 54 L22 56 L20 61 L18 56 L13 54Z" fill="#fef08a" opacity="0.9"/>
+    <path d="M168 44 L170 40 L172 44 L177 46 L172 48 L170 53 L168 48 L163 46Z" fill="#fef08a" opacity="0.8"/>
+    <circle cx="28" cy="35" r="2.5" fill="#fef08a" opacity="0.7"/>
+    <circle cx="174" cy="34" r="2" fill="#fef08a" opacity="0.6"/>
+  </svg>`;
+}
+
 function getSecretMission(){
   return globalCfg.secretMission || null;
 }
@@ -2223,13 +2341,15 @@ function renderSecretMission(){
   }
   return `<button class="secret-btn" onclick="openMissionOverlay()">
     <div class="secret-btn-shine"></div>
-    🔐 EPIC QUEST
+    ${chestSVG(32)} EPIC QUEST
   </button>`;
 }
 
 function openMissionOverlay(){
   const m=getSecretMission();
   if(!m) return;
+  const lockEl=document.getElementById('mission-lock-icon');
+  if(lockEl) lockEl.innerHTML=chestSVG(80);
   document.getElementById('mission-title-text').textContent=m.title||'Epic Quest';
   document.getElementById('mission-briefing-text').textContent=m.description||'';
   document.getElementById('mission-reward-coins').textContent=m.coins||15;
