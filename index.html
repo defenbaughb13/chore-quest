@@ -1525,6 +1525,7 @@ function renderStatsTab(){
       <button class="btn-sm" onclick="adjustCoins()">Apply</button>
     </div>
     <button class="btn-danger" onclick="resetKid()" style="margin-top:8px">⚠️ Reset ${kd.name}'s data</button>
+    ${renderResetLog(parentKidView)}
     <hr style="border:none;border-top:1.5px solid var(--border);margin:16px 0">
     <p style="font-size:13px;font-weight:700;color:var(--text-muted);margin-bottom:8px">🌙 Bedtime settings for ${kd.name}</p>
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
@@ -1582,6 +1583,27 @@ function resetTonightBedtime(){
   renderParentPortal();
 }
 
+
+// ── RESET LOG ──
+function renderResetLog(kidId){
+  try{
+    const logKey=storageKey(kidId)+'_resetlog';
+    const log=JSON.parse(localStorage.getItem(logKey)||'[]');
+    if(!log.length) return '';
+    let html=`<hr style="border:none;border-top:1.5px solid var(--border);margin:14px 0">
+      <p style="font-size:13px;font-weight:700;color:var(--red);margin-bottom:8px">⚠️ Reset history</p>`;
+    for(const entry of log.slice(0,5)){
+      const d=new Date(entry.resetAt);
+      const ds=`${d.getMonth()+1}/${d.getDate()}/${d.getFullYear()} ${d.toLocaleTimeString()}`;
+      html+=`<div style="background:#fff1f2;border:1px solid #fca5a5;border-radius:8px;padding:8px 12px;margin-bottom:6px;font-size:12px;font-weight:700;color:var(--red)">
+        🔄 Reset on ${ds}<br>
+        <span style="color:var(--text-muted);font-weight:600">Had ${entry.coinsBefore||0} coins · ${entry.coinsEarnedBefore||0} total earned</span>
+      </div>`;
+    }
+    return html;
+  }catch(e){return '';}
+}
+
 function adjustCoins(){
   const amt=parseInt(document.getElementById('adjust-amount').value,10);
   if(isNaN(amt)){ showToast('Enter a number first','bad'); return; }
@@ -1598,12 +1620,36 @@ function adjustCoins(){
 
 function resetKid(){
   const kd=kids.find(k=>k.id===parentKidView);
-  if(!confirm(`Reset ALL of ${kd.name}'s coins, history, and streak?`))return;
-  states[parentKidView]=deserializeState(null);
-  saveKidState(parentKidView, states[parentKidView]);
+  const kidName=kd?kd.name:'this kid';
+  const entered=prompt(`⚠️ This will permanently erase ALL of ${kidName}'s coins, history, streak and chore data.\n\nThis cannot be undone. Type "${kidName}" to confirm:`);
+  if(!entered||entered.trim().toLowerCase()!==kidName.toLowerCase()){
+    showToast('Reset cancelled — name did not match','info');
+    return;
+  }
+  // Log reset event to Firebase
+  try{
+    const s=states[parentKidView]||{};
+    const logEntry={
+      kidName,kidId:parentKidView,
+      resetAt:new Date().toISOString(),
+      coinsBefore:s.coins||0,
+      coinsEarnedBefore:s.coinsEarned||0,
+      streakBefore:s.streak||0,
+    };
+    if(window.db) window.db.ref('chorequest/resetlog/'+parentKidView).push(logEntry);
+    // Also keep local log
+    const lk='cq_resetlog_'+parentKidView;
+    const existing=JSON.parse(localStorage.getItem(lk)||'[]');
+    existing.unshift(logEntry);
+    localStorage.setItem(lk,JSON.stringify(existing.slice(0,20)));
+  }catch(e){console.warn('Reset log error',e)}
+  // Clear state
+  const empty=EMPTY_STATE();
+  states[parentKidView]=empty;
+  saveState(parentKidView,empty);
   if(activeKid&&activeKid.id===parentKidView) renderAll();
   renderParentPortal();
-  showToast(`${kd.name}'s data reset`,'bad');
+  showToast(`${kidName}'s data has been reset`,'bad');
 }
 
 // ---- CHORES EDITOR ----
