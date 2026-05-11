@@ -183,10 +183,7 @@ body{display:flex;flex-direction:column;max-width:430px;margin:0 auto;min-height
 .cb-row{font-family:'Fredoka One',cursive;font-size:14px;color:inherit;white-space:nowrap}
 
 /* STREAK */
-.streak-row{display:flex;align-items:center;justify-content:center;gap:6px;margin:1rem 1.2rem 0;background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:10px 12px;flex-wrap:wrap}
-.streak-dot{width:30px;height:30px;border-radius:50%;border:2px solid var(--border);background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--text-muted);transition:background .3s,border-color .3s}
-.streak-dot.lit{background:var(--accent);border-color:var(--accent);color:var(--header-text,white)}
-.streak-lbl{font-size:13px;font-weight:700;color:var(--text-muted);margin-left:4px;white-space:nowrap}
+/* streak CSS removed */
 
 /* TABS */
 .tab-bar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:var(--surface);border-top:1.5px solid var(--border);display:flex;z-index:100}
@@ -195,7 +192,7 @@ body{display:flex;flex-direction:column;max-width:430px;margin:0 auto;min-height
 .tab-icon{font-size:18px}
 
 /* SECTIONS */
-.section{display:none;padding:0 1.2rem 1.5rem}
+.section{display:none;padding:0 1.2rem 5rem}
 .section.active{display:block}
 .sec-label{font-family:'Fredoka One',cursive;font-size:17px;color:var(--accent);margin:1.2rem 0 .6rem}
 
@@ -541,7 +538,7 @@ body{display:flex;flex-direction:column;max-width:430px;margin:0 auto;min-height
     </div>
   </div>
 
-  <div class="streak-row" id="streak-row"></div>
+  <!-- streak tracked internally, not shown -->
 
   <div id="tab-chores"  class="section active"></div>
   <div id="tab-shop"    class="section"></div>
@@ -1360,7 +1357,7 @@ function closeParent(){
 
 function checkPin(){
   const val=document.getElementById('pin-field').value.trim();
-  if(val===String(CONFIG.parentPin)){
+  if(val===getActivePin()){
     document.getElementById('pin-area').style.display='none';
     document.getElementById('parent-unlocked').classList.add('unlocked');
     renderParentPortal();
@@ -1392,6 +1389,7 @@ function renderParentPortal(){
     {id:'surprises',label:'🎲 Bonus',badge:0},
     {id:'plan',label:'📅 Plan',badge:0},
     {id:'secretmission',label:'⚔️ Quest',badge:0},
+    {id:'account',label:'👤 Account',badge:0},
   ].map(t=>`<button class="parent-nav-btn ${parentTab===t.id?'active':''}" onclick="switchParentTab('${t.id}')">
     ${t.label}${t.badge?`<div class="parent-nav-badge">${t.badge}</div>`:''}
   </button>`).join('');
@@ -1406,6 +1404,7 @@ function renderParentPortal(){
   else if(parentTab==='plan') content.innerHTML=renderPlanEditorTab();
   else if(parentTab==='surprises') content.innerHTML=renderSurprisesEditorTab();
   else if(parentTab==='secretmission') content.innerHTML=renderSecretMissionTab();
+  else if(parentTab==='account') content.innerHTML=renderAccountTab();
 }
 
 function switchParentKid(id){ parentKidView=id; renderParentPortal(); }
@@ -2261,6 +2260,76 @@ function saveSecretMission(){
   globalCfg.secretMission={...m,title,description:desc,coins};
   saveGlobal(globalCfg);
   showToast('Quest saved!');
+  renderParentPortal();
+}
+
+
+// ---- ACCOUNT TAB ----
+function renderAccountTab(){
+  return `
+    <div class="add-form">
+      <div class="form-label" style="font-size:14px;color:var(--text);margin-bottom:12px">
+        🔐 Change Parent Portal PIN
+      </div>
+      <div class="form-label">Current PIN</div>
+      <input id="acct-current-pin" type="password" inputmode="numeric" maxlength="4"
+        placeholder="••••" autocomplete="off"
+        style="width:100%;font-size:20px;letter-spacing:8px;border:2px solid var(--border);
+        border-radius:8px;padding:10px 14px;margin-bottom:10px;outline:none;
+        font-family:'Fredoka One',cursive;background:var(--surface);color:var(--text)">
+      <div class="form-label">New PIN</div>
+      <input id="acct-new-pin" type="password" inputmode="numeric" maxlength="4"
+        placeholder="••••" autocomplete="off"
+        style="width:100%;font-size:20px;letter-spacing:8px;border:2px solid var(--border);
+        border-radius:8px;padding:10px 14px;margin-bottom:10px;outline:none;
+        font-family:'Fredoka One',cursive;background:var(--surface);color:var(--text)">
+      <div class="form-label">Confirm New PIN</div>
+      <input id="acct-confirm-pin" type="password" inputmode="numeric" maxlength="4"
+        placeholder="••••" autocomplete="off"
+        style="width:100%;font-size:20px;letter-spacing:8px;border:2px solid var(--border);
+        border-radius:8px;padding:10px 14px;margin-bottom:12px;outline:none;
+        font-family:'Fredoka One',cursive;background:var(--surface);color:var(--text)">
+      <div id="acct-pin-error" style="font-size:13px;color:var(--red);font-weight:700;
+        margin-bottom:8px;display:none"></div>
+      <button class="btn-purple" onclick="changeParentPin()" style="margin-top:0">
+        Update PIN
+      </button>
+    </div>
+  `;
+}
+
+function getActivePin(){
+  return String((globalCfg&&globalCfg.parentPin)||window._savedPin||CONFIG.parentPin);
+}
+
+function changeParentPin(){
+  const current=document.getElementById('acct-current-pin').value.trim();
+  const newPin=document.getElementById('acct-new-pin').value.trim();
+  const confirmPin=document.getElementById('acct-confirm-pin').value.trim();
+  const errEl=document.getElementById('acct-pin-error');
+  errEl.style.display='none';
+  if(current!==getActivePin()){
+    errEl.textContent='Current PIN is incorrect';
+    errEl.style.display='block';
+    return;
+  }
+  if(newPin.length!==4||!/^\d{4}$/.test(newPin)){
+    errEl.textContent='New PIN must be exactly 4 digits';
+    errEl.style.display='block';
+    return;
+  }
+  if(newPin!==confirmPin){
+    errEl.textContent='New PINs do not match';
+    errEl.style.display='block';
+    return;
+  }
+  window._savedPin=newPin;
+  globalCfg.parentPin=newPin;
+  saveGlobal(globalCfg);
+  showToast('PIN updated successfully!','info');
+  document.getElementById('acct-current-pin').value='';
+  document.getElementById('acct-new-pin').value='';
+  document.getElementById('acct-confirm-pin').value='';
   renderParentPortal();
 }
 
