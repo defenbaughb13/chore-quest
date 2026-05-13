@@ -7,23 +7,21 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="ChoreQuest">
-<meta name="theme-color" content="#5eead4">
+<meta name="theme-color" content="#c2410c">
 <link rel="apple-touch-icon" href="icon-192.png">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Chore Quest ⭐</title>
+<title>Chore Quest ⭐ — Declan</title>
+<!-- Chore Quest — Declan's copy. Change parentPin and chores in the CONFIG below. -->
 <!-- Firebase -->
 <script src="https://cdn.jsdelivr.net/npm/firebase@9.22.2/firebase-app-compat.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/firebase@9.22.2/firebase-database-compat.min.js"></script>
-<link href="https://fonts.bunny.net/css2?family=fredoka-one&family=nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 
 <script>
-// ============================================================
-// CONFIG — Base defaults. After first load, all edits happen
-// inside the app via the Parent Portal. Changing these after
-// you've started will NOT overwrite saved data.
-// ============================================================
 const CONFIG = {
-  parentPin: "1234",
+  parentPin: "0000",
 
   shop: [
     { id: "s1", emoji: "🎮", name: "15 min extra screen time", cost: 200 },
@@ -65,75 +63,35 @@ const CONFIG = {
 
   kids: [
     {
-      id: "cooper",
-      name: "Cooper",
-      avatar: "dragon",
-      color: "#5eead4",
+      id: "declan",
+      name: "Declan",
+      avatar: "redpanda",
+      color: "#c2410c",
       plan: [
-        { id: "cp1", text: "Wake up and get out of bed", days: "daily" },
-        { id: "cp2", text: "Eat breakfast", days: "daily" },
-        { id: "cp3", text: "Have lunch today 🥪", days: "weekdays" },
-        { id: "cp4", text: "Check backpack and put it on the couch", days: "weekdays" },
-        { id: "cp5", text: "Do I need a jacket today? Ask mom or dad", days: "weekdays" },
-        { id: "cp6", text: "Put on shoes — school leaves at 9am!", days: "weekdays" },
-        { id: "cp7", text: "Get a healthy after school snack (no sugar!)", days: "weekdays" },
-        { id: "cp8", text: "Decide what clothes to wear tomorrow", days: "weekdays" },
-        { id: "cp9", text: "Family dinner", days: "daily" },
-        { id: "cp10", text: "Wind down — no screens", days: "daily" },
-        { id: "cp11", text: "Get ready for bed", days: "daily" },
+        { id: "dp1", text: "Wake up and get out of bed",     days: "daily"    },
+        { id: "dp2", text: "Eat breakfast",                   days: "daily"    },
+        { id: "dp3", text: "Get backpack ready",              days: "weekdays" },
+        { id: "dp4", text: "After school snack & relax",      days: "weekdays" },
+        { id: "dp5", text: "Homework time",                   days: "weekdays" },
+        { id: "dp6", text: "Family dinner",                   days: "daily"    },
+        { id: "dp7", text: "Wind down — no screens",          days: "daily"    },
+        { id: "dp8", text: "Get ready for bed",               days: "daily"    },
       ],
       chores: [
-        { id: "c1",  emoji: "🛏️", name: "Make my bed",                            coins: 5,  days: "daily"    },
-        { id: "c2a", emoji: "🦷", name: "Brush teeth — morning",                  coins: 5,  days: "daily",   required: true },
-        { id: "c2b", emoji: "🦷", name: "Brush teeth — night",                    coins: 5,  days: "daily",   required: true },
-        { id: "c3",  emoji: "🧺", name: "Put dirty clothes in hamper",            coins: 5,  days: "daily",   required: true },
-        { id: "c8",  emoji: "👕", name: "Get dressed without being asked",        coins: 8,  days: "daily"    },
-        { id: "c9",  emoji: "🎒", name: "Get backpack ready without being asked", coins: 8,  days: "weekdays" },
-        { id: "c10", emoji: "🍳", name: "Put breakfast dishes in dishwasher",     coins: 5,  days: "daily"    },
-        { id: "c11", emoji: "🍽️", name: "Put dinner dishes in dishwasher",        coins: 5,  days: "daily"    },
-        { id: "c4",  emoji: "🍽️", name: "Help set the dinner table",              coins: 8,  days: "daily"    },
-        { id: "c5",  emoji: "🧹", name: "Tidy up my toys",                        coins: 10, days: "daily"    },
-        { id: "c6",  emoji: "📚", name: "Read for 15 minutes",                    coins: 10, days: "weekdays" },
-        { id: "c7",  emoji: "🐾", name: "Feed the pet",                           coins: 8,  days: "daily"    },
-        { id: "c12", emoji: "🚿", name: "Take a shower & hang up wet towel",      coins: 0,  days: "daily",   bedtimeBonus: 15 },
-      ],
-
-    },
-    {
-      id: "haley",
-      name: "Haley",
-      avatar: "🦄",
-      color: "#f9a8d4",
-      plan: [
-        { id: "hp1", text: "Wake up and get out of bed", days: "daily" },
-        { id: "hp2", text: "Eat breakfast", days: "daily" },
-        { id: "hp3", text: "Have lunch today 🥪", days: "weekdays" },
-        { id: "hp4", text: "Check backpack and put it on the couch", days: "weekdays" },
-        { id: "hp5", text: "Do I need a jacket today? Ask mom or dad", days: "weekdays" },
-        { id: "hp6", text: "Put on shoes — school leaves at 9am!", days: "weekdays" },
-        { id: "hp7", text: "Get a healthy after school snack (no sugar!)", days: "weekdays" },
-        { id: "hp8", text: "Decide what clothes to wear tomorrow", days: "weekdays" },
-        { id: "hp9", text: "Family dinner", days: "daily" },
-        { id: "hp10", text: "Wind down — no screens", days: "daily" },
-        { id: "hp11", text: "Get ready for bed", days: "daily" },
-      ],
-      chores: [
-        { id: "h1",  emoji: "🛏️", name: "Make my bed",                            coins: 5,  days: "daily"    },
-        { id: "h2a", emoji: "🦷", name: "Brush teeth — morning", required: true,                  coins: 5,  days: "daily"    },
-        { id: "h2b", emoji: "🦷", name: "Brush teeth — night", required: true,                    coins: 5,  days: "daily"    },
-        { id: "h3",  emoji: "👗", name: "Put clothes away neatly",                coins: 5,  days: "daily"    },
-        { id: "h8",  emoji: "👗", name: "Get dressed without being asked",        coins: 8,  days: "daily"    },
-        { id: "h9",  emoji: "🎒", name: "Get backpack ready without being asked", coins: 8,  days: "weekdays" },
-        { id: "h10", emoji: "🍳", name: "Put breakfast dishes in dishwasher",     coins: 5,  days: "daily"    },
-        { id: "h11", emoji: "🍽️", name: "Put dinner dishes in dishwasher",        coins: 5,  days: "daily"    },
-        { id: "h4",  emoji: "🍽️", name: "Help clear the dinner table",            coins: 8,  days: "daily"    },
-        { id: "h5",  emoji: "🧸", name: "Tidy up my room",                        coins: 10, days: "daily"    },
-        { id: "h6",  emoji: "📚", name: "Read for 15 minutes",                    coins: 10, days: "weekdays" },
-        { id: "h7",  emoji: "🌿", name: "Water the plants",                       coins: 7,  days: "weekends" },
-        { id: "h12", emoji: "🚿", name: "Take a shower & hang up wet towel",        coins: 0,  days: "daily",   bedtimeBonus: 15 },
+        { id: "k1",  emoji: "🛏️", name: "Make my bed",                            coins: 5,  days: "daily"    },
+        { id: "k2a", emoji: "🦷", name: "Brush teeth — morning",                  coins: 5,  days: "daily",   required: true },
+        { id: "k2b", emoji: "🦷", name: "Brush teeth — night",                    coins: 5,  days: "daily",   required: true },
+        { id: "k3",  emoji: "🧺", name: "Put dirty clothes in hamper",            coins: 5,  days: "daily",   required: true },
+        { id: "k4",  emoji: "👕", name: "Get dressed without being asked",        coins: 8,  days: "daily"    },
+        { id: "k5",  emoji: "🍳", name: "Put breakfast dishes away",              coins: 5,  days: "daily"    },
+        { id: "k6",  emoji: "🍽️", name: "Put dinner dishes away",                 coins: 5,  days: "daily"    },
+        { id: "k7",  emoji: "🧹", name: "Tidy up my toys",                        coins: 10, days: "daily"    },
+        { id: "k8",  emoji: "📚", name: "Read for 15 minutes",                    coins: 10, days: "weekdays" },
+        { id: "k9",  emoji: "🚿", name: "Take a shower & hang up wet towel",      coins: 0,  days: "daily",   bedtimeBonus: 15 },
       ],
     },
   ],
+
 };
 </script>
 
@@ -148,12 +106,12 @@ const CONFIG = {
   --border:#e9d5ff;--text:#1e1b4b;--text-muted:#7c7a9a;
   --radius:18px;--radius-sm:12px;
 }
-html,body{height:100%;background:var(--surface2);color:var(--text);font-family:'Nunito',sans-serif;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}
+html,body{height:100%;background:var(--surface2);color:var(--text);font-family:'Nunito',-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}
 body{display:flex;flex-direction:column;max-width:430px;margin:0 auto;min-height:100dvh}
 
 /* PICKER */
 #profile-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100dvh;padding:2rem 1.5rem;gap:1.5rem}
-.picker-title{font-family:'Fredoka One',cursive;font-size:30px;color:var(--text);text-align:center}
+.picker-title{font-family:'Fredoka One','Comic Sans MS',cursive,sans-serif;font-size:30px;color:var(--text);text-align:center}
 .picker-sub{font-size:15px;font-weight:600;color:var(--text-muted);text-align:center;margin-top:-1rem}
 .picker-cards{display:flex;flex-direction:column;gap:16px;width:100%}
 .picker-card{background:var(--surface);border:3px solid var(--border);border-radius:24px;padding:1.2rem;display:flex;align-items:center;gap:1rem;cursor:pointer;transition:transform .12s;user-select:none}
@@ -161,7 +119,7 @@ body{display:flex;flex-direction:column;max-width:430px;margin:0 auto;min-height
 .picker-avatar-wrap{width:72px;height:72px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .picker-emoji{font-size:52px;text-align:center}
 .picker-info{flex:1}
-.picker-name{font-family:'Fredoka One',cursive;font-size:26px;line-height:1}
+.picker-name{font-family:'Fredoka One','Comic Sans MS',cursive,sans-serif;font-size:26px;line-height:1}
 .picker-coins{font-size:14px;font-weight:700;color:var(--text-muted);margin-top:3px}
 .picker-arrow{font-size:28px;color:var(--text-muted)}
 
@@ -175,26 +133,26 @@ body{display:flex;flex-direction:column;max-width:430px;margin:0 auto;min-height
 .header-back{left:14px}
 .settings-btn{right:14px}
 .badge-wrap{position:relative;display:inline-flex}
-.notif-badge{position:absolute;top:-4px;right:-4px;background:var(--orange);color:white;font-size:10px;font-weight:800;font-family:'Fredoka One',cursive;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;border:2px solid white}
+.notif-badge{position:absolute;top:-4px;right:-4px;background:var(--orange);color:white;font-size:10px;font-weight:800;font-family:'Fredoka One','Comic Sans MS',cursive,sans-serif;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;border:2px solid white}
 .header-avatar-wrap{width:64px;height:64px;margin:0 auto 4px;display:flex;align-items:center;justify-content:center}
 .header-emoji{font-size:44px;line-height:1}
-.header-name{font-family:'Fredoka One',cursive;font-size:24px;letter-spacing:.5px}
+.header-name{font-family:'Fredoka One','Comic Sans MS',cursive,sans-serif;font-size:24px;letter-spacing:.5px}
 .coin-breakdown{display:inline-flex;gap:10px;margin-top:10px;background:rgba(0,0,0,.08);border:1.5px solid rgba(0,0,0,.12);border-radius:14px;padding:8px 16px}
-.cb-row{font-family:'Fredoka One',cursive;font-size:14px;color:inherit;white-space:nowrap}
+.cb-row{font-family:'Fredoka One','Comic Sans MS',cursive,sans-serif;font-size:14px;color:inherit;white-space:nowrap}
 
 /* STREAK */
 /* streak CSS removed */
 
 /* TABS */
 .tab-bar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:var(--surface);border-top:1.5px solid var(--border);display:flex;z-index:100}
-.tab-btn{flex:1;background:none;border:none;padding:6px 0 5px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:1px;font-family:'Nunito',sans-serif;font-size:9px;font-weight:700;color:var(--text-muted);transition:color .15s}
+.tab-btn{flex:1;background:none;border:none;padding:8px 0 6px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:1px;font-family:'Nunito',-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;font-size:10px;font-weight:700;color:var(--text-muted);transition:color .15s}
 .tab-btn.active{color:var(--accent)}
 .tab-icon{font-size:18px}
 
 /* SECTIONS */
 .section{display:none;padding:0 1.2rem 5rem}
 .section.active{display:block}
-.sec-label{font-family:'Fredoka One',cursive;font-size:17px;color:var(--accent);margin:1.2rem 0 .6rem}
+.sec-label{font-family:'Fredoka One','Comic Sans MS',cursive,sans-serif;font-size:17px;color:var(--accent);margin:1.2rem 0 .6rem}
 
 /* CHORE CARDS */
 .chore-list{display:flex;flex-direction:column;gap:10px}
@@ -220,10 +178,10 @@ body{display:flex;flex-direction:column;max-width:430px;margin:0 auto;min-height
 
 /* SURPRISE */
 .surprise-box{background:var(--gold-light);border:2px dashed var(--gold);border-radius:var(--radius);padding:1.2rem;text-align:center;margin-top:1.2rem}
-.surprise-title{font-family:'Fredoka One',cursive;font-size:18px;color:#92400e;margin-bottom:6px}
+.surprise-title{font-family:'Fredoka One','Comic Sans MS',cursive,sans-serif;font-size:18px;color:#92400e;margin-bottom:6px}
 .surprise-text{font-size:15px;font-weight:700;color:#78350f;min-height:42px;margin-bottom:10px}
 .surprise-coins{font-size:13px;color:#b45309;font-weight:700;margin-bottom:10px}
-.btn-gold{background:var(--gold);color:white;border:none;border-radius:50px;padding:11px 28px;font-family:'Fredoka One',cursive;font-size:16px;cursor:pointer;transition:transform .1s;display:inline-block}
+.btn-gold{background:var(--gold);color:white;border:none;border-radius:50px;padding:11px 28px;font-family:'Fredoka One','Comic Sans MS',cursive,sans-serif;font-size:16px;cursor:pointer;transition:transform .1s;display:inline-block}
 .btn-gold:active{transform:scale(.96)}
 .btn-gold:disabled{background:#d1d5db;cursor:default}
 
@@ -250,38 +208,38 @@ body{display:flex;flex-direction:column;max-width:430px;margin:0 auto;min-height
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(30,27,74,.6);z-index:200;align-items:flex-end;justify-content:center}
 .modal-overlay.open{display:flex}
 .modal{background:var(--surface);border-radius:24px 24px 0 0;padding:1.5rem 1.4rem 2rem;width:100%;max-width:430px;max-height:88dvh;overflow-y:auto}
-.modal-title{font-family:'Fredoka One',cursive;font-size:20px;color:var(--accent);margin-bottom:1rem;text-align:center}
+.modal-title{font-family:'Fredoka One','Comic Sans MS',cursive,sans-serif;font-size:20px;color:var(--accent);margin-bottom:1rem;text-align:center}
 
 /* PIN */
 .pin-row{display:flex;gap:8px;margin-bottom:1rem}
-.pin-input{flex:1;font-size:28px;font-family:'Fredoka One',cursive;text-align:center;border:2px solid var(--border);border-radius:var(--radius-sm);padding:10px;color:var(--text);background:var(--surface);letter-spacing:8px;outline:none}
+.pin-input{flex:1;font-size:28px;font-family:'Fredoka One','Comic Sans MS',cursive,sans-serif;text-align:center;border:2px solid var(--border);border-radius:var(--radius-sm);padding:10px;color:var(--text);background:var(--surface);letter-spacing:8px;outline:none}
 .pin-input:focus{border-color:var(--accent)}
 .pin-error{font-size:13px;color:var(--red);font-weight:700;text-align:center;margin-top:6px}
 
 /* BUTTONS */
-.btn-purple{background:var(--accent);color:white;border:none;border-radius:50px;padding:12px 28px;font-family:'Fredoka One',cursive;font-size:16px;cursor:pointer;width:100%;margin-top:8px;transition:opacity .15s}
+.btn-purple{background:var(--accent);color:white;border:none;border-radius:50px;padding:12px 28px;font-family:'Fredoka One','Comic Sans MS',cursive,sans-serif;font-size:16px;cursor:pointer;width:100%;margin-top:8px;transition:opacity .15s}
 .btn-purple:hover{opacity:.88}
-.btn-danger{background:var(--red);color:white;border:none;border-radius:50px;padding:12px 28px;font-family:'Fredoka One',cursive;font-size:16px;cursor:pointer;width:100%;margin-top:10px}
-.btn-success{background:var(--green);color:white;border:none;border-radius:50px;padding:12px 28px;font-family:'Fredoka One',cursive;font-size:16px;cursor:pointer;width:100%;margin-top:8px}
-.btn-close{background:var(--surface2);color:var(--text-muted);border:1.5px solid var(--border);border-radius:50px;padding:10px 28px;font-family:'Fredoka One',cursive;font-size:15px;cursor:pointer;width:100%;margin-top:8px}
-.btn-sm{background:var(--accent);color:white;border:none;border-radius:var(--radius-sm);padding:8px 14px;font-family:'Fredoka One',cursive;font-size:14px;cursor:pointer;white-space:nowrap}
-.btn-sm-danger{background:var(--red);color:white;border:none;border-radius:var(--radius-sm);padding:8px 14px;font-family:'Fredoka One',cursive;font-size:14px;cursor:pointer}
-.btn-sm-success{background:var(--green);color:white;border:none;border-radius:var(--radius-sm);padding:8px 14px;font-family:'Fredoka One',cursive;font-size:14px;cursor:pointer}
+.btn-danger{background:var(--red);color:white;border:none;border-radius:50px;padding:12px 28px;font-family:'Fredoka One','Comic Sans MS',cursive,sans-serif;font-size:16px;cursor:pointer;width:100%;margin-top:10px}
+.btn-success{background:var(--green);color:white;border:none;border-radius:50px;padding:12px 28px;font-family:'Fredoka One','Comic Sans MS',cursive,sans-serif;font-size:16px;cursor:pointer;width:100%;margin-top:8px}
+.btn-close{background:var(--surface2);color:var(--text-muted);border:1.5px solid var(--border);border-radius:50px;padding:10px 28px;font-family:'Fredoka One','Comic Sans MS',cursive,sans-serif;font-size:15px;cursor:pointer;width:100%;margin-top:8px}
+.btn-sm{background:var(--accent);color:white;border:none;border-radius:var(--radius-sm);padding:8px 14px;font-family:'Fredoka One','Comic Sans MS',cursive,sans-serif;font-size:14px;cursor:pointer;white-space:nowrap}
+.btn-sm-danger{background:var(--red);color:white;border:none;border-radius:var(--radius-sm);padding:8px 14px;font-family:'Fredoka One','Comic Sans MS',cursive,sans-serif;font-size:14px;cursor:pointer}
+.btn-sm-success{background:var(--green);color:white;border:none;border-radius:var(--radius-sm);padding:8px 14px;font-family:'Fredoka One','Comic Sans MS',cursive,sans-serif;font-size:14px;cursor:pointer}
 
 /* PARENT PANEL INTERNALS */
 .parent-section{display:none}
 .parent-section.unlocked{display:block}
 .kid-tabs{display:flex;gap:8px;margin-bottom:14px}
-.kid-tab{flex:1;padding:8px;border-radius:var(--radius-sm);border:2px solid var(--border);background:var(--surface2);font-family:'Fredoka One',cursive;font-size:15px;cursor:pointer;text-align:center;color:var(--text-muted);transition:all .15s}
+.kid-tab{flex:1;padding:8px;border-radius:var(--radius-sm);border:2px solid var(--border);background:var(--surface2);font-family:'Fredoka One','Comic Sans MS',cursive,sans-serif;font-size:15px;cursor:pointer;text-align:center;color:var(--text-muted);transition:all .15s}
 .kid-tab.active{border-color:var(--accent);background:var(--accent-light);color:var(--accent)}
 .parent-nav{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
-.parent-nav-btn{flex:1;min-width:80px;padding:9px 8px;border-radius:var(--radius-sm);border:1.5px solid var(--border);background:var(--surface2);font-family:'Fredoka One',cursive;font-size:13px;cursor:pointer;text-align:center;color:var(--text-muted);transition:all .15s;position:relative}
+.parent-nav-btn{flex:1;min-width:80px;padding:9px 8px;border-radius:var(--radius-sm);border:1.5px solid var(--border);background:var(--surface2);font-family:'Fredoka One','Comic Sans MS',cursive,sans-serif;font-size:13px;cursor:pointer;text-align:center;color:var(--text-muted);transition:all .15s;position:relative}
 .parent-nav-btn.active{border-color:var(--accent);background:var(--accent-light);color:var(--accent)}
 .parent-nav-badge{position:absolute;top:-6px;right:-6px;background:var(--orange);color:white;font-size:10px;font-weight:800;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;border:2px solid white}
 .parent-stat{background:var(--surface2);border-radius:var(--radius-sm);padding:12px 16px;margin-bottom:10px;font-size:14px;font-weight:700;color:var(--text);display:flex;justify-content:space-between}
 .parent-stat span{color:var(--accent);font-size:16px}
 .add-coins-row{display:flex;gap:8px;margin-bottom:10px}
-.add-coins-row input{flex:1;font-size:16px;font-family:'Nunito',sans-serif;border:2px solid var(--border);border-radius:var(--radius-sm);padding:10px 14px;color:var(--text);background:var(--surface);outline:none}
+.add-coins-row input{flex:1;font-size:16px;font-family:'Nunito',-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;border:2px solid var(--border);border-radius:var(--radius-sm);padding:10px 14px;color:var(--text);background:var(--surface);outline:none}
 .add-coins-row input:focus{border-color:var(--accent)}
 
 /* APPROVAL CARDS */
@@ -299,14 +257,14 @@ body{display:flex;flex-direction:column;max-width:430px;margin:0 auto;min-height
 .editor-item-sub{font-size:12px;color:var(--text-muted);font-weight:600;margin-top:1px}
 .editor-actions{display:flex;gap:6px;flex-shrink:0}
 .add-form{background:var(--surface2);border:1.5px dashed var(--border);border-radius:var(--radius-sm);padding:14px;margin-bottom:14px}
-.add-form input,.add-form select{width:100%;font-size:14px;font-family:'Nunito',sans-serif;border:1.5px solid var(--border);border-radius:8px;padding:9px 12px;color:var(--text);background:var(--surface);outline:none;margin-bottom:8px}
+.add-form input,.add-form select{width:100%;font-size:14px;font-family:'Nunito',-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;border:1.5px solid var(--border);border-radius:8px;padding:9px 12px;color:var(--text);background:var(--surface);outline:none;margin-bottom:8px}
 .add-form input:focus,.add-form select:focus{border-color:var(--accent)}
 .add-form-row{display:flex;gap:8px}
 .add-form-row input{margin-bottom:0}
 .form-label{font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:4px}
 
 /* TOAST */
-.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-100px);background:var(--green);color:white;font-family:'Fredoka One',cursive;font-size:16px;padding:11px 24px;border-radius:50px;z-index:999;transition:transform .3s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;box-shadow:0 4px 18px rgba(0,0,0,.18)}
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-100px);background:var(--green);color:white;font-family:'Fredoka One','Comic Sans MS',cursive,sans-serif;font-size:16px;padding:11px 24px;border-radius:50px;z-index:999;transition:transform .3s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;box-shadow:0 4px 18px rgba(0,0,0,.18)}
 .toast.show{transform:translateX(-50%) translateY(0)}
 .toast.bad{background:var(--red)}
 .toast.info{background:var(--accent)}
@@ -415,7 +373,7 @@ body{display:flex;flex-direction:column;max-width:430px;margin:0 auto;min-height
 </head>
 <body>
 <!-- Sync indicator -->
-<div id="sync-indicator" style="display:none;position:fixed;top:0;left:0;right:0;background:rgba(0,0,0,0.6);color:white;font-family:'Fredoka One',cursive;font-size:15px;padding:10px;text-align:center;z-index:9999;align-items:center;justify-content:center;gap:8px">
+<div id="sync-indicator" style="display:none;position:fixed;top:0;left:0;right:0;background:rgba(0,0,0,0.6);color:white;font-family:'Fredoka One','Comic Sans MS',cursive,sans-serif;font-size:15px;padding:10px;text-align:center;z-index:9999;align-items:center;justify-content:center;gap:8px">
   <div style="width:18px;height:18px;border:3px solid white;border-top-color:transparent;border-radius:50%;animation:spin 0.8s linear infinite"></div>
   Loading your data...
 </div>
@@ -534,6 +492,7 @@ body{display:flex;flex-direction:column;max-width:430px;margin:0 auto;min-height
     <div class="coin-breakdown">
       <div class="cb-row cb-earned">🟢 <span id="cb-earned">0</span> earned</div>
       <div class="cb-row cb-deducted">🔴 <span id="cb-deducted">0</span> deducted</div>
+      <div class="cb-row cb-spent">🛒 <span id="cb-spent">0</span> spent</div>
       <div class="cb-row cb-available">💰 <span id="cb-available">0</span> available</div>
     </div>
   </div>
@@ -589,6 +548,40 @@ body{display:flex;flex-direction:column;max-width:430px;margin:0 auto;min-height
       ✅ I accept this quest!
     </button>
     <button class="btn-mission-close" onclick="closeMissionOverlay()">Maybe later</button>
+  </div>
+</div>
+
+
+
+<!-- BONUS CHALLENGE OVERLAY -->
+<div id="surprise-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:600;align-items:center;justify-content:center;padding:1.5rem">
+  <div id="surprise-card" style="background:linear-gradient(160deg,#451a03,#92400e);border:2px solid #d97706;border-radius:20px;padding:2rem 1.5rem;width:100%;max-width:380px;text-align:center;box-shadow:0 0 60px rgba(217,119,6,.4);transform:scale(.8);transition:transform .5s cubic-bezier(.34,1.56,.64,1)">
+    <div id="surprise-chest-icon" style="display:flex;justify-content:center;margin-bottom:12px;animation:lockPop .6s .2s both cubic-bezier(.34,1.56,.64,1)"></div>
+    <div style="font-size:11px;letter-spacing:4px;color:#fcd34d;font-weight:800;margin-bottom:6px;text-transform:uppercase">🎲 Bonus Challenge</div>
+    <div id="surprise-overlay-text" style="font-family:'Fredoka One',cursive;font-size:20px;color:white;margin-bottom:12px;line-height:1.3"></div>
+    <div style="height:1px;background:linear-gradient(90deg,transparent,#d97706,transparent);margin:12px 0"></div>
+    <div id="surprise-overlay-coins" style="display:inline-flex;align-items:center;gap:6px;background:rgba(217,119,6,.2);border:1px solid #d97706;border-radius:50px;padding:6px 16px;font-family:'Fredoka One',cursive;font-size:16px;color:#fcd34d;margin-bottom:20px"></div>
+    <button id="surprise-accept-btn" onclick="acceptBonusChallenge()" style="background:linear-gradient(135deg,#d97706,#b45309);color:white;border:none;border-radius:50px;padding:13px 32px;font-family:'Fredoka One',cursive;font-size:17px;cursor:pointer;width:100%;box-shadow:0 4px 20px rgba(217,119,6,.5)">
+      ✅ Add to my chores!
+    </button>
+    <button onclick="closeSurpriseOverlay()" style="background:none;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.5);border-radius:50px;padding:9px 24px;font-family:'Fredoka One',cursive;font-size:14px;cursor:pointer;margin-top:10px;width:100%">
+      Maybe later
+    </button>
+  </div>
+</div>
+
+<!-- SECRET CHORE ANNOUNCEMENT OVERLAY -->
+<div id="secret-chore-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:600;align-items:center;justify-content:center;padding:1.5rem" onclick="closeSecretChoreOverlay()">
+  <div id="secret-chore-card" onclick="event.stopPropagation()" style="background:linear-gradient(160deg,#1c1400,#451a03,#78350f);border:2px solid #d97706;border-radius:20px;padding:2rem 1.5rem;width:100%;max-width:380px;text-align:center;box-shadow:0 0 80px rgba(217,119,6,.6),inset 0 0 30px rgba(217,119,6,.1);transform:scale(.8);transition:transform .5s cubic-bezier(.34,1.56,.64,1)">
+    <div id="sc-chest-icon" style="display:flex;justify-content:center;margin-bottom:4px"></div>
+    <div style="font-size:11px;letter-spacing:4px;color:#fcd34d;font-weight:800;margin-bottom:6px;text-transform:uppercase">⭐ Secret Chore Unlocked!</div>
+    <div id="sc-name" style="font-family:'Fredoka One',cursive;font-size:24px;color:white;margin-bottom:12px;line-height:1.2"></div>
+    <div style="height:1px;background:linear-gradient(90deg,transparent,#d97706,transparent);margin:12px 0"></div>
+    <div id="sc-desc" style="font-size:14px;color:#fde68a;line-height:1.7;font-weight:600;margin-bottom:16px;text-align:left"></div>
+    <div id="sc-coins-display" style="display:inline-flex;align-items:center;gap:6px;background:rgba(217,119,6,.3);border:1.5px solid #d97706;border-radius:50px;padding:8px 20px;font-family:'Fredoka One',cursive;font-size:18px;color:#fef08a;margin-bottom:20px"></div>
+    <button onclick="closeSecretChoreOverlay()" style="background:linear-gradient(135deg,#d97706,#b45309);color:white;border:none;border-radius:50px;padding:13px 32px;font-family:'Fredoka One',cursive;font-size:17px;cursor:pointer;width:100%;box-shadow:0 4px 20px rgba(217,119,6,.5)">
+      🎉 Amazing! Close
+    </button>
   </div>
 </div>
 
@@ -692,6 +685,7 @@ function serializeState(s){
     coins: s.coins||0,
     coinsEarned: s.coinsEarned||0,
     coinsDeducted: s.coinsDeducted||0,
+    coinsSpent: s.coinsSpent||0,
     streak: s.streak||0,
     lastActiveDate: s.lastActiveDate||null,
     done,
@@ -715,7 +709,7 @@ function toArray(val){
   return [];
 }
 
-const EMPTY_STATE = () => ({ coins:0, coinsEarned:0, coinsDeducted:0, streak:0, lastActiveDate:null, done:{}, surprise:{}, history:[], pendingChores:[], pendingShop:[], oopsLog:[], baseBedtime:'19:45', bedtimeAdjustments:{}, planChecked:{}, planRemoved:{} });
+const EMPTY_STATE = () => ({ coins:0, coinsEarned:0, coinsDeducted:0, coinsSpent:0, streak:0, lastActiveDate:null, done:{}, surprise:{}, history:[], pendingChores:[], pendingShop:[], oopsLog:[], baseBedtime:'19:45', bedtimeAdjustments:{}, planChecked:{}, planRemoved:{} });
 
 function deserializeState(raw){
   try {
@@ -850,6 +844,7 @@ function subscribeToGlobal(){
         if(val.kidConfigs) globalCfg.kidConfigs=val.kidConfigs;
         if(val.kidPlans) globalCfg.kidPlans=val.kidPlans;
         if(val.secretMission) globalCfg.secretMission=val.secretMission;
+        if(val.secretChore) globalCfg.secretChore=val.secretChore;
         kids=getKids();
         if(activeKid){
           activeKid=kids.find(k=>k.id===activeKid.id)||activeKid;
@@ -1009,6 +1004,63 @@ function cleanOldBedtimeAdjustments(kidId){
   s.bedtimeAdjustments=cleaned;
 }
 
+// ==================== RED PANDA SVG ====================
+function redPandaSVG(size){
+  const c={body:"#c2410c",dark:"#7c2d12",mid:"#ea580c",cream:"#fef3c7",white:"#ffffff",black:"#1c0a00",stripe:"#92400e",inner:"#fda4af"};
+  const f=k=>`fill="${c[k]}"`;
+  return `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}">
+    <ellipse cx="158" cy="118" rx="18" ry="7" ${f("mid")} transform="rotate(-20 158 118)"/>
+    <ellipse cx="165" cy="111" rx="15" ry="6" ${f("stripe")} transform="rotate(-25 165 111)"/>
+    <ellipse cx="171" cy="104" rx="12" ry="5" ${f("mid")} transform="rotate(-30 171 104)"/>
+    <ellipse cx="176" cy="98"  rx="9"  ry="5" ${f("stripe")} transform="rotate(-35 176 98)"/>
+    <ellipse cx="179" cy="92"  rx="7"  ry="4" ${f("mid")} transform="rotate(-40 179 92)"/>
+    <ellipse cx="181" cy="87"  rx="5"  ry="4" ${f("cream")} transform="rotate(-45 181 87)"/>
+    <ellipse cx="105" cy="130" rx="46" ry="36" ${f("body")}/>
+    <ellipse cx="105" cy="138" rx="26" ry="24" ${f("dark")} opacity=".5"/>
+    <ellipse cx="105" cy="142" rx="17" ry="17" ${f("cream")} opacity=".7"/>
+    <ellipse cx="72"  cy="158" rx="12" ry="7" ${f("dark")} transform="rotate(20 72 158)"/>
+    <ellipse cx="138" cy="158" rx="12" ry="7" ${f("dark")} transform="rotate(-20 138 158)"/>
+    <ellipse cx="67"  cy="164" rx="9"  ry="5" ${f("black")}/>
+    <ellipse cx="143" cy="164" rx="9"  ry="5" ${f("black")}/>
+    <path d="M88 150 Q82 162 80 174 Q84 180 90 177 Q95 168 96 156Z" ${f("body")}/>
+    <path d="M122 150 Q128 162 130 174 Q126 180 120 177 Q115 168 114 156Z" ${f("body")}/>
+    <ellipse cx="82"  cy="175" rx="8" ry="5" ${f("black")}/>
+    <ellipse cx="128" cy="175" rx="8" ry="5" ${f("black")}/>
+    <ellipse cx="105" cy="100" rx="20" ry="15" ${f("body")}/>
+    <ellipse cx="105" cy="72"  rx="34" ry="32" ${f("body")}/>
+    <polygon points="80,54 70,30 95,48" ${f("body")}/>
+    <polygon points="81,53 73,35 92,49" ${f("cream")}/>
+    <polygon points="82,52 76,40 90,50" ${f("inner")}/>
+    <polygon points="130,54 140,30 115,48" ${f("body")}/>
+    <polygon points="129,53 137,35 118,49" ${f("cream")}/>
+    <polygon points="128,52 134,40 120,50" ${f("inner")}/>
+    <ellipse cx="90"  cy="70" rx="14" ry="13" ${f("dark")}/>
+    <ellipse cx="120" cy="70" rx="14" ry="13" ${f("dark")}/>
+    <ellipse cx="90"  cy="70" rx="10" ry="9"  ${f("cream")}/>
+    <ellipse cx="120" cy="70" rx="10" ry="9"  ${f("cream")}/>
+    <ellipse cx="90"  cy="70" rx="7" ry="7" ${f("black")}/>
+    <ellipse cx="120" cy="70" rx="7" ry="7" ${f("black")}/>
+    <ellipse cx="90"  cy="70" rx="4.5" ry="5" ${f("black")}/>
+    <ellipse cx="120" cy="70" rx="4.5" ry="5" ${f("black")}/>
+    <circle  cx="87"  cy="67" r="2"  ${f("white")} opacity=".9"/>
+    <circle  cx="117" cy="67" r="2"  ${f("white")} opacity=".9"/>
+    <ellipse cx="105" cy="83" rx="6" ry="4" ${f("black")}/>
+    <circle  cx="103" cy="82" r="1.5" ${f("white")} opacity=".5"/>
+    <ellipse cx="78"  cy="82" rx="11" ry="8" ${f("cream")} opacity=".9"/>
+    <ellipse cx="132" cy="82" rx="11" ry="8" ${f("cream")} opacity=".9"/>
+    <ellipse cx="78"  cy="84" rx="6"  ry="4" ${f("inner")} opacity=".45"/>
+    <ellipse cx="132" cy="84" rx="6"  ry="4" ${f("inner")} opacity=".45"/>
+    <path d="M98 89 Q105 96 112 89" stroke="#7c2d12" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <line x1="78" y1="81" x2="54" y2="76" stroke="#fef3c7" stroke-width="1" opacity=".8"/>
+    <line x1="78" y1="84" x2="53" y2="84" stroke="#fef3c7" stroke-width="1" opacity=".8"/>
+    <line x1="78" y1="87" x2="56" y2="91" stroke="#fef3c7" stroke-width="1" opacity=".8"/>
+    <line x1="132" y1="81" x2="156" y2="76" stroke="#fef3c7" stroke-width="1" opacity=".8"/>
+    <line x1="132" y1="84" x2="157" y2="84" stroke="#fef3c7" stroke-width="1" opacity=".8"/>
+    <line x1="132" y1="87" x2="154" y2="91" stroke="#fef3c7" stroke-width="1" opacity=".8"/>
+    <path d="M88,46 Q105,38 122,46 Q114,56 105,58 Q96,56 88,46Z" ${f("dark")} opacity=".45"/>
+  </svg>`;
+}
+
 // ==================== PROFILE PICKER ====================
 function renderPicker(){
   kids = getKids();
@@ -1018,6 +1070,8 @@ function renderPicker(){
     const pending=(s.pendingChores||[]).length+(s.pendingShop||[]).length;
     const avatarHTML = kid.avatar==='dragon'
       ? `<div style="width:64px;height:64px">${dragonSVG(64)}</div>`
+      : kid.avatar==='redpanda'
+      ? `<div style="width:64px;height:64px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;padding:4px">${redPandaSVG(56)}</div>`
       : `<div class="picker-emoji">${kid.avatar}</div>`;
     return `<div class="picker-card" onclick="selectKid('${kid.id}')" style="border-color:${kid.color}33">
       <div class="picker-avatar-wrap">${avatarHTML}</div>
@@ -1057,6 +1111,8 @@ function selectKid(kidId){
   const wrap = document.getElementById('header-avatar-wrap');
   wrap.innerHTML = activeKid.avatar==='dragon'
     ? dragonSVG(56)
+    : activeKid.avatar==='redpanda'
+    ? `<div style="background:white;border-radius:50%;width:56px;height:56px;display:flex;align-items:center;justify-content:center;padding:4px">${redPandaSVG(48)}</div>`
     : `<div class="header-emoji">${activeKid.avatar}</div>`;
   document.getElementById('header-name').textContent = activeKid.name+"'s Quest";
 
@@ -1068,6 +1124,7 @@ function selectKid(kidId){
   document.getElementById('tab-chores').classList.add('active');
   document.querySelector('.tab-btn').classList.add('active');
   renderAll();
+  checkSecretChoreAnnouncement();
   // Re-render after brief delay to catch any globalCfg that loads slightly after
   setTimeout(()=>{ if(activeKid){ renderChores(); renderPlan(); } }, 300);
   setTimeout(()=>{ if(activeKid){ renderChores(); renderPlan(); } }, 1200);
@@ -1135,8 +1192,7 @@ function renderChores(){
   const adj=getTonightAdjustment(activeKid.id);
   const btColor=adj>0?'#f0fdf4':adj<0?'#fff1f2':'#f0f9ff';
   const btBorder=adj>0?'#86efac':adj<0?'#fca5a5':'#bae6fd';
-  let html=`${renderSecretMission()}
-  <div style="background:${btColor};border:1.5px solid ${btBorder};border-radius:12px;padding:10px 14px;margin-bottom:8px;font-family:'Fredoka One',cursive;font-size:15px;color:#1e1b4b">
+  let html=`<div style="background:${btColor};border:1.5px solid ${btBorder};border-radius:12px;padding:10px 14px;margin-bottom:8px;font-family:'Fredoka One','Comic Sans MS',cursive,sans-serif;font-size:15px;color:#1e1b4b">
     ${bedtimeDisplay(activeKid.id)} tonight
   </div>
   <div class="sec-label">📋 Today's chores</div>
@@ -1373,7 +1429,7 @@ function renderParentPortal(){
     const s=states[k.id];
     const n=(s.pendingChores||[]).length+(s.pendingShop||[]).length;
     return `<div class="kid-tab ${k.id===parentKidView?'active':''}" onclick="switchParentKid('${k.id}')">
-      ${k.avatar==='dragon'?'🐉':k.avatar} ${k.name}${n?` <span style="color:var(--orange);font-size:12px">(${n})</span>`:''}
+      ${k.avatar==='dragon'?'🐉':k.avatar==='redpanda'?'🦊':k.avatar} ${k.name}${n?` <span style="color:var(--orange);font-size:12px">(${n})</span>`:''}
     </div>`;
   }).join('');
 
@@ -1390,6 +1446,7 @@ function renderParentPortal(){
     {id:'plan',label:'📅 Plan',badge:0},
     {id:'secretmission',label:'⚔️ Quest',badge:0},
     {id:'account',label:'👤 Account',badge:0},
+    {id:'secretchore',label:'🔓 Secret',badge:0},
   ].map(t=>`<button class="parent-nav-btn ${parentTab===t.id?'active':''}" onclick="switchParentTab('${t.id}')">
     ${t.label}${t.badge?`<div class="parent-nav-badge">${t.badge}</div>`:''}
   </button>`).join('');
@@ -1405,6 +1462,7 @@ function renderParentPortal(){
   else if(parentTab==='surprises') content.innerHTML=renderSurprisesEditorTab();
   else if(parentTab==='secretmission') content.innerHTML=renderSecretMissionTab();
   else if(parentTab==='account') content.innerHTML=renderAccountTab();
+  else if(parentTab==='secretchore') content.innerHTML=renderSecretChoreTab();
 }
 
 function switchParentKid(id){ parentKidView=id; renderParentPortal(); }
@@ -1914,6 +1972,211 @@ function cleanOldPlanData(kidId){
   if(s.planRemoved) s.planRemoved={[t]:s.planRemoved[t]||[]};
 }
 
+
+// ==================== SECRET CHORE ANNOUNCEMENT ====================
+function getSecretChore(){ return globalCfg.secretChore||null; }
+
+function checkSecretChoreAnnouncement(){
+  const sc=getSecretChore();
+  if(!sc||!sc.active) return;
+  // Only show once per kid per day
+  const key='sc_seen_'+activeKid.id+'_'+(sc.id||sc.name);
+  if(localStorage.getItem(key)) return;
+  setTimeout(()=>openSecretChoreOverlay(), 600);
+}
+
+function openSecretChoreOverlay(){
+  const sc=getSecretChore();
+  if(!sc) return;
+  const chestEl=document.getElementById('sc-chest-icon');
+  if(chestEl) chestEl.innerHTML=openChestSVG(100);
+  document.getElementById('sc-name').textContent=sc.name||'Special Chore';
+  document.getElementById('sc-desc').textContent=sc.description||'';
+  const coins=sc.coins||30;
+  const coinsEl=document.getElementById('sc-coins-display');
+  if(coinsEl) coinsEl.innerHTML='🪙 +'+coins+' coins added!';
+  // Award coins immediately if not already awarded today
+  if(activeKid){
+    const t=today();
+    const s=state();
+    const scId='secret-chore-'+t;
+    const alreadyAwarded=toArray((s.done||{})[t]).includes(scId);
+    if(!alreadyAwarded){
+      if(!s.done) s.done={};
+      if(!s.done[t]) s.done[t]=[];
+      s.done[t]=toArray(s.done[t]);
+      s.done[t].push(scId);
+      s.coins=(s.coins||0)+coins;
+      s.coinsEarned=(s.coinsEarned||0)+coins;
+      s.history=toArray(s.history);
+      s.history.unshift({date:t,label:'⭐ '+sc.name,delta:coins});
+      states[activeKid.id]=s;
+      saveKidState(activeKid.id,s);
+      // Gold confetti!
+      setTimeout(goldConfetti, 400);
+      setTimeout(goldConfetti, 800);
+    }
+  }
+  const overlay=document.getElementById('secret-chore-overlay');
+  overlay.style.display='flex';
+  setTimeout(()=>{ document.getElementById('secret-chore-card').style.transform='scale(1)'; },50);
+}
+
+
+function acceptSecretChore(){ /* coins awarded immediately on open */ }
+
+
+function closeSecretChoreOverlay(){
+  const sc=getSecretChore();
+  if(sc && activeKid){
+    const key='sc_seen_'+activeKid.id+'_'+(sc.id||sc.name);
+    localStorage.setItem(key,'1');
+  }
+  const overlay=document.getElementById('secret-chore-overlay');
+  document.getElementById('secret-chore-card').style.transform='scale(.8)';
+  setTimeout(()=>{ overlay.style.display='none'; },300);
+  // Refresh display with new coins
+  updateCoinDisplay();
+  renderChores();
+}
+
+// Secret Chore button in chores tab
+function renderSecretChoreBtn(){
+  const sc=getSecretChore();
+  if(!sc||!sc.active) return '';
+  const t=today();
+  const s=state();
+  const scId='secret-chore-'+t;
+  const isDone=toArray((s.done||{})[t]).includes(scId);
+  const isPending=!!toArray(s.pendingChores).find(p=>p.choreId===scId);
+  // Show as chore card in the list
+  const coinsAwarded=sc.coins||30;
+  if(isDone){
+    return `<div class="chore-card" style="border-color:#d97706;background:linear-gradient(135deg,#fffbeb,#fef3c7);margin-bottom:0;cursor:pointer" onclick="openSecretChoreOverlay()">
+      <div style="flex-shrink:0">${openChestSVG(48)}</div>
+      <div class="chore-info">
+        <div class="chore-name" style="color:#92400e">⭐ ${sc.name}</div>
+        <div style="font-size:12px;color:#b45309;font-weight:700">✅ +${coinsAwarded} coins awarded! Tap to view again</div>
+      </div>
+      <div style="width:42px;height:42px;border-radius:50%;border:3px solid #d97706;background:#d97706;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">⭐</div>
+    </div>`;
+  }
+  return `<div class="chore-card" style="border-color:#d97706;background:linear-gradient(135deg,#1c1400,#451a03);margin-bottom:0;cursor:pointer;position:relative;overflow:hidden;animation:secretPulse 2s ease-in-out infinite" onclick="openSecretChoreOverlay()">
+    <div style="position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.1),transparent);animation:shine 3s ease-in-out infinite"></div>
+    <div style="flex-shrink:0">${chestSVG(44)}</div>
+    <div class="chore-info">
+      <div class="chore-name" style="color:#fef08a">⭐ Secret Chore Unlocked!</div>
+      <div style="font-size:12px;font-weight:700;color:#fcd34d">Tap the chest to reveal &amp; collect coins</div>
+      <div style="font-size:12px;font-weight:700;color:#fcd34d">🪙 +${coinsAwarded} coins</div>
+    </div>
+    <div style="font-size:28px;animation:shine 2s ease-in-out infinite">✨</div>
+  </div>`;
+}
+
+// Parent portal Secret Chore editor tab
+function renderSecretChoreTab(){
+  const sc=globalCfg.secretChore||{active:false,name:'',description:'',id:''};
+  return `
+    <div style="background:linear-gradient(135deg,#1e1b4b,#312e81);border-radius:var(--radius);padding:1.2rem;margin-bottom:14px;color:white;text-align:center">
+      <div style="font-size:32px;margin-bottom:6px">🔓</div>
+      <div style="font-family:'Fredoka One',cursive;font-size:18px;margin-bottom:4px">Secret Chore Announcements</div>
+      <div style="font-size:12px;color:#a5b4fc">Announce a special unlocked chore to the kids</div>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:space-between;background:var(--surface2);border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:12px">
+      <div>
+        <div style="font-size:14px;font-weight:800;color:var(--text)">Status</div>
+        <div style="font-size:12px;font-weight:700;color:${sc.active?'#22c55e':'var(--text-muted)'}">${sc.active?'🟢 Active — kids will see this':'⚪ Inactive'}</div>
+      </div>
+      <button onclick="toggleSecretChore()" style="background:${sc.active?'var(--red)':'var(--accent)'};color:white;border:none;border-radius:50px;padding:9px 20px;font-family:'Fredoka One',cursive;font-size:14px;cursor:pointer">
+        ${sc.active?'Turn Off':'Activate'}
+      </button>
+    </div>
+    <div class="add-form">
+      <div class="form-label">Chore Name</div>
+      <input id="sc-name-input" placeholder="e.g. Helped with groceries" value="${sc.name||''}" style="margin-bottom:8px">
+      <div class="form-label">Description (what they did to unlock it)</div>
+      <textarea id="sc-desc-input" rows="3" placeholder="e.g. You helped carry all the groceries inside without being asked!"
+        style="width:100%;font-size:14px;font-family:'Nunito',sans-serif;border:1.5px solid var(--border);border-radius:8px;padding:9px 12px;color:var(--text);background:var(--surface);outline:none;resize:none;margin-bottom:8px">${sc.description||''}</textarea>
+      <div class="form-label">Coin Reward</div>
+      <input id="sc-coins-input" type="number" placeholder="30" value="${sc.coins||30}" min="1" max="999" style="margin-bottom:8px">
+      <button class="btn-sm" onclick="saveSecretChore()">Save</button>
+    </div>`;
+}
+
+function toggleSecretChore(){
+  const sc=globalCfg.secretChore||{active:false,name:'',description:'',id:''};
+  sc.active=!sc.active;
+  globalCfg.secretChore=sc;
+  saveGlobal(globalCfg);
+  showToast(sc.active?'🔓 Secret chore is now active!':'Secret chore deactivated','info');
+  renderParentPortal();
+}
+
+function saveSecretChore(){
+  const name=document.getElementById('sc-name-input').value.trim();
+  const desc=document.getElementById('sc-desc-input').value.trim();
+  const coins=parseInt(document.getElementById('sc-coins-input').value,10)||30;
+  if(!name||!desc){ showToast('Enter a name and description','bad'); return; }
+  const sc=globalCfg.secretChore||{active:false};
+  globalCfg.secretChore={...sc,name,description:desc,coins,id:Date.now().toString(36)};
+  saveGlobal(globalCfg);
+  showToast('Secret chore saved!');
+  renderParentPortal();
+}
+
+
+// ==================== BONUS CHALLENGE OVERLAY ====================
+function openSurpriseOverlay(){
+  const s=state();
+  const t=today();
+  if(!s.surprise||!s.surprise[t]) return;
+  const surps=getSurprises();
+  const surp=surps[s.surprise[t].idx]||surps[0]||{text:'Do something kind!',coins:5};
+  document.getElementById('surprise-chest-icon').innerHTML=chestSVG(80);
+  document.getElementById('surprise-overlay-text').textContent=surp.text;
+  document.getElementById('surprise-overlay-coins').innerHTML='🪙 +'+surp.coins+' coins upon approval';
+  const bonusId='bonus-challenge-'+t;
+  const already=toArray(s.pendingChores).find(p=>p.choreId===bonusId)||toArray((s.done||{})[t]||[]).includes(bonusId);
+  const acceptBtn=document.getElementById('surprise-accept-btn');
+  if(s.surprise[t].claimed){
+    acceptBtn.textContent='✅ Already completed!';
+    acceptBtn.disabled=true;
+    acceptBtn.style.opacity='0.6';
+  } else if(already){
+    acceptBtn.textContent='⏳ Already added to chores!';
+    acceptBtn.disabled=true;
+    acceptBtn.style.opacity='0.6';
+  } else {
+    acceptBtn.textContent='✅ Add to my chores!';
+    acceptBtn.disabled=false;
+    acceptBtn.style.opacity='1';
+  }
+  const overlay=document.getElementById('surprise-overlay');
+  overlay.style.display='flex';
+  setTimeout(()=>document.getElementById('surprise-card').style.transform='scale(1)',50);
+}
+
+function closeSurpriseOverlay(){
+  document.getElementById('surprise-card').style.transform='scale(.8)';
+  setTimeout(()=>document.getElementById('surprise-overlay').style.display='none',300);
+}
+
+function acceptBonusChallenge(){
+  const s=state();
+  const t=today();
+  const surps=getSurprises();
+  const surp=surps[(s.surprise[t]||{}).idx]||surps[0]||{text:'Bonus challenge',coins:5};
+  const bonusId='bonus-challenge-'+t;
+  s.pendingChores=toArray(s.pendingChores);
+  s.pendingChores.push({id:uid(),choreId:bonusId,choreName:'🎲 '+surp.text,coins:surp.coins,bedtimeBonus:0,date:t});
+  states[activeKid.id]=s;
+  saveKidState(activeKid.id,s);
+  closeSurpriseOverlay();
+  showToast('Bonus challenge added to chores! ⏳','warn');
+  updateBadge();
+  renderChores();
+}
+
 // ==================== OOPS TAB ====================
 function renderOops(){
   const container=document.getElementById('tab-oops');
@@ -2383,6 +2646,60 @@ function importConfig(event){
 
 
 // ==================== SECRET MISSION ====================
+
+// ==================== OPEN CHEST + GOLD CONFETTI ====================
+function openChestSVG(size){
+  const w=size, h=Math.round(size*1.1);
+  return `<svg viewBox="0 0 200 220" width="${w}" height="${h}" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="60" cy="90" rx="14" ry="8" fill="#fbbf24" stroke="#d97706" stroke-width="1.5" opacity="0.9"/>
+    <ellipse cx="100" cy="75" rx="14" ry="8" fill="#fbbf24" stroke="#d97706" stroke-width="1.5" opacity="0.9"/>
+    <ellipse cx="140" cy="88" rx="14" ry="8" fill="#fbbf24" stroke="#d97706" stroke-width="1.5" opacity="0.9"/>
+    <ellipse cx="78" cy="65" rx="12" ry="7" fill="#f59e0b" stroke="#d97706" stroke-width="1.2" opacity="0.85"/>
+    <ellipse cx="122" cy="62" rx="12" ry="7" fill="#f59e0b" stroke="#d97706" stroke-width="1.2" opacity="0.85"/>
+    <ellipse cx="100" cy="52" rx="11" ry="6" fill="#fbbf24" stroke="#d97706" stroke-width="1" opacity="0.8"/>
+    <path d="M50 55 L52 49 L54 55 L60 57 L54 59 L52 65 L50 59 L44 57Z" fill="#fef08a" opacity="0.95"/>
+    <path d="M148 50 L150 45 L152 50 L157 52 L152 54 L150 59 L148 54 L143 52Z" fill="#fef08a" opacity="0.9"/>
+    <circle cx="35" cy="75" r="4" fill="#fef08a" opacity="0.8"/>
+    <circle cx="165" cy="70" r="3.5" fill="#fef08a" opacity="0.75"/>
+    <circle cx="100" cy="38" r="3" fill="#fef08a" opacity="0.8"/>
+    <circle cx="68" cy="42" r="2.5" fill="#fef08a" opacity="0.7"/>
+    <circle cx="132" cy="40" r="2.5" fill="#fef08a" opacity="0.7"/>
+    <rect x="10" y="120" width="180" height="90" rx="6" fill="#92400e" stroke="#78350f" stroke-width="2"/>
+    <rect x="18" y="128" width="164" height="74" rx="4" fill="#b45309"/>
+    <line x1="18" y1="145" x2="182" y2="145" stroke="#92400e" stroke-width="1" opacity="0.5"/>
+    <line x1="18" y1="165" x2="182" y2="165" stroke="#92400e" stroke-width="1" opacity="0.5"/>
+    <rect x="10" y="132" width="180" height="10" rx="2" fill="#d97706" stroke="#b45309" stroke-width="1"/>
+    <rect x="10" y="168" width="180" height="10" rx="2" fill="#d97706" stroke="#b45309" stroke-width="1"/>
+    <rect x="10" y="120" width="18" height="90" rx="4" fill="#d97706" stroke="#b45309" stroke-width="1"/>
+    <rect x="172" y="120" width="18" height="90" rx="4" fill="#d97706" stroke="#b45309" stroke-width="1"/>
+    <rect x="10" y="60" width="180" height="70" rx="8" fill="#92400e" stroke="#78350f" stroke-width="2" transform="rotate(-35 100 120)"/>
+    <rect x="18" y="67" width="164" height="56" rx="5" fill="#b45309" transform="rotate(-35 100 120)"/>
+    <ellipse cx="100" cy="67" rx="82" ry="16" fill="#b45309" stroke="#78350f" stroke-width="2" transform="rotate(-35 100 120)"/>
+    <rect x="10" y="118" width="180" height="10" rx="2" fill="#d97706" transform="rotate(-35 100 120)"/>
+    <rect x="10" y="60" width="18" height="70" rx="4" fill="#d97706" transform="rotate(-35 100 120)"/>
+    <rect x="172" y="60" width="18" height="70" rx="4" fill="#d97706" transform="rotate(-35 100 120)"/>
+    <circle cx="75" cy="52" r="7" fill="#dc2626" stroke="#7f1d1d" stroke-width="1.5" transform="rotate(-35 100 120)"/>
+    <circle cx="75" cy="52" r="3.5" fill="#fca5a5" opacity="0.6" transform="rotate(-35 100 120)"/>
+    <polygon points="130,46 134,52 130,58 126,52" fill="#2563eb" stroke="#1e3a8a" stroke-width="1.5" transform="rotate(-35 100 120)"/>
+  </svg>`;
+}
+
+function goldConfetti(){
+  const colors=['#fbbf24','#f59e0b','#fef08a','#d97706','#fde68a','#fcd34d'];
+  for(let i=0;i<35;i++){
+    const el=document.createElement('div');
+    el.style.cssText='position:fixed;top:40%;left:'+(25+Math.random()*50)+'%;'+
+      'background:'+colors[Math.floor(Math.random()*colors.length)]+';'+
+      'width:'+(8+Math.random()*10)+'px;height:'+(8+Math.random()*10)+'px;'+
+      'border-radius:'+(Math.random()>.5?'50%':'2px')+';'+
+      'animation:fall '+(0.8+Math.random()*1.2)+'s linear '+(Math.random()*.5)+'s forwards;'+
+      'z-index:9999;pointer-events:none;'+
+      'box-shadow:0 0 6px rgba(251,191,36,.9)';
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(),2800);
+  }
+}
+
 function chestSVG(size){
   const s = size/200;
   return `<svg viewBox="0 0 200 180" width="${size}" height="${Math.round(size*0.9)}" xmlns="http://www.w3.org/2000/svg">
@@ -2501,6 +2818,51 @@ function acceptMission(){
   renderChores();
 }
 
+
+// ==================== AUTO APPROVE ====================
+function checkAutoApprove(){
+  const t=today();
+  for(const kid of kids){
+    const s=states[kid.id];
+    if(!s) continue;
+    const pending=toArray(s.pendingChores);
+    if(!pending.length) continue;
+    // Auto-approve any pending chores from previous days
+    let changed=false;
+    const stillPending=[];
+    for(const p of pending){
+      if(p.date && p.date < t){
+        // Auto approve
+        if(!s.done) s.done={};
+        if(!s.done[p.date]) s.done[p.date]=[];
+        const doneArr=toArray(s.done[p.date]);
+        if(!doneArr.includes(p.choreId)){
+          doneArr.push(p.choreId);
+          s.done[p.date]=doneArr;
+        }
+        if(p.bedtimeBonus){
+          if(!s.bedtimeAdjustments) s.bedtimeAdjustments={};
+          s.bedtimeAdjustments[p.date]=(s.bedtimeAdjustments[p.date]||0)+p.bedtimeBonus;
+        } else {
+          s.coins=(s.coins||0)+p.coins;
+          s.coinsEarned=(s.coinsEarned||0)+p.coins;
+        }
+        s.history=toArray(s.history);
+        s.history.unshift({date:p.date,label:`✅ Auto-approved: ${p.choreName}`,delta:p.coins||0});
+        changed=true;
+      } else {
+        stillPending.push(p);
+      }
+    }
+    if(changed){
+      s.pendingChores=stillPending;
+      states[kid.id]=s;
+      saveKidState(kid.id,s);
+      console.log('Auto-approved pending chores for', kid.name);
+    }
+  }
+}
+
 // ==================== UI HELPERS ====================
 function updateCoinDisplay(){
   const s=state();
@@ -2576,6 +2938,7 @@ function startApp(){
     loadAllFromFirebase().then(()=>{
       kids = getKids();
       for(const kid of CONFIG.kids) cleanOldBedtimeAdjustments(kid.id);
+      checkAutoApprove();
       for(const kid of CONFIG.kids) cleanOldPlanData(kid.id);
       initialLoadComplete = true;
       renderPicker();
