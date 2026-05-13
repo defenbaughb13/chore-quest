@@ -7,21 +7,23 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="ChoreQuest">
-<meta name="theme-color" content="#c2410c">
+<meta name="theme-color" content="#5eead4">
 <link rel="apple-touch-icon" href="icon-192.png">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Chore Quest ⭐ — Declan</title>
-<!-- Chore Quest — Declan's copy. Change parentPin and chores in the CONFIG below. -->
+<title>Chore Quest ⭐</title>
 <!-- Firebase -->
 <script src="https://cdn.jsdelivr.net/npm/firebase@9.22.2/firebase-app-compat.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/firebase@9.22.2/firebase-database-compat.min.js"></script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.bunny.net/css2?family=fredoka-one&family=nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 
 <script>
+// ============================================================
+// CONFIG — Base defaults. After first load, all edits happen
+// inside the app via the Parent Portal. Changing these after
+// you've started will NOT overwrite saved data.
+// ============================================================
 const CONFIG = {
-  parentPin: "0000",
+  parentPin: "1234",
 
   shop: [
     { id: "s1", emoji: "🎮", name: "15 min extra screen time", cost: 200 },
@@ -63,35 +65,75 @@ const CONFIG = {
 
   kids: [
     {
-      id: "declan",
-      name: "Declan",
-      avatar: "redpanda",
-      color: "#c2410c",
+      id: "cooper",
+      name: "Cooper",
+      avatar: "dragon",
+      color: "#5eead4",
       plan: [
-        { id: "dp1", text: "Wake up and get out of bed",     days: "daily"    },
-        { id: "dp2", text: "Eat breakfast",                   days: "daily"    },
-        { id: "dp3", text: "Get backpack ready",              days: "weekdays" },
-        { id: "dp4", text: "After school snack & relax",      days: "weekdays" },
-        { id: "dp5", text: "Homework time",                   days: "weekdays" },
-        { id: "dp6", text: "Family dinner",                   days: "daily"    },
-        { id: "dp7", text: "Wind down — no screens",          days: "daily"    },
-        { id: "dp8", text: "Get ready for bed",               days: "daily"    },
+        { id: "cp1", text: "Wake up and get out of bed", days: "daily" },
+        { id: "cp2", text: "Eat breakfast", days: "daily" },
+        { id: "cp3", text: "Have lunch today 🥪", days: "weekdays" },
+        { id: "cp4", text: "Check backpack and put it on the couch", days: "weekdays" },
+        { id: "cp5", text: "Do I need a jacket today? Ask mom or dad", days: "weekdays" },
+        { id: "cp6", text: "Put on shoes — school leaves at 9am!", days: "weekdays" },
+        { id: "cp7", text: "Get a healthy after school snack (no sugar!)", days: "weekdays" },
+        { id: "cp8", text: "Decide what clothes to wear tomorrow", days: "weekdays" },
+        { id: "cp9", text: "Family dinner", days: "daily" },
+        { id: "cp10", text: "Wind down — no screens", days: "daily" },
+        { id: "cp11", text: "Get ready for bed", days: "daily" },
       ],
       chores: [
-        { id: "k1",  emoji: "🛏️", name: "Make my bed",                            coins: 5,  days: "daily"    },
-        { id: "k2a", emoji: "🦷", name: "Brush teeth — morning",                  coins: 5,  days: "daily",   required: true },
-        { id: "k2b", emoji: "🦷", name: "Brush teeth — night",                    coins: 5,  days: "daily",   required: true },
-        { id: "k3",  emoji: "🧺", name: "Put dirty clothes in hamper",            coins: 5,  days: "daily",   required: true },
-        { id: "k4",  emoji: "👕", name: "Get dressed without being asked",        coins: 8,  days: "daily"    },
-        { id: "k5",  emoji: "🍳", name: "Put breakfast dishes away",              coins: 5,  days: "daily"    },
-        { id: "k6",  emoji: "🍽️", name: "Put dinner dishes away",                 coins: 5,  days: "daily"    },
-        { id: "k7",  emoji: "🧹", name: "Tidy up my toys",                        coins: 10, days: "daily"    },
-        { id: "k8",  emoji: "📚", name: "Read for 15 minutes",                    coins: 10, days: "weekdays" },
-        { id: "k9",  emoji: "🚿", name: "Take a shower & hang up wet towel",      coins: 0,  days: "daily",   bedtimeBonus: 15 },
+        { id: "c1",  emoji: "🛏️", name: "Make my bed",                            coins: 5,  days: "daily"    },
+        { id: "c2a", emoji: "🦷", name: "Brush teeth — morning",                  coins: 5,  days: "daily",   required: true },
+        { id: "c2b", emoji: "🦷", name: "Brush teeth — night",                    coins: 5,  days: "daily",   required: true },
+        { id: "c3",  emoji: "🧺", name: "Put dirty clothes in hamper",            coins: 5,  days: "daily",   required: true },
+        { id: "c8",  emoji: "👕", name: "Get dressed without being asked",        coins: 8,  days: "daily"    },
+        { id: "c9",  emoji: "🎒", name: "Get backpack ready without being asked", coins: 8,  days: "weekdays" },
+        { id: "c10", emoji: "🍳", name: "Put breakfast dishes in dishwasher",     coins: 5,  days: "daily"    },
+        { id: "c11", emoji: "🍽️", name: "Put dinner dishes in dishwasher",        coins: 5,  days: "daily"    },
+        { id: "c4",  emoji: "🍽️", name: "Help set the dinner table",              coins: 8,  days: "daily"    },
+        { id: "c5",  emoji: "🧹", name: "Tidy up my toys",                        coins: 10, days: "daily"    },
+        { id: "c6",  emoji: "📚", name: "Read for 15 minutes",                    coins: 10, days: "weekdays" },
+        { id: "c7",  emoji: "🐾", name: "Feed the pet",                           coins: 8,  days: "daily"    },
+        { id: "c12", emoji: "🚿", name: "Take a shower & hang up wet towel",      coins: 0,  days: "daily",   bedtimeBonus: 15 },
+      ],
+
+    },
+    {
+      id: "haley",
+      name: "Haley",
+      avatar: "🦄",
+      color: "#f9a8d4",
+      plan: [
+        { id: "hp1", text: "Wake up and get out of bed", days: "daily" },
+        { id: "hp2", text: "Eat breakfast", days: "daily" },
+        { id: "hp3", text: "Have lunch today 🥪", days: "weekdays" },
+        { id: "hp4", text: "Check backpack and put it on the couch", days: "weekdays" },
+        { id: "hp5", text: "Do I need a jacket today? Ask mom or dad", days: "weekdays" },
+        { id: "hp6", text: "Put on shoes — school leaves at 9am!", days: "weekdays" },
+        { id: "hp7", text: "Get a healthy after school snack (no sugar!)", days: "weekdays" },
+        { id: "hp8", text: "Decide what clothes to wear tomorrow", days: "weekdays" },
+        { id: "hp9", text: "Family dinner", days: "daily" },
+        { id: "hp10", text: "Wind down — no screens", days: "daily" },
+        { id: "hp11", text: "Get ready for bed", days: "daily" },
+      ],
+      chores: [
+        { id: "h1",  emoji: "🛏️", name: "Make my bed",                            coins: 5,  days: "daily"    },
+        { id: "h2a", emoji: "🦷", name: "Brush teeth — morning", required: true,                  coins: 5,  days: "daily"    },
+        { id: "h2b", emoji: "🦷", name: "Brush teeth — night", required: true,                    coins: 5,  days: "daily"    },
+        { id: "h3",  emoji: "👗", name: "Put clothes away neatly",                coins: 5,  days: "daily"    },
+        { id: "h8",  emoji: "👗", name: "Get dressed without being asked",        coins: 8,  days: "daily"    },
+        { id: "h9",  emoji: "🎒", name: "Get backpack ready without being asked", coins: 8,  days: "weekdays" },
+        { id: "h10", emoji: "🍳", name: "Put breakfast dishes in dishwasher",     coins: 5,  days: "daily"    },
+        { id: "h11", emoji: "🍽️", name: "Put dinner dishes in dishwasher",        coins: 5,  days: "daily"    },
+        { id: "h4",  emoji: "🍽️", name: "Help clear the dinner table",            coins: 8,  days: "daily"    },
+        { id: "h5",  emoji: "🧸", name: "Tidy up my room",                        coins: 10, days: "daily"    },
+        { id: "h6",  emoji: "📚", name: "Read for 15 minutes",                    coins: 10, days: "weekdays" },
+        { id: "h7",  emoji: "🌿", name: "Water the plants",                       coins: 7,  days: "weekends" },
+        { id: "h12", emoji: "🚿", name: "Take a shower & hang up wet towel",        coins: 0,  days: "daily",   bedtimeBonus: 15 },
       ],
     },
   ],
-
 };
 </script>
 
@@ -106,12 +148,12 @@ const CONFIG = {
   --border:#e9d5ff;--text:#1e1b4b;--text-muted:#7c7a9a;
   --radius:18px;--radius-sm:12px;
 }
-html,body{height:100%;background:var(--surface2);color:var(--text);font-family:'Nunito',-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}
+html,body{height:100%;background:var(--surface2);color:var(--text);font-family:'Nunito',sans-serif;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}
 body{display:flex;flex-direction:column;max-width:430px;margin:0 auto;min-height:100dvh}
 
 /* PICKER */
 #profile-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100dvh;padding:2rem 1.5rem;gap:1.5rem}
-.picker-title{font-family:'Fredoka One','Comic Sans MS',cursive,sans-serif;font-size:30px;color:var(--text);text-align:center}
+.picker-title{font-family:'Fredoka One',cursive;font-size:30px;color:var(--text);text-align:center}
 .picker-sub{font-size:15px;font-weight:600;color:var(--text-muted);text-align:center;margin-top:-1rem}
 .picker-cards{display:flex;flex-direction:column;gap:16px;width:100%}
 .picker-card{background:var(--surface);border:3px solid var(--border);border-radius:24px;padding:1.2rem;display:flex;align-items:center;gap:1rem;cursor:pointer;transition:transform .12s;user-select:none}
@@ -119,7 +161,7 @@ body{display:flex;flex-direction:column;max-width:430px;margin:0 auto;min-height
 .picker-avatar-wrap{width:72px;height:72px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .picker-emoji{font-size:52px;text-align:center}
 .picker-info{flex:1}
-.picker-name{font-family:'Fredoka One','Comic Sans MS',cursive,sans-serif;font-size:26px;line-height:1}
+.picker-name{font-family:'Fredoka One',cursive;font-size:26px;line-height:1}
 .picker-coins{font-size:14px;font-weight:700;color:var(--text-muted);margin-top:3px}
 .picker-arrow{font-size:28px;color:var(--text-muted)}
 
@@ -133,26 +175,26 @@ body{display:flex;flex-direction:column;max-width:430px;margin:0 auto;min-height
 .header-back{left:14px}
 .settings-btn{right:14px}
 .badge-wrap{position:relative;display:inline-flex}
-.notif-badge{position:absolute;top:-4px;right:-4px;background:var(--orange);color:white;font-size:10px;font-weight:800;font-family:'Fredoka One','Comic Sans MS',cursive,sans-serif;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;border:2px solid white}
+.notif-badge{position:absolute;top:-4px;right:-4px;background:var(--orange);color:white;font-size:10px;font-weight:800;font-family:'Fredoka One',cursive;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;border:2px solid white}
 .header-avatar-wrap{width:64px;height:64px;margin:0 auto 4px;display:flex;align-items:center;justify-content:center}
 .header-emoji{font-size:44px;line-height:1}
-.header-name{font-family:'Fredoka One','Comic Sans MS',cursive,sans-serif;font-size:24px;letter-spacing:.5px}
+.header-name{font-family:'Fredoka One',cursive;font-size:24px;letter-spacing:.5px}
 .coin-breakdown{display:inline-flex;gap:10px;margin-top:10px;background:rgba(0,0,0,.08);border:1.5px solid rgba(0,0,0,.12);border-radius:14px;padding:8px 16px}
-.cb-row{font-family:'Fredoka One','Comic Sans MS',cursive,sans-serif;font-size:14px;color:inherit;white-space:nowrap}
+.cb-row{font-family:'Fredoka One',cursive;font-size:14px;color:inherit;white-space:nowrap}
 
 /* STREAK */
 /* streak CSS removed */
 
 /* TABS */
 .tab-bar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:var(--surface);border-top:1.5px solid var(--border);display:flex;z-index:100}
-.tab-btn{flex:1;background:none;border:none;padding:8px 0 6px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:1px;font-family:'Nunito',-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;font-size:10px;font-weight:700;color:var(--text-muted);transition:color .15s}
+.tab-btn{flex:1;background:none;border:none;padding:6px 0 5px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:1px;font-family:'Nunito',sans-serif;font-size:9px;font-weight:700;color:var(--text-muted);transition:color .15s}
 .tab-btn.active{color:var(--accent)}
 .tab-icon{font-size:18px}
 
 /* SECTIONS */
 .section{display:none;padding:0 1.2rem 5rem}
 .section.active{display:block}
-.sec-label{font-family:'Fredoka One','Comic Sans MS',cursive,sans-serif;font-size:17px;color:var(--accent);margin:1.2rem 0 .6rem}
+.sec-label{font-family:'Fredoka One',cursive;font-size:17px;color:var(--accent);margin:1.2rem 0 .6rem}
 
 /* CHORE CARDS */
 .chore-list{display:flex;flex-direction:column;gap:10px}
@@ -178,10 +220,10 @@ body{display:flex;flex-direction:column;max-width:430px;margin:0 auto;min-height
 
 /* SURPRISE */
 .surprise-box{background:var(--gold-light);border:2px dashed var(--gold);border-radius:var(--radius);padding:1.2rem;text-align:center;margin-top:1.2rem}
-.surprise-title{font-family:'Fredoka One','Comic Sans MS',cursive,sans-serif;font-size:18px;color:#92400e;margin-bottom:6px}
+.surprise-title{font-family:'Fredoka One',cursive;font-size:18px;color:#92400e;margin-bottom:6px}
 .surprise-text{font-size:15px;font-weight:700;color:#78350f;min-height:42px;margin-bottom:10px}
 .surprise-coins{font-size:13px;color:#b45309;font-weight:700;margin-bottom:10px}
-.btn-gold{background:var(--gold);color:white;border:none;border-radius:50px;padding:11px 28px;font-family:'Fredoka One','Comic Sans MS',cursive,sans-serif;font-size:16px;cursor:pointer;transition:transform .1s;display:inline-block}
+.btn-gold{background:var(--gold);color:white;border:none;border-radius:50px;padding:11px 28px;font-family:'Fredoka One',cursive;font-size:16px;cursor:pointer;transition:transform .1s;display:inline-block}
 .btn-gold:active{transform:scale(.96)}
 .btn-gold:disabled{background:#d1d5db;cursor:default}
 
@@ -208,38 +250,38 @@ body{display:flex;flex-direction:column;max-width:430px;margin:0 auto;min-height
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(30,27,74,.6);z-index:200;align-items:flex-end;justify-content:center}
 .modal-overlay.open{display:flex}
 .modal{background:var(--surface);border-radius:24px 24px 0 0;padding:1.5rem 1.4rem 2rem;width:100%;max-width:430px;max-height:88dvh;overflow-y:auto}
-.modal-title{font-family:'Fredoka One','Comic Sans MS',cursive,sans-serif;font-size:20px;color:var(--accent);margin-bottom:1rem;text-align:center}
+.modal-title{font-family:'Fredoka One',cursive;font-size:20px;color:var(--accent);margin-bottom:1rem;text-align:center}
 
 /* PIN */
 .pin-row{display:flex;gap:8px;margin-bottom:1rem}
-.pin-input{flex:1;font-size:28px;font-family:'Fredoka One','Comic Sans MS',cursive,sans-serif;text-align:center;border:2px solid var(--border);border-radius:var(--radius-sm);padding:10px;color:var(--text);background:var(--surface);letter-spacing:8px;outline:none}
+.pin-input{flex:1;font-size:28px;font-family:'Fredoka One',cursive;text-align:center;border:2px solid var(--border);border-radius:var(--radius-sm);padding:10px;color:var(--text);background:var(--surface);letter-spacing:8px;outline:none}
 .pin-input:focus{border-color:var(--accent)}
 .pin-error{font-size:13px;color:var(--red);font-weight:700;text-align:center;margin-top:6px}
 
 /* BUTTONS */
-.btn-purple{background:var(--accent);color:white;border:none;border-radius:50px;padding:12px 28px;font-family:'Fredoka One','Comic Sans MS',cursive,sans-serif;font-size:16px;cursor:pointer;width:100%;margin-top:8px;transition:opacity .15s}
+.btn-purple{background:var(--accent);color:white;border:none;border-radius:50px;padding:12px 28px;font-family:'Fredoka One',cursive;font-size:16px;cursor:pointer;width:100%;margin-top:8px;transition:opacity .15s}
 .btn-purple:hover{opacity:.88}
-.btn-danger{background:var(--red);color:white;border:none;border-radius:50px;padding:12px 28px;font-family:'Fredoka One','Comic Sans MS',cursive,sans-serif;font-size:16px;cursor:pointer;width:100%;margin-top:10px}
-.btn-success{background:var(--green);color:white;border:none;border-radius:50px;padding:12px 28px;font-family:'Fredoka One','Comic Sans MS',cursive,sans-serif;font-size:16px;cursor:pointer;width:100%;margin-top:8px}
-.btn-close{background:var(--surface2);color:var(--text-muted);border:1.5px solid var(--border);border-radius:50px;padding:10px 28px;font-family:'Fredoka One','Comic Sans MS',cursive,sans-serif;font-size:15px;cursor:pointer;width:100%;margin-top:8px}
-.btn-sm{background:var(--accent);color:white;border:none;border-radius:var(--radius-sm);padding:8px 14px;font-family:'Fredoka One','Comic Sans MS',cursive,sans-serif;font-size:14px;cursor:pointer;white-space:nowrap}
-.btn-sm-danger{background:var(--red);color:white;border:none;border-radius:var(--radius-sm);padding:8px 14px;font-family:'Fredoka One','Comic Sans MS',cursive,sans-serif;font-size:14px;cursor:pointer}
-.btn-sm-success{background:var(--green);color:white;border:none;border-radius:var(--radius-sm);padding:8px 14px;font-family:'Fredoka One','Comic Sans MS',cursive,sans-serif;font-size:14px;cursor:pointer}
+.btn-danger{background:var(--red);color:white;border:none;border-radius:50px;padding:12px 28px;font-family:'Fredoka One',cursive;font-size:16px;cursor:pointer;width:100%;margin-top:10px}
+.btn-success{background:var(--green);color:white;border:none;border-radius:50px;padding:12px 28px;font-family:'Fredoka One',cursive;font-size:16px;cursor:pointer;width:100%;margin-top:8px}
+.btn-close{background:var(--surface2);color:var(--text-muted);border:1.5px solid var(--border);border-radius:50px;padding:10px 28px;font-family:'Fredoka One',cursive;font-size:15px;cursor:pointer;width:100%;margin-top:8px}
+.btn-sm{background:var(--accent);color:white;border:none;border-radius:var(--radius-sm);padding:8px 14px;font-family:'Fredoka One',cursive;font-size:14px;cursor:pointer;white-space:nowrap}
+.btn-sm-danger{background:var(--red);color:white;border:none;border-radius:var(--radius-sm);padding:8px 14px;font-family:'Fredoka One',cursive;font-size:14px;cursor:pointer}
+.btn-sm-success{background:var(--green);color:white;border:none;border-radius:var(--radius-sm);padding:8px 14px;font-family:'Fredoka One',cursive;font-size:14px;cursor:pointer}
 
 /* PARENT PANEL INTERNALS */
 .parent-section{display:none}
 .parent-section.unlocked{display:block}
 .kid-tabs{display:flex;gap:8px;margin-bottom:14px}
-.kid-tab{flex:1;padding:8px;border-radius:var(--radius-sm);border:2px solid var(--border);background:var(--surface2);font-family:'Fredoka One','Comic Sans MS',cursive,sans-serif;font-size:15px;cursor:pointer;text-align:center;color:var(--text-muted);transition:all .15s}
+.kid-tab{flex:1;padding:8px;border-radius:var(--radius-sm);border:2px solid var(--border);background:var(--surface2);font-family:'Fredoka One',cursive;font-size:15px;cursor:pointer;text-align:center;color:var(--text-muted);transition:all .15s}
 .kid-tab.active{border-color:var(--accent);background:var(--accent-light);color:var(--accent)}
 .parent-nav{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
-.parent-nav-btn{flex:1;min-width:80px;padding:9px 8px;border-radius:var(--radius-sm);border:1.5px solid var(--border);background:var(--surface2);font-family:'Fredoka One','Comic Sans MS',cursive,sans-serif;font-size:13px;cursor:pointer;text-align:center;color:var(--text-muted);transition:all .15s;position:relative}
+.parent-nav-btn{flex:1;min-width:80px;padding:9px 8px;border-radius:var(--radius-sm);border:1.5px solid var(--border);background:var(--surface2);font-family:'Fredoka One',cursive;font-size:13px;cursor:pointer;text-align:center;color:var(--text-muted);transition:all .15s;position:relative}
 .parent-nav-btn.active{border-color:var(--accent);background:var(--accent-light);color:var(--accent)}
 .parent-nav-badge{position:absolute;top:-6px;right:-6px;background:var(--orange);color:white;font-size:10px;font-weight:800;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;border:2px solid white}
 .parent-stat{background:var(--surface2);border-radius:var(--radius-sm);padding:12px 16px;margin-bottom:10px;font-size:14px;font-weight:700;color:var(--text);display:flex;justify-content:space-between}
 .parent-stat span{color:var(--accent);font-size:16px}
 .add-coins-row{display:flex;gap:8px;margin-bottom:10px}
-.add-coins-row input{flex:1;font-size:16px;font-family:'Nunito',-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;border:2px solid var(--border);border-radius:var(--radius-sm);padding:10px 14px;color:var(--text);background:var(--surface);outline:none}
+.add-coins-row input{flex:1;font-size:16px;font-family:'Nunito',sans-serif;border:2px solid var(--border);border-radius:var(--radius-sm);padding:10px 14px;color:var(--text);background:var(--surface);outline:none}
 .add-coins-row input:focus{border-color:var(--accent)}
 
 /* APPROVAL CARDS */
@@ -257,14 +299,14 @@ body{display:flex;flex-direction:column;max-width:430px;margin:0 auto;min-height
 .editor-item-sub{font-size:12px;color:var(--text-muted);font-weight:600;margin-top:1px}
 .editor-actions{display:flex;gap:6px;flex-shrink:0}
 .add-form{background:var(--surface2);border:1.5px dashed var(--border);border-radius:var(--radius-sm);padding:14px;margin-bottom:14px}
-.add-form input,.add-form select{width:100%;font-size:14px;font-family:'Nunito',-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;border:1.5px solid var(--border);border-radius:8px;padding:9px 12px;color:var(--text);background:var(--surface);outline:none;margin-bottom:8px}
+.add-form input,.add-form select{width:100%;font-size:14px;font-family:'Nunito',sans-serif;border:1.5px solid var(--border);border-radius:8px;padding:9px 12px;color:var(--text);background:var(--surface);outline:none;margin-bottom:8px}
 .add-form input:focus,.add-form select:focus{border-color:var(--accent)}
 .add-form-row{display:flex;gap:8px}
 .add-form-row input{margin-bottom:0}
 .form-label{font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:4px}
 
 /* TOAST */
-.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-100px);background:var(--green);color:white;font-family:'Fredoka One','Comic Sans MS',cursive,sans-serif;font-size:16px;padding:11px 24px;border-radius:50px;z-index:999;transition:transform .3s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;box-shadow:0 4px 18px rgba(0,0,0,.18)}
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-100px);background:var(--green);color:white;font-family:'Fredoka One',cursive;font-size:16px;padding:11px 24px;border-radius:50px;z-index:999;transition:transform .3s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;box-shadow:0 4px 18px rgba(0,0,0,.18)}
 .toast.show{transform:translateX(-50%) translateY(0)}
 .toast.bad{background:var(--red)}
 .toast.info{background:var(--accent)}
@@ -373,7 +415,7 @@ body{display:flex;flex-direction:column;max-width:430px;margin:0 auto;min-height
 </head>
 <body>
 <!-- Sync indicator -->
-<div id="sync-indicator" style="display:none;position:fixed;top:0;left:0;right:0;background:rgba(0,0,0,0.6);color:white;font-family:'Fredoka One','Comic Sans MS',cursive,sans-serif;font-size:15px;padding:10px;text-align:center;z-index:9999;align-items:center;justify-content:center;gap:8px">
+<div id="sync-indicator" style="display:none;position:fixed;top:0;left:0;right:0;background:rgba(0,0,0,0.6);color:white;font-family:'Fredoka One',cursive;font-size:15px;padding:10px;text-align:center;z-index:9999;align-items:center;justify-content:center;gap:8px">
   <div style="width:18px;height:18px;border:3px solid white;border-top-color:transparent;border-radius:50%;animation:spin 0.8s linear infinite"></div>
   Loading your data...
 </div>
@@ -1004,63 +1046,6 @@ function cleanOldBedtimeAdjustments(kidId){
   s.bedtimeAdjustments=cleaned;
 }
 
-// ==================== RED PANDA SVG ====================
-function redPandaSVG(size){
-  const c={body:"#c2410c",dark:"#7c2d12",mid:"#ea580c",cream:"#fef3c7",white:"#ffffff",black:"#1c0a00",stripe:"#92400e",inner:"#fda4af"};
-  const f=k=>`fill="${c[k]}"`;
-  return `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}">
-    <ellipse cx="158" cy="118" rx="18" ry="7" ${f("mid")} transform="rotate(-20 158 118)"/>
-    <ellipse cx="165" cy="111" rx="15" ry="6" ${f("stripe")} transform="rotate(-25 165 111)"/>
-    <ellipse cx="171" cy="104" rx="12" ry="5" ${f("mid")} transform="rotate(-30 171 104)"/>
-    <ellipse cx="176" cy="98"  rx="9"  ry="5" ${f("stripe")} transform="rotate(-35 176 98)"/>
-    <ellipse cx="179" cy="92"  rx="7"  ry="4" ${f("mid")} transform="rotate(-40 179 92)"/>
-    <ellipse cx="181" cy="87"  rx="5"  ry="4" ${f("cream")} transform="rotate(-45 181 87)"/>
-    <ellipse cx="105" cy="130" rx="46" ry="36" ${f("body")}/>
-    <ellipse cx="105" cy="138" rx="26" ry="24" ${f("dark")} opacity=".5"/>
-    <ellipse cx="105" cy="142" rx="17" ry="17" ${f("cream")} opacity=".7"/>
-    <ellipse cx="72"  cy="158" rx="12" ry="7" ${f("dark")} transform="rotate(20 72 158)"/>
-    <ellipse cx="138" cy="158" rx="12" ry="7" ${f("dark")} transform="rotate(-20 138 158)"/>
-    <ellipse cx="67"  cy="164" rx="9"  ry="5" ${f("black")}/>
-    <ellipse cx="143" cy="164" rx="9"  ry="5" ${f("black")}/>
-    <path d="M88 150 Q82 162 80 174 Q84 180 90 177 Q95 168 96 156Z" ${f("body")}/>
-    <path d="M122 150 Q128 162 130 174 Q126 180 120 177 Q115 168 114 156Z" ${f("body")}/>
-    <ellipse cx="82"  cy="175" rx="8" ry="5" ${f("black")}/>
-    <ellipse cx="128" cy="175" rx="8" ry="5" ${f("black")}/>
-    <ellipse cx="105" cy="100" rx="20" ry="15" ${f("body")}/>
-    <ellipse cx="105" cy="72"  rx="34" ry="32" ${f("body")}/>
-    <polygon points="80,54 70,30 95,48" ${f("body")}/>
-    <polygon points="81,53 73,35 92,49" ${f("cream")}/>
-    <polygon points="82,52 76,40 90,50" ${f("inner")}/>
-    <polygon points="130,54 140,30 115,48" ${f("body")}/>
-    <polygon points="129,53 137,35 118,49" ${f("cream")}/>
-    <polygon points="128,52 134,40 120,50" ${f("inner")}/>
-    <ellipse cx="90"  cy="70" rx="14" ry="13" ${f("dark")}/>
-    <ellipse cx="120" cy="70" rx="14" ry="13" ${f("dark")}/>
-    <ellipse cx="90"  cy="70" rx="10" ry="9"  ${f("cream")}/>
-    <ellipse cx="120" cy="70" rx="10" ry="9"  ${f("cream")}/>
-    <ellipse cx="90"  cy="70" rx="7" ry="7" ${f("black")}/>
-    <ellipse cx="120" cy="70" rx="7" ry="7" ${f("black")}/>
-    <ellipse cx="90"  cy="70" rx="4.5" ry="5" ${f("black")}/>
-    <ellipse cx="120" cy="70" rx="4.5" ry="5" ${f("black")}/>
-    <circle  cx="87"  cy="67" r="2"  ${f("white")} opacity=".9"/>
-    <circle  cx="117" cy="67" r="2"  ${f("white")} opacity=".9"/>
-    <ellipse cx="105" cy="83" rx="6" ry="4" ${f("black")}/>
-    <circle  cx="103" cy="82" r="1.5" ${f("white")} opacity=".5"/>
-    <ellipse cx="78"  cy="82" rx="11" ry="8" ${f("cream")} opacity=".9"/>
-    <ellipse cx="132" cy="82" rx="11" ry="8" ${f("cream")} opacity=".9"/>
-    <ellipse cx="78"  cy="84" rx="6"  ry="4" ${f("inner")} opacity=".45"/>
-    <ellipse cx="132" cy="84" rx="6"  ry="4" ${f("inner")} opacity=".45"/>
-    <path d="M98 89 Q105 96 112 89" stroke="#7c2d12" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-    <line x1="78" y1="81" x2="54" y2="76" stroke="#fef3c7" stroke-width="1" opacity=".8"/>
-    <line x1="78" y1="84" x2="53" y2="84" stroke="#fef3c7" stroke-width="1" opacity=".8"/>
-    <line x1="78" y1="87" x2="56" y2="91" stroke="#fef3c7" stroke-width="1" opacity=".8"/>
-    <line x1="132" y1="81" x2="156" y2="76" stroke="#fef3c7" stroke-width="1" opacity=".8"/>
-    <line x1="132" y1="84" x2="157" y2="84" stroke="#fef3c7" stroke-width="1" opacity=".8"/>
-    <line x1="132" y1="87" x2="154" y2="91" stroke="#fef3c7" stroke-width="1" opacity=".8"/>
-    <path d="M88,46 Q105,38 122,46 Q114,56 105,58 Q96,56 88,46Z" ${f("dark")} opacity=".45"/>
-  </svg>`;
-}
-
 // ==================== PROFILE PICKER ====================
 function renderPicker(){
   kids = getKids();
@@ -1070,8 +1055,6 @@ function renderPicker(){
     const pending=(s.pendingChores||[]).length+(s.pendingShop||[]).length;
     const avatarHTML = kid.avatar==='dragon'
       ? `<div style="width:64px;height:64px">${dragonSVG(64)}</div>`
-      : kid.avatar==='redpanda'
-      ? `<div style="width:64px;height:64px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;padding:4px">${redPandaSVG(56)}</div>`
       : `<div class="picker-emoji">${kid.avatar}</div>`;
     return `<div class="picker-card" onclick="selectKid('${kid.id}')" style="border-color:${kid.color}33">
       <div class="picker-avatar-wrap">${avatarHTML}</div>
@@ -1111,8 +1094,6 @@ function selectKid(kidId){
   const wrap = document.getElementById('header-avatar-wrap');
   wrap.innerHTML = activeKid.avatar==='dragon'
     ? dragonSVG(56)
-    : activeKid.avatar==='redpanda'
-    ? `<div style="background:white;border-radius:50%;width:56px;height:56px;display:flex;align-items:center;justify-content:center;padding:4px">${redPandaSVG(48)}</div>`
     : `<div class="header-emoji">${activeKid.avatar}</div>`;
   document.getElementById('header-name').textContent = activeKid.name+"'s Quest";
 
@@ -1192,7 +1173,9 @@ function renderChores(){
   const adj=getTonightAdjustment(activeKid.id);
   const btColor=adj>0?'#f0fdf4':adj<0?'#fff1f2':'#f0f9ff';
   const btBorder=adj>0?'#86efac':adj<0?'#fca5a5':'#bae6fd';
-  let html=`<div style="background:${btColor};border:1.5px solid ${btBorder};border-radius:12px;padding:10px 14px;margin-bottom:8px;font-family:'Fredoka One','Comic Sans MS',cursive,sans-serif;font-size:15px;color:#1e1b4b">
+  let html=`${renderSecretMission()}
+  ${renderSecretChoreBtn()}
+  <div style="background:${btColor};border:1.5px solid ${btBorder};border-radius:12px;padding:10px 14px;margin-bottom:8px;font-family:'Fredoka One',cursive;font-size:15px;color:#1e1b4b">
     ${bedtimeDisplay(activeKid.id)} tonight
   </div>
   <div class="sec-label">📋 Today's chores</div>
@@ -1429,7 +1412,7 @@ function renderParentPortal(){
     const s=states[k.id];
     const n=(s.pendingChores||[]).length+(s.pendingShop||[]).length;
     return `<div class="kid-tab ${k.id===parentKidView?'active':''}" onclick="switchParentKid('${k.id}')">
-      ${k.avatar==='dragon'?'🐉':k.avatar==='redpanda'?'🦊':k.avatar} ${k.name}${n?` <span style="color:var(--orange);font-size:12px">(${n})</span>`:''}
+      ${k.avatar==='dragon'?'🐉':k.avatar} ${k.name}${n?` <span style="color:var(--orange);font-size:12px">(${n})</span>`:''}
     </div>`;
   }).join('');
 
